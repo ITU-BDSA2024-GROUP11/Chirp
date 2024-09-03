@@ -7,7 +7,9 @@ if (args[0] == "read")
 }
 else if (args[0] == "cheep")
 {
-    writeToFile(args[1]);
+    //Gets the message and defines it as inputString
+    string inputString = string.Join(" ", args.Skip(1).ToArray());
+    writeToFile(inputString);
 }
 
 static void readFile()
@@ -19,22 +21,24 @@ static void readFile()
     //Continue to read until you reach end of file
     while (line != null)
     {
-        if (line.Equals("Author  Message	Timestamp"))
+        if (line.Equals("Author  Message    Timestamp"))
         {
             line = sr.ReadLine();
             continue;
         }
 
-        //write the line to console window
-        string[] words = line.Split(new char[] { '\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        var user = (words[0]);
+        //Splits by the first comma
+        int firstCommaIndex = line.IndexOf(',');
+        //Splits by the last comma
+        int lastCommaIndex = line.LastIndexOf(',');
+        
+        string user = line.Substring(0, firstCommaIndex);
+        string message = line.Substring(firstCommaIndex + 1, lastCommaIndex - firstCommaIndex - 1).Replace("\"","");
+        string unixTime = line.Substring(lastCommaIndex + 1);
 
-
-        var message = string.Join(" ", words, 1, words.Length - 2);
-
+        //Converts string from file to int
         int i = 0;
-        string s = words[words.Length - 1];
-        int.TryParse(s, out i);
+        int.TryParse(unixTime, out i);
         string timeInDate = (UnixToDate(i));
 
         Console.WriteLine(user + " @ " + timeInDate + ": " + message);
@@ -49,11 +53,12 @@ static void writeToFile(string message)
 {
     using (StreamWriter sw = new StreamWriter("./chirp_cli_db.csv", append: true))
     {
+        //Goes to next line
         sw.WriteLine();
         string username = Environment.UserName;
-        //sw.WriteLine(content);
         long unixTime=DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        sw.Write(username + "\t" + message + "\t" + unixTime);
+        //Writes in datafile
+        sw.Write(username + ",\"" + message + "\"," + unixTime);
         sw.Close();
     }
 }
@@ -61,6 +66,5 @@ static void writeToFile(string message)
 static String UnixToDate(Int32 unixTime)
 {
     return DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().DateTime.ToString("MM/dd/yy HH:mm:ss").Replace('.',':');
-    
-}
 
+}
