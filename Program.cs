@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System;
+﻿using System.Globalization;
+using CsvHelper;
 
 if (args[0] == "read")
 {
@@ -14,57 +14,45 @@ else if (args[0] == "cheep")
 
 static void readFile()
 {
-    //Pass the file path and file name to the StreamReader constructor
-    StreamReader sr = new StreamReader("./chirp_cli_db.csv");
-    //Read the first line of text
-    String line = sr.ReadLine();
-    //Continue to read until you reach end of file
-    while (line != null)
+    using (var reader = new StreamReader("./chirp_cli_db.csv"))
+    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
     {
-        if (line.Equals("Author  Message    Timestamp"))
-        {
-            line = sr.ReadLine();
-            continue;
-        }
-
-        //Splits by the first comma
-        int firstCommaIndex = line.IndexOf(',');
-        //Splits by the last comma
-        int lastCommaIndex = line.LastIndexOf(',');
+        // Reads the records directly into the Cheep record
+        var records = csv.GetRecords<Cheep>().ToList();
         
-        string user = line.Substring(0, firstCommaIndex);
-        string message = line.Substring(firstCommaIndex + 1, lastCommaIndex - firstCommaIndex - 1).Replace("\"","");
-        string unixTime = line.Substring(lastCommaIndex + 1);
-
-        //Converts string from file to int
-        int i = 0;
-        int.TryParse(unixTime, out i);
-        string timeInDate = (UnixToDate(i));
-
-        Console.WriteLine(user + " @ " + timeInDate + ": " + message);
-        //Read the next line
-        line = sr.ReadLine();
+        foreach (var cheep in records)
+        {
+            string timeInDate = UnixToDate(cheep.Timestamp);
+            Console.WriteLine($"{cheep.Author} @ {timeInDate}: {cheep.Message}");
+        }
     }
-    //close the file
-    sr.Close();
 }
 
 static void writeToFile(string message)
 {
-    using (StreamWriter sw = new StreamWriter("./chirp_cli_db.csv", append: true))
+
+    var cheep = new Cheep
     {
-        //Goes to next line
-        sw.WriteLine();
-        string username = Environment.UserName;
-        long unixTime=DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        //Writes in datafile
-        sw.Write(username + ",\"" + message + "\"," + unixTime);
-        sw.Close();
+        Author = Environment.UserName, Message = message, Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+    };
+    
+    using (var writer = new StreamWriter("./chirp_cli_db.csv", append: true))
+    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+    {
+        writer.WriteLine();
+        csv.WriteRecord(cheep);
     }
 }
 
-static String UnixToDate(Int32 unixTime)
+static String UnixToDate(long unixTime)
 {
     return DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().DateTime.ToString("MM/dd/yy HH:mm:ss").Replace('.',':');
 
+}
+
+public class Cheep
+{
+    public string Author { get; set; }
+    public string Message { get; set; }
+    public long Timestamp { get; set; }
 }
