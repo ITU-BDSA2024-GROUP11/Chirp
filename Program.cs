@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Chirp.CLI;
 using CsvHelper;
 using SimpleDB;
 
@@ -16,12 +17,8 @@ else if (args[0] == "cheep")
 static void ReadCheeps()
 { 
         CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
+        UserInterface.PrintCheeps(db.Read(0));
         
-        foreach (var cheep in db.Read(0))
-        {
-            string timeInDate = UnixToDate(cheep.Timestamp);
-            Console.WriteLine($"{cheep.Author} @ {timeInDate}: {cheep.Message}");
-        }
 }
 
 static void StoreCheep(string message)
@@ -36,12 +33,6 @@ static void StoreCheep(string message)
     db.Store(cheep);
     
     
-}
-
-static String UnixToDate(long unixTime)
-{
-    return DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().DateTime.ToString("MM/dd/yy HH:mm:ss").Replace('.',':');
-
 }
 
 public class Cheep
