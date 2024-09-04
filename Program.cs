@@ -1,47 +1,41 @@
 ﻿using System.Globalization;
 using CsvHelper;
+using SimpleDB;
 
 if (args[0] == "read")
 {
-    readFile();
+    ReadCheeps();
 }
 else if (args[0] == "cheep")
 {
     //Gets the message and defines it as inputString
     string inputString = string.Join(" ", args.Skip(1).ToArray());
-    writeToFile(inputString);
+    StoreCheep(inputString);
 }
 
-static void readFile()
-{
-    using (var reader = new StreamReader("./chirp_cli_db.csv"))
-    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-    {
-        // Reads the records directly into the Cheep record
-        var records = csv.GetRecords<Cheep>().ToList();
+static void ReadCheeps()
+{ 
+        CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
         
-        foreach (var cheep in records)
+        foreach (var cheep in db.Read(0))
         {
             string timeInDate = UnixToDate(cheep.Timestamp);
             Console.WriteLine($"{cheep.Author} @ {timeInDate}: {cheep.Message}");
         }
-    }
 }
 
-static void writeToFile(string message)
+static void StoreCheep(string message)
 {
+    CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
 
     var cheep = new Cheep
     {
         Author = Environment.UserName, Message = message, Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
     };
     
-    using (var writer = new StreamWriter("./chirp_cli_db.csv", append: true))
-    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-    {
-        writer.WriteLine();
-        csv.WriteRecord(cheep);
-    }
+    db.Store(cheep);
+    
+    
 }
 
 static String UnixToDate(long unixTime)
