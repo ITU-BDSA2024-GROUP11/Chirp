@@ -3,7 +3,7 @@ using SimpleDB;
 using CommandLine;
 
 
-stASDFASDFatic void ReadCheeps()
+static void ReadCheeps()
 {
     CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
     UserInterface.PrintCheeps(db.Read(0));
