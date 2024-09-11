@@ -39,6 +39,7 @@ class ReadOptions
 
 class CheepOptions
 {
+    //comment
     [Value(0, MetaName = "message", HelpText = "The message to store.", Required = true)]
     public string Message { get; set; }
 }
