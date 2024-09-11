@@ -5,7 +5,7 @@ namespace SimpleDB;
 
 public class CsvDatabase<T> : IDatabaseRepository<T>
 {
-    const string path = "./chirp_cli_db.csv";
+    const string path = "../../data/chirp_cli_db.csv";
     public IEnumerable<T> Read(int ? limit = null)
     {
         using (var reader = new StreamReader(path))
