@@ -13,6 +13,6 @@ public static class UserInterface
     
     public static String UnixToDate(long unixTime)
     {
-        return DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().DateTime.ToString("MM/dd/yy HH:mm:ss").Replace('.',':');
+        return DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().DateTime.ToString("MM/dd/yy HH:mm:ss").Replace('.',':').Replace('-','/');
     }
 }
