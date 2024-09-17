@@ -1,0 +1,100 @@
+name: Release Chirp Executable
+
+# Trigger the workflow on push to a tag matching 'v*'
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [linux-x64, win-x64, osx-x64]
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Install .NET 7.x SDK
+    - name: Setup .NET 7.x SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.x'
+
+    # Restore dependencies
+    - name: Restore .NET dependencies
+      run: dotnet restore
+
+    # Build the application
+    - name: Build .NET application
+      run: dotnet build --configuration Release --no-restore
+
+    # Run unit tests
+    - name: Run tests
+      run: dotnet test --no-restore --verbosity normal
+
+    # Publish the app for each platform
+    - name: Publish for each platform
+      run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained false -p:PublishSingleFile=true -o ./publish/${{ matrix.os }}
+
+    # Compress the output to a zip file
+    - name: Create ZIP archive
+      run: zip -r Chirp-${{ matrix.os }}.zip ./publish/${{ matrix.os }}
+
+    # Upload the zip file as an artifact
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Chirp-${{ matrix.os }}.zip
+        path: Chirp-${{ matrix.os }}.zip
+
+  # Create a new release with attached artifacts
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Create a release
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    # Upload the artifacts (executables) to the release
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Chirp-linux-x64.zip
+        asset_name: Chirp-linux-x64.zip
+        asset_content_type: application/zip
+
+    - name: Upload Release Asset (Windows)
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Chirp-win-x64.zip
+        asset_name: Chirp-win-x64.zip
+        asset_content_type: application/zip
+
+    - name: Upload Release Asset (MacOS)
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Chirp-osx-x64.zip
+        asset_name: Chirp-osx-x64.zip
+        asset_content_type: application/zip
