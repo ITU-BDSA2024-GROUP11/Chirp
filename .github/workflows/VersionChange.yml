@@ -37,11 +37,11 @@ jobs:
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal
 
-    # Publish the app for each platform
+    # Publish the app for each platform, targeting only the Chirp.CLI.Client project
     - name: Publish for each platform
-      run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained false -p:PublishSingleFile=true -o ./publish/${{ matrix.os }}
-
-    # Compress the output to a zip file
+      run: dotnet publish ./src/Chirp.CLI.Client/Chirp.CLI.csproj -c Release -r ${{ matrix.os }} --self-contained false -p:PublishSingleFile=true -o ./publish/${{ matrix.os }}
+      
+      # Compress the output to a zip file
     - name: Create ZIP archive
       run: zip -r Chirp-${{ matrix.os }}.zip ./publish/${{ matrix.os }}
 
