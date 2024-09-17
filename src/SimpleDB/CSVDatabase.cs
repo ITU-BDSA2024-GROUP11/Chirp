@@ -5,6 +5,16 @@ namespace SimpleDB;
 
 public class CsvDatabase<T> : IDatabaseRepository<T>
 {
+    private static CsvDatabase<T> _instance = null;
+
+    private CsvDatabase() { }
+
+    public static CsvDatabase<T> getInstance() {
+        if(_instance == null) _instance = new CsvDatabase<T>();
+        return _instance;
+    }
+
+
     const string path = "../../data/chirp_cli_db.csv";
     public IEnumerable<T> Read(int ? limit = null)
     {

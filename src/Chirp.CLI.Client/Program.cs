@@ -5,13 +5,13 @@ using CommandLine;
 
 static void ReadCheeps()
 {
-    CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
+    CsvDatabase<Cheep> db = CsvDatabase<Cheep>.getInstance();
     UserInterface.PrintCheeps(db.Read(0));
 }
 
 static void StoreCheep(string message)
 {
-    CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
+    CsvDatabase<Cheep> db = CsvDatabase<Cheep>.getInstance();
 
     var cheep = new Cheep
     {
