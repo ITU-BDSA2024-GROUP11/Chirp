@@ -1,96 +1,58 @@
-name: Release Chirp Executable
+name: Publish
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  release:
+    name: Release
     strategy:
       matrix:
-        os: [linux-x64, win-x64, osx-x64]
-
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: windows
+            os: windows-latest
+            target: win-x64
+          - kind: macOS
+            os: macos-latest
+            target: osx-x64
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Setup .NET 7.x SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.x'
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
 
-    - name: Restore .NET dependencies
-      run: dotnet restore
+      - name: Build
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name="App-$tag-${{ matrix.target }}"
 
-    - name: Build .NET application
-      run: dotnet build --configuration Release --no-restore
+          # Build everything
+          dotnet publish src/App/App.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
 
-    - name: Run tests
-      run: dotnet test --no-restore --verbosity normal
+          # Pack files
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            # Pack to zip for Windows
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          else
+          tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
 
-    - name: Publish for each platform
-      run: dotnet publish ./src/Chirp.CLI.Client/Chirp.CLI.csproj -c Release -r ${{ matrix.os }} --self-contained false -p:PublishSingleFile=true -o ./publish/${{ matrix.os }}
-      
-    - name: Check working directory and files
-      run: |
-        pwd
-        ls -la ./publish/${{ matrix.os }}
-        ls -la
+          # Delete output directory
+          rm -r "$release_name"
 
-    - name: Create ZIP archive
-      run: zip -r Chirp-${{ matrix.os }}.zip ./publish/${{ matrix.os }}
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Chirp-${{ matrix.os }}.zip
-        path: Chirp-${{ matrix.os }}.zip
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Download build artifacts
-      uses: actions/download-artifact@v3
-
-    - name: Create GitHub Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset (Linux)
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Chirp-linux-x64.zip
-        asset_name: Chirp-linux-x64.zip
-        asset_content_type: application/zip
-
-    - name: Upload Release Asset (Windows)
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Chirp-win-x64.zip
-        asset_name: Chirp-win-x64.zip
-        asset_content_type: application/zip
-
-    - name: Upload Release Asset (MacOS)
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: Chirp-osx-x64.zip
-        asset_name: Chirp-osx-x64.zip
-        asset_content_type: application/zip
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "App*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
