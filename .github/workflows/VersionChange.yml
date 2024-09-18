@@ -25,10 +25,10 @@ jobs:
     - name: Publish Linux
       run: dotnet publish -r linux-x64 -c Release
     - name: Zip Windows
-      run: zip -r Windows.zip src\Chirp.CLI.Client\bin\Release\net7.0\win-x64\publish
-      - name: Publish
-        uses: softprops/action-gh-release@v2
-         if: startsWith(github.ref, 'refs/tags/')
-         with:
-          files: |
-            Windows.zip
+      run: zip -r Windows.zip src/Chirp.CLI.Client/bin/Release/net7.0/win-x64/publish
+    - name: Publish
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          Windows.zip
