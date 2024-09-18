@@ -9,12 +9,16 @@ namespace Chirp.CLI.Client.Tests
         [Fact]
         public void TestUnixToDate()
         {
-            long unixTime = 1633039200; // Example Unix timestamp (2021-10-01 00:00:00 UTC)
+          long unixTime = 1633039200; // Example Unix timestamp (2021-10-01 00:00:00 UTC)
             string expectedDate = "10/01/21 00:00:00"; // Expected output in "MM/dd/yy HH:mm:ss" format
 
-            string result = UserInterface.UnixToDate(unixTime);
+            // Convert expected date to DateTime and ensure it's in UTC
+            DateTime expectedDateTime = DateTime.ParseExact(expectedDate, "MM/dd/yy HH:mm:ss", null).ToUniversalTime();
 
-            Assert.Equal(expectedDate, result);
+            // Call the method from UserInterface and convert its result to UTC DateTime
+            DateTime resultDateTime = DateTime.ParseExact(UserInterface.UnixToDate(unixTime), "MM/dd/yy HH:mm:ss", null).ToUniversalTime();
+
+            Assert.Equal(expectedDateTime, resultDateTime);
         }
     }
 }
