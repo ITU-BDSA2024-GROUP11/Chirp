@@ -16,20 +16,5 @@ namespace Chirp.CLI.Client.Tests
 
             Assert.Equal(expectedDate, result);
         }
-
-        [Fact]
-        public void TestPrintCheeps(){
-            
-            string msg = "Author,Message,Timestamp
-        ropf,"Hello, BDSA students!",1690891760
-        adho,"Welcome to the course!",1690978778
-        adho,"I hope you had a good summer.",1690979858
-        ropf,"Cheeping cheeps on Chirp :)",1690981487";
-            
-            CsvDatabase<Cheep> db = new CsvDatabase<Cheep>();
-            string dbresult = UserInterface.ReadCheeps();
-
-        }
-    
     }
 }
