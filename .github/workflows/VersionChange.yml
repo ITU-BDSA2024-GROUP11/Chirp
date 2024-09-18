@@ -9,15 +9,6 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-<<<<<<< Updated upstream
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.1.101
-=======
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -34,28 +25,9 @@ jobs:
     - name: Publish Linux
       run: dotnet publish -r linux-x64 -c Release
 
->>>>>>> Stashed changes
 
     - name: Zip Windows
       run: zip -r Windows.zip src\Chirp.CLI.Client\bin\Release\net7.0\win-x64\publish
-
-<<<<<<< Updated upstream
-          # Build everything
-          dotnet publish src/App/App.csproj --framework netcoreapp3.1 --runtime "${{ matrix.target }}" -c Release -o "$release_name"
-
-          # Pack files
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            # Pack to zip for Windows
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          else
-          tar czvf "${release_name}.tar.gz" "$release_name"
-          fi
-
-          # Delete output directory
-          rm -r "$release_name"
-=======
->>>>>>> Stashed changes
-
       - name: Publish
         uses: softprops/action-gh-release@v2
          if: startsWith(github.ref, 'refs/tags/')
