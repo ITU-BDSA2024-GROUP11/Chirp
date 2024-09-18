@@ -29,7 +29,7 @@ jobs:
     - name: Zip Linux
       run: zip -r Linux.zip src/Chirp.CLI.Client/bin/Release/net7.0/linux-x64/publish
     - name: Zip macOS
-      run: zip -r MacOS.zip src/Chirp.CLI.Client/bin/Release/net7.0/macos-x64/publish
+      run: zip -r MacOS.zip src/Chirp.CLI.Client/bin/Release/net7.0/osx-x64/publish
     - name: Publish
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
