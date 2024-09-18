@@ -1,6 +1,7 @@
 on:
   release:
     types: [published]
+
 jobs:
   release:
     name: Release
@@ -21,15 +22,14 @@ jobs:
       run: dotnet publish -r win-x64 -c Release
     - name: Publish Linux
       run: dotnet publish -r linux-x64 -c Release
-    - name: List files before zipping
-      run: ls -la src/Chirp.CLI.Client/bin/Release/net7.0/win-x64/publish
     - name: Zip Windows
       run: zip -r Windows.zip src/Chirp.CLI.Client/bin/Release/net7.0/win-x64/publish
-    - name: Print Git Ref
-      run: echo "Git Ref: $GITHUB_REF"
+    - name: Zip Linux
+      run: zip -r Linux.zip src/Chirp.CLI.Client/bin/Release/net7.0/linux-x64/publish
     - name: Publish
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           Windows.zip
+          Linux.zip
