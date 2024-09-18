@@ -14,9 +14,9 @@ static void StoreCheep(string message)
     CsvDatabase<Cheep> db = CsvDatabase<Cheep>.getInstance();
 
     var cheep = new Cheep
-    {
-        Author = Environment.UserName, Message = message, Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
-    };
+    (
+        Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+    );
     db.Store(cheep);
 }
 
@@ -44,10 +44,4 @@ class CheepOptions
     public string Message { get; set; }
 }
 
-
-public class Cheep
-{
-    public string Author { get; set; }
-    public string Message { get; set; }
-    public long Timestamp { get; set; }
-}
+public record Cheep(string Author, string Message, long Timestamp);
