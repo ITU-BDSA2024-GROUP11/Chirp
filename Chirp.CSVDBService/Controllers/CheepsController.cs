@@ -10,13 +10,14 @@ public class CheepsController : ControllerBase
     private const string FilePath = "cheeps.csv";
 
     [HttpPost("cheep")]
-    public IActionResult PostCheep([FromBody] Cheep cheep)
+    public IActionResult PostCheep([FromBody] String message)
     {
-        if (cheep == null || string.IsNullOrEmpty(cheep.Author) || string.IsNullOrEmpty(cheep.Message))
-        {
-            return BadRequest("Invalid input. Please provide Author and Message.");
-        }
 
+        var cheep = new Cheep
+        (
+            Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+        );
+        
         // Append to CSV
         using (var writer = new StreamWriter(FilePath, true))
         {
