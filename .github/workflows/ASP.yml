@@ -11,7 +11,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: bdsagroup11chirpremotedb  # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './src/Chirp.CLI.Client'
+  AZURE_WEBAPP_PACKAGE_PATH: './Chirp.CSVDBService'
   DOTNET_VERSION: '7'                 # set this to the .NET Core version to use
 
 on:
