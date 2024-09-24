@@ -1,23 +1,28 @@
 ﻿using Chirp.CLI;
 using SimpleDB;
 using CommandLine;
+using System.Net.Http.Json;
+var BaseUri = "http://localhost:5291";
+using HttpClient client = new();
+client.BaseAddress = new Uri(BaseUri);
 
-
-static void ReadCheeps()
+async void ReadCheeps()
 {
-    CsvDatabase<Cheep> db = CsvDatabase<Cheep>.getInstance();
-    UserInterface.PrintCheeps(db.Read(0));
+    var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/cheeps");
+    UserInterface.PrintCheeps(cheeps);
 }
 
-static void StoreCheep(string message)
+void StoreCheep(string message)
 {
+    /*
     CsvDatabase<Cheep> db = CsvDatabase<Cheep>.getInstance();
-
+    */
     var cheep = new Cheep
     (
         Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds()
     );
-    db.Store(cheep);
+    
+    client.PostAsJsonAsync("/cheep",cheep);
 }
 
 

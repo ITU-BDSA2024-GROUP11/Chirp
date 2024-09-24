@@ -2,32 +2,27 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-[Route("api/[controller]")]
+using System.Net.Http.Json;
+[Route("")]
 [ApiController]
+
 public class CheepsController : ControllerBase
 {
+    
     private const string FilePath = "cheeps.csv";
-
+    
     [HttpPost("cheep")]
-    public IActionResult PostCheep([FromBody] String message)
+    public IActionResult PostCheep([FromBody] Cheep cheep)
     {
-
-        var cheep = new Cheep
-        (
-            Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds()
-        );
         
-        // Append to CSV
-        using (var writer = new StreamWriter(FilePath, true))
+       using (var writer = new StreamWriter(FilePath, true))
         {
             writer.WriteLine($"{cheep.Author},{cheep.Message},{cheep.Timestamp}");
         }
-
-        return CreatedAtAction(nameof(GetCheeps), new { author = cheep.Author, timestamp = cheep.Timestamp }, cheep);
+       return Ok();
     }
-
-    [HttpGet("read")]
+    
+    [HttpGet("cheeps")]
     public IActionResult GetCheeps()
     {
         if (!System.IO.File.Exists(FilePath))
@@ -43,3 +38,5 @@ public class CheepsController : ControllerBase
         return Ok(cheeps);
     }
 }
+
+public record Cheep(string Author, string Message, long Timestamp);
