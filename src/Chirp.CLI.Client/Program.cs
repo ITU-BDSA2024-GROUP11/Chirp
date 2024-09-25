@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 var BaseUri = "http://localhost:5291";
 using HttpClient client = new();
 client.BaseAddress = new Uri(BaseUri);
-
+//Using SWAG
 async void ReadCheeps()
 {
     var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/cheeps");
