@@ -6,6 +6,7 @@ public class AuthorFacade
 
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
     string AllCheepsQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc";
+    string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
 
 // ORDER by message.pub_date desc (order stuff)
@@ -45,6 +46,20 @@ public class AuthorFacade
             cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
         }
 
+        return cheeps;
+    }
+    
+    public List<CheepViewModel> GetCheepsFromPage(int Page)
+    {
+        connection.Open();
+        using var command =  new SqliteCommand(PageQuery, connection);
+        command.Parameters.AddWithValue("@PageOffset", (Page-1)*32);
+        using var reader = command.ExecuteReader();
+        var cheeps = new List<CheepViewModel>();
+        while(reader.Read())
+        {
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+        }
         return cheeps;
     }
 }
