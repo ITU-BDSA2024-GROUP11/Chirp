@@ -1,29 +1,29 @@
 public record Message(int message_id, int author_id, string message, int pub_date);
 public record User(int user_id, string username, string email);
-public record Cheeps(string username, string message, string pub_date);
+public record CheepViewModel(string username, string message, string pub_date);
 
 public interface ICheepService
 {
-    public List<Cheeps> GetCheeps();
-    public List<Cheeps> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheeps();
+    public List<CheepViewModel> GetCheepsFromAuthor(string author);
 }
 
 public class CheepService : ICheepService
 {
     // These would normally be loaded from a database for example
-    private static readonly List<Cheeps> _cheeps = new()
+    private static readonly List<CheepViewModel> _cheeps = new()
         {
-            new Cheeps("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new Cheeps("Adrian", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
+            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
+            new CheepViewModel("Adrian", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
         };
 
-    public List<Cheeps> GetCheeps()
+    public List<CheepViewModel> GetCheeps()
     {
         AuthorFacade authorFacade = new AuthorFacade();
         return authorFacade.GetCheeps();
     }
 
-    public List<Cheeps> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
         //return _cheeps.Where(x => x.Author == author).ToList();

@@ -17,20 +17,20 @@ public class AuthorFacade
         }
     }
 
-    public List<Cheeps> GetCheeps()
+    public List<CheepViewModel> GetCheeps()
     {
         connection.Open();
-        var cheeps = new List<Cheeps>();
+        var cheeps = new List<CheepViewModel>();
         using var command = new SqliteCommand(AllCheepsQuery, connection);
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            cheeps.Add(new Cheeps(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
         }
         return cheeps;
     }
 
-    public List<Cheeps> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         connection.Open();
         using var command = new SqliteCommand(AuthorQuery, connection);
@@ -39,10 +39,10 @@ public class AuthorFacade
         Console.WriteLine("connection is " + connection.State);
         Console.WriteLine(command.CommandText);
         using var reader = command.ExecuteReader();
-        var cheeps = new List<Cheeps>();
+        var cheeps = new List<CheepViewModel>();
         while (reader.Read()) 
         { 
-            cheeps.Add(new Cheeps(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
         }
 
         return cheeps;
