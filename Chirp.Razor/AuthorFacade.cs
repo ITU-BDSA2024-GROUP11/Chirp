@@ -2,7 +2,8 @@ using Microsoft.Data.Sqlite;
 
 public class AuthorFacade
 {
-    string dbpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
+    string sqlDBFilePath = "/tmp/chirp.db";
+
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
     string AllCheepsQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc";
     SqliteConnection connection;
@@ -10,21 +11,7 @@ public class AuthorFacade
 // ORDER by message.pub_date desc (order stuff)
     public AuthorFacade()
     {
-        if (dbpath == null){
-            //dbpath = "/tmp/chirp.db";
-            /*
-            string localdbpath = Path.GetTempPath();
-            //Console.WriteLine(localdbpath);
-            string fullPath = Path.Combine(localdbpath, "chirp.db");
-            // Create the file
-            Console.WriteLine(fullPath);
-            /*using (FileStream fs = File.Create(fullPath))
-            {
-                Console.WriteLine("File created successfully at: " + fullPath);
-            }*/
-        }
-        
-        using (connection = new SqliteConnection($"Data Source={dbpath}"))
+        using (connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
             connection.Open();
         }
