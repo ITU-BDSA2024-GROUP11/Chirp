@@ -10,17 +10,10 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    // These would normally be loaded from a database for example
-    private static readonly List<CheepViewModel> _cheeps = new()
-        {
-            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new CheepViewModel("Adrian", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        };
-
     public List<CheepViewModel> GetCheeps()
     {
         AuthorFacade authorFacade = new AuthorFacade();
-        return authorFacade.GetCheeps();
+        return authorFacade.GetCheepsFromPage(1);
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
@@ -29,14 +22,6 @@ public class CheepService : ICheepService
         //return _cheeps.Where(x => x.Author == author).ToList();
         AuthorFacade authorFacade = new AuthorFacade();
         return authorFacade.GetCheepsFromAuthor(author);
-    }
-
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
 
 }

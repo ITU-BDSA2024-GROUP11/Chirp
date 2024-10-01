@@ -26,7 +26,7 @@ public class AuthorFacade
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
         }
         return cheeps;
     }
@@ -43,7 +43,7 @@ public class AuthorFacade
         var cheeps = new List<CheepViewModel>();
         while (reader.Read()) 
         { 
-            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
         }
 
         return cheeps;
@@ -58,8 +58,16 @@ public class AuthorFacade
         var cheeps = new List<CheepViewModel>();
         while(reader.Read())
         {
-            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
         }
         return cheeps;
+    }
+    
+    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+    {
+        // Unix timestamp is seconds past epoch
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        dateTime = dateTime.AddSeconds(unixTimeStamp);
+        return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
 }
