@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
 public class AuthorFacade
 {
@@ -17,7 +18,7 @@ public class AuthorFacade
         if (dbpath == null)
         {
             // Set a default database path
-            Console.WriteLine("it is null");
+            Console.WriteLine("Set DbPath to default");
             dbpath = "/tmp/chirp.db";
         } else {
             Console.WriteLine(dbpath);
@@ -80,5 +81,10 @@ public class AuthorFacade
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
+    }
+
+    public string getDbPath()
+    {
+        return dbpath;
     }
 }

@@ -14,7 +14,6 @@ namespace Chirp.Razor.Tests;
             AuthorFacade authorFacade = new AuthorFacade();
             var cheeps = authorFacade.GetCheepsFromPage(1);
             Assert.Equal(32, cheeps.Count);
-            
         }
         
         [Fact]
@@ -31,4 +30,12 @@ namespace Chirp.Razor.Tests;
             var cheeps = authorFacade.GetCheepsFromPage(2);
             Assert.Equal("Nathan Sirmon", cheeps[1].username);
         }
+        
+        [Fact]
+        public void DBPathNullToDefaultTest()
+        {
+            AuthorFacade authorFacade = new AuthorFacade();
+            Assert.Equal("/tmp/chirp.db", authorFacade.getDbPath());
+        }
+        
     }
