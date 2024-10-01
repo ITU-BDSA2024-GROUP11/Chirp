@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
-public class AuthorFacade
+public class DBFacade
 {
     string dbpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
@@ -13,7 +13,7 @@ public class AuthorFacade
     SqliteConnection connection;
 
 // ORDER by message.pub_date desc (order stuff)
-    public AuthorFacade()
+    public DBFacade()
     {
         if (dbpath == null)
         {
