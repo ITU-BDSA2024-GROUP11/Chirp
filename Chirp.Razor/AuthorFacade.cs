@@ -16,6 +16,7 @@ public class AuthorFacade
         if (dbpath == null)
         {
             // Set a default database path
+            Console.WriteLine("it is null");
             dbpath = "/tmp/chirp.db";
         } else {
             Console.WriteLine(dbpath);
