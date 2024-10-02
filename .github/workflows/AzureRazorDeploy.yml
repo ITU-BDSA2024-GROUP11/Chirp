@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env: # Set environment variables at the job level
+      CHIRPDBPATH: './mychirp.db'
 
     steps:
       - uses: actions/checkout@v4
