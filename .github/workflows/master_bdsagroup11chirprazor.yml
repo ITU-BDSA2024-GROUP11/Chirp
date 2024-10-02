@@ -24,12 +24,16 @@ jobs:
       - name: Build and publish app
         run: dotnet publish -c Release -o ${{ github.workspace }}/output
 
-      # Step 4: Upload the published output as an artifact for deployment
+      # Step 4: Zip the published output (for easier deployment)
+      - name: Zip published app
+        run: zip -r myapp.zip ${{ github.workspace }}/output
+
+      # Step 5: Upload the zipped output as an artifact for deployment
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: app-artifact
-          path: ${{ github.workspace }}/output
+          path: myapp.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,11 +59,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D2B0AEC30EEC46888F9F45CE0444A8F1 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_82970DD98ABC452B80158EFA18934258 }}
 
-      # Step 3: Deploy the downloaded artifact to Azure Web App
+      # Step 3: Deploy the zipped artifact to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'bdsagroup11chirprazor'
           slot-name: 'Production'
-          package: ${{ github.workspace }}/output
+          package: myapp.zip
