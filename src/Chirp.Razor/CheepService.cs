@@ -5,7 +5,7 @@ public record CheepViewModel(string username, string message, string pub_date);
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
     public List<CheepViewModel> GetCheepsFromPage(int page);
 }
 
@@ -17,12 +17,10 @@ public class CheepService : ICheepService
         return dbFacade.GetCheepsFromPage(1);
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        // filter by the provided author name
-        //return _cheeps.Where(x => x.Author == author).ToList();
         DBFacade dbFacade = new DBFacade();
-        return dbFacade.GetCheepsFromAuthor(author);
+        return dbFacade.GetCheepsFromAuthorPage(author, page);
     }
 
     public List<CheepViewModel> GetCheepsFromPage(int page)

@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnGet([FromQuery] int page, string author)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        Cheeps = _service.GetCheepsFromAuthor(author, page);
         return Page();
     }
 }
