@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: # Set environment variables at the job level
+    env: 
       CHIRPDBPATH: './mychirp.db'
 
     steps:
