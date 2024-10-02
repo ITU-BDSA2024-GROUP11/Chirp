@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup11chirprazor
 
 on:
@@ -14,18 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository's code
       - uses: actions/checkout@v4
 
+      # Step 2: Set up .NET Core SDK (version 7.x)
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '7.x'
 
+      # Step 3: Build and publish the app to an output directory
+      - name: Build and publish app
+        run: dotnet publish -c Release -o ${{ github.workspace }}/output
 
+      # Step 4: Upload the published output as an artifact for deployment
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: app-artifact
+          path: ${{ github.workspace }}/output
 
   deploy:
     runs-on: ubuntu-latest
@@ -34,12 +38,16 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
+      # Step 1: Download the artifact from the build job
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
-      
+        with:
+          name: app-artifact
+
+      # Step 2: Login to Azure using service principal credentials
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -47,11 +55,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D2B0AEC30EEC46888F9F45CE0444A8F1 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_82970DD98ABC452B80158EFA18934258 }}
 
+      # Step 3: Deploy the downloaded artifact to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'bdsagroup11chirprazor'
           slot-name: 'Production'
-          package: .
-          
+          package: ./output
