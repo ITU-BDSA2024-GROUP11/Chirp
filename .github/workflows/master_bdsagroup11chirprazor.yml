@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup11chirpremotedb
+name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup11chirprazor
 
 on:
   push:
@@ -22,11 +22,10 @@ jobs:
           dotnet-version: '7.x'
 
       - name: Build with dotnet
-        run: dotnet build Chirp.CSVDBService/ --configuration Release
+        run: dotnet build src/Chirp.Razor/ --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish Chirp.CSVDBService/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+        run: dotnet publish src/Chirp.Razor/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -52,15 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8BDE2455C7964C07A67DCAD6CC806376 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A64BA7BE630540C4A996709C4EFAFE16 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3EEB41AC49194EE6BEF869075B26150F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_49E1DADF58564AF28F954CD2F49DE2C9 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2EEB3AC64A3D4A728EE1F5E31820154F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0323836B08E04D34A50CB6660A20290C }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'bdsagroup11chirpremotedb'
+          app-name: 'bdsagroup11chirprazor'
           slot-name: 'Production'
           package: .
           

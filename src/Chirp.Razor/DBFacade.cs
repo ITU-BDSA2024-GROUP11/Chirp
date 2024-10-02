@@ -1,18 +1,30 @@
 using Microsoft.Data.Sqlite;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
-public class AuthorFacade
+public class DBFacade
 {
-    string sqlDBFilePath = "/tmp/chirp.db";
-
+    string dbpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
     string AllCheepsQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc";
     string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
 
 // ORDER by message.pub_date desc (order stuff)
-    public AuthorFacade()
+    public DBFacade()
     {
-        using (connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+        if (dbpath == null)
+        {
+            // Set a default database path
+            Console.WriteLine("Set DbPath to default");
+            dbpath = "/tmp/chirp.db";
+        } else {
+            Console.WriteLine(dbpath);
+        }
+
+        using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
             connection.Open();
         }
@@ -69,5 +81,10 @@ public class AuthorFacade
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
+    }
+
+    public string getDbPath()
+    {
+        return dbpath;
     }
 }

@@ -11,24 +11,31 @@ namespace Chirp.Razor.Tests;
         [Fact]
         public void PaginationTest()
         {
-            AuthorFacade authorFacade = new AuthorFacade();
-            var cheeps = authorFacade.GetCheepsFromPage(1);
+            DBFacade dbFacade = new DBFacade();
+            var cheeps = dbFacade.GetCheepsFromPage(1);
             Assert.Equal(32, cheeps.Count);
-            
         }
         
         [Fact]
         public void PaginationUserTest()
         {
-            AuthorFacade authorFacade = new AuthorFacade();
-            var cheeps = authorFacade.GetCheepsFromPage(1);
+            DBFacade dbFacade = new DBFacade();
+            var cheeps = dbFacade.GetCheepsFromPage(1);
             Assert.Equal("Jacqualine Gilcoine", cheeps[0].username);
         }
         [Fact]
         public void PaginationSecondPageTest()
         {
-            AuthorFacade authorFacade = new AuthorFacade();
-            var cheeps = authorFacade.GetCheepsFromPage(2);
+            DBFacade dbFacade = new DBFacade();
+            var cheeps = dbFacade.GetCheepsFromPage(2);
             Assert.Equal("Nathan Sirmon", cheeps[1].username);
         }
+        
+        [Fact]
+        public void DBPathNullToDefaultTest()
+        {
+            DBFacade dbFacade = new DBFacade();
+            Assert.Equal("/tmp/chirp.db", dbFacade.getDbPath());
+        }
+        
     }
