@@ -19,7 +19,7 @@ public class DBFacade
         {
             // Set a default database path
             Console.WriteLine("Set DbPath to default");
-            dbpath = "/tmp/chirp.db";
+            dbpath = "./tmp/chirp.db";
         } else {
             Console.WriteLine(dbpath);
         }
