@@ -6,6 +6,7 @@ public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps();
     public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheepsFromPage(int page);
 }
 
 public class CheepService : ICheepService
@@ -24,4 +25,9 @@ public class CheepService : ICheepService
         return dbFacade.GetCheepsFromAuthor(author);
     }
 
+    public List<CheepViewModel> GetCheepsFromPage(int page)
+    {
+        AuthorFacade authorFacade = new AuthorFacade();
+        return authorFacade.GetCheepsFromPage(page);
+    }
 }
