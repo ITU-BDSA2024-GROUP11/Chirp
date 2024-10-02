@@ -2,7 +2,9 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Microsoft.Extensions.FileProviders;
 
 public class DBFacade
 {
@@ -23,11 +25,29 @@ public class DBFacade
         } else {
             Console.WriteLine(dbpath);
         }
+        
+        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        using var embeddedReader = embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream();
+        using var sr = new StreamReader(embeddedReader);
+        var query = sr.ReadToEnd();
+        
+        using var embeddedReader1 = embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream();
+        using var sr1 = new StreamReader(embeddedReader1);
+        var query1 = sr1.ReadToEnd();
 
         using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
             connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            
+            var command1 = connection.CreateCommand();
+            command1.CommandText = query1;
+            command1.ExecuteNonQuery();
         }
+        
     }
 
     public List<CheepViewModel> GetCheeps()
