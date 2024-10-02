@@ -12,16 +12,16 @@ public class CheepService : ICheepService
 {
     public List<CheepViewModel> GetCheeps()
     {
-        AuthorFacade authorFacade = new AuthorFacade();
-        return authorFacade.GetCheepsFromPage(1);
+        DBFacade dbFacade = new DBFacade();
+        return dbFacade.GetCheepsFromPage(1);
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
         //return _cheeps.Where(x => x.Author == author).ToList();
-        AuthorFacade authorFacade = new AuthorFacade();
-        return authorFacade.GetCheepsFromAuthor(author);
+        DBFacade dbFacade = new DBFacade();
+        return dbFacade.GetCheepsFromAuthor(author);
     }
 
 }
