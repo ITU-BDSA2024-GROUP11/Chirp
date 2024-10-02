@@ -27,7 +27,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromPage(int page)
     {
-        AuthorFacade authorFacade = new AuthorFacade();
-        return authorFacade.GetCheepsFromPage(page);
+        DBFacade dbFacade = new DBFacade();
+        return dbFacade.GetCheepsFromPage(page);
     }
 }

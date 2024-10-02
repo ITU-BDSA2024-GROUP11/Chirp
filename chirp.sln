@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{253ABC5E-D40
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BAF2BEC7-6994-46E9-8833-CB3A607A7D9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CSVDBService", "Chirp.CSVDBService\Chirp.CSVDBService.csproj", "{FDE2131D-088F-4DB0-938C-BBD7B2C33ECC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{29CF5564-35BF-46A7-8699-7DC8B0B10032}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor.Tests", "test\Chirp.Razor.Tests\Chirp.Razor.Tests.csproj", "{87DB4112-D787-4863-AA92-DC5F0358A5DC}"
@@ -22,10 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDE2131D-088F-4DB0-938C-BBD7B2C33ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDE2131D-088F-4DB0-938C-BBD7B2C33ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDE2131D-088F-4DB0-938C-BBD7B2C33ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDE2131D-088F-4DB0-938C-BBD7B2C33ECC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{29CF5564-35BF-46A7-8699-7DC8B0B10032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29CF5564-35BF-46A7-8699-7DC8B0B10032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29CF5564-35BF-46A7-8699-7DC8B0B10032}.Release|Any CPU.ActiveCfg = Release|Any CPU

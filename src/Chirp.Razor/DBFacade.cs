@@ -13,39 +13,26 @@ public class DBFacade
     string AllCheepsQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc";
     string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
-
-// ORDER by message.pub_date desc (order stuff)
+    
     public DBFacade()
     {
-        if (dbpath == null)
-        {
-            // Set a default database path
-            Console.WriteLine("Set DbPath to default");
-            dbpath = "./tmp/chirp.db";
-        } else {
-            Console.WriteLine(dbpath);
-        }
+        if (dbpath == null) dbpath = "./tmp/chirp.db";
         
         var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
-        using var embeddedReader = embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream();
-        using var sr = new StreamReader(embeddedReader);
-        var query = sr.ReadToEnd();
-        
-        using var embeddedReader1 = embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream();
-        using var sr1 = new StreamReader(embeddedReader1);
-        var query1 = sr1.ReadToEnd();
+        var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
+        var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
 
         using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
             connection.Open();
 
-            var command = connection.CreateCommand();
-            command.CommandText = query;
-            command.ExecuteNonQuery();
+            var commandSchema = connection.CreateCommand();
+            commandSchema.CommandText = querySchema;
+            commandSchema.ExecuteNonQuery();
             
-            var command1 = connection.CreateCommand();
-            command1.CommandText = query1;
-            command1.ExecuteNonQuery();
+            var commandDump = connection.CreateCommand();
+            commandDump.CommandText = queryDump;
+            commandDump.ExecuteNonQuery();
         }
         
     }
