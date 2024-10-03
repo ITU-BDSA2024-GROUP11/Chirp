@@ -669,6 +669,6 @@ INSERT INTO message VALUES(654,9,'What do you think so meanly of him?',169089563
 INSERT INTO message VALUES(655,11,'Hello, BDSA students!',1690892208);
 INSERT INTO message VALUES(656,12,'Hej, velkommen til kurset.',1690895308);
 
-DELETE FROM sqlite_sequence;
-INSERT INTO sqlite_sequence VALUES('user',12);
-INSERT INTO sqlite_sequence VALUES('message',657);
+--DELETE FROM sqlite_sequence;
+--INSERT INTO sqlite_sequence VALUES('user',12);
+--INSERT INTO sqlite_sequence VALUES('message',657);
