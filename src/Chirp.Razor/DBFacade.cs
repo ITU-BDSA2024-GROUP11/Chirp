@@ -6,7 +6,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.Extensions.FileProviders;
 
-public class DBFacade : IDisposable
+public class DBFacade : IDisposable//
 {
     string dbpath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
