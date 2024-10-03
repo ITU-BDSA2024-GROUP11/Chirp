@@ -24,7 +24,7 @@ public class DBFacade
 
         using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
-           /* connection.Open();
+            connection.Open();
 
             var commandSchema = connection.CreateCommand();
             commandSchema.CommandText = querySchema;
@@ -32,7 +32,7 @@ public class DBFacade
             
             var commandDump = connection.CreateCommand();
             commandDump.CommandText = queryDump;
-            commandDump.ExecuteNonQuery();'*/
+            commandDump.ExecuteNonQuery();
             
         }
         
