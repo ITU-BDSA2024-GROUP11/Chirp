@@ -1,8 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// This sets the app to listen on port 8080 (you can replace with your port)
-//builder.WebHost.UseUrls("http://localhost:8080");
-
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
