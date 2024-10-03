@@ -16,7 +16,7 @@ public class DBFacade : IDisposable
     //
     public DBFacade()
     {
-        if (dbpath == null) dbpath = "mychirp.db";
+        if (dbpath == null) dbpath = "./tmp/chirp.db";
 
         connection = new SqliteConnection($"Data Source={dbpath}");
         connection.Open();
