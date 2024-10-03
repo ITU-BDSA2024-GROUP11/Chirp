@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -27,3 +29,10 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.Run();
+public class IndexModel : PageModel
+{
+    public void OnGet()
+    {
+        throw new Exception("Test exception to see the Developer Exception Page.");
+    }
+}
