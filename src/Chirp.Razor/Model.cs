@@ -4,17 +4,20 @@ namespace Chirp.Razor;
 
 public class Cheep
 {
-    public string Text; 
-    public DateTime TimeStamp;
-    public int AuthorID;
-    public int ID;
-    
-    public Cheep(string text, DateTime timeStamp, int authorID, int id)
+    public string Text { get; set; }
+    public DateTime TimeStamp { get; set; }
+    public int AuthorId { get; set; }
+    public int Id { get; set; }
+}
+
+public class Author
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public int Id { get; set; }
+    public List<Cheep> Cheeps { get; set; }
+    public void addCheep(Cheep cheep)
     {
-        Text = text;
-        TimeStamp = timeStamp;
-        AuthorID = authorID;
-        ID = id;
+        Cheeps.Add(cheep);
     }
-    
 }
