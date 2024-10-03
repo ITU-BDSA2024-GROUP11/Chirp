@@ -22,9 +22,9 @@ public class DBFacade
         var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
         var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
 
-        /*using (connection = new SqliteConnection($"Data Source={dbpath}"))
+        using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
-            connection.Open();
+           /* connection.Open();
 
             var commandSchema = connection.CreateCommand();
             commandSchema.CommandText = querySchema;
@@ -32,9 +32,9 @@ public class DBFacade
             
             var commandDump = connection.CreateCommand();
             commandDump.CommandText = queryDump;
-            commandDump.ExecuteNonQuery();'
+            commandDump.ExecuteNonQuery();'*/
             
-        }*/
+        }
         
     }
 
