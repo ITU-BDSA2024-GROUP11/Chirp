@@ -14,7 +14,7 @@ public class DBFacade
     string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
     
-    public DBFacade()
+    public DBFacade()//
     {
         if (dbpath == null) dbpath = "./tmp/chirp.db";
         
