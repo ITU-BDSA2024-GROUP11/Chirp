@@ -61,4 +61,3 @@ jobs:
           app-name: 'bdsagroup11chirprazor'
           slot-name: 'Production'
           package: .
-          startup-command: 'dotnet Chirp.Razor.dll'
