@@ -16,13 +16,13 @@ public class DBFacade : IDisposable
     
     public DBFacade()
     {
-        
+        if (dbpath == null) dbpath = "./tmp/chirp.db";
 
-        if (dbpath == null) dbpath = "test.db";
-        
         connection = new SqliteConnection($"Data Source={dbpath}");
         connection.Open();
 
+        
+        
         var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
         var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
         var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
