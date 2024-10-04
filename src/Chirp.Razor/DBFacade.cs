@@ -16,25 +16,30 @@ public class DBFacade : IDisposable//
     ///
     public DBFacade()
     {
-        if (dbpath == null) dbpath = "./tmp/chirp1.db";
+        if (dbpath == null) dbpath = "./tmp/chirp.db";
+
+        bool dbExists = File.Exists(dbpath);
 
         connection = new SqliteConnection($"Data Source={dbpath}");
         connection.Open();
 
-        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
-        var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
-        var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
-
-        using (var commandSchema = connection.CreateCommand())
+        if (!dbExists)
         {
-            commandSchema.CommandText = querySchema;
-            commandSchema.ExecuteNonQuery();
-        }
+            var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+            var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
+            var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
 
-        using (var commandDump = connection.CreateCommand())
-        {
-            commandDump.CommandText = queryDump;
-            commandDump.ExecuteNonQuery();
+            using (var commandSchema = connection.CreateCommand())
+            {
+                commandSchema.CommandText = querySchema;
+                commandSchema.ExecuteNonQuery();
+            }
+
+            using (var commandDump = connection.CreateCommand())
+            {
+                commandDump.CommandText = queryDump;
+                commandDump.ExecuteNonQuery();
+            }
         }
         
     }
