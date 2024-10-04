@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Chirp.Razor.Tests;
 
 public class EFCoreTest
@@ -28,8 +30,19 @@ public class EFCoreTest
         var timestamp = DateTime.Now;
         Author author = new Author() { Name = "John Doe", Email = "jd@gmail.com", Id = 1, Cheeps = new List<Cheep>() };
         Cheep cheep = new Cheep() {AuthorId=1, Id = 1, Text = "Hello", TimeStamp = timestamp};
-        author.addCheep(cheep);
+        author.AddCheep(cheep);
         Assert.Single(author.Cheeps);
         Assert.Equal(cheep, author.Cheeps[0]);
+    }
+
+    [Fact]
+    public void DBTest()
+    {
+        var options = new DbContextOptionsBuilder<CheepDBContext>()
+            .Options;
+        using (var context = new CheepDBContext(options))
+        {
+            
+        }
     }
 }
