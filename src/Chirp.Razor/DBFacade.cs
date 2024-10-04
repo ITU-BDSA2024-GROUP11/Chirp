@@ -57,7 +57,7 @@ public class DBFacade : IDisposable//
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
-    {
+    {//
         using var command = new SqliteCommand(AuthorQuery, connection);
         command.Parameters.Add("@Author", SqliteType.Text); 
         command.Parameters["@Author"].Value = author;
