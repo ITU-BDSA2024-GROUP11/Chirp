@@ -2,7 +2,9 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Microsoft.Extensions.FileProviders;
 
 public class DBFacade
 {
@@ -12,23 +14,28 @@ public class DBFacade
     string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     string AuthorPageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
-
-// ORDER by message.pub_date desc (order stuff)
+    
     public DBFacade()
     {
-        if (dbpath == null)
-        {
-            // Set a default database path
-            Console.WriteLine("Set DbPath to default");
-            dbpath = "/tmp/chirp.db";
-        } else {
-            Console.WriteLine(dbpath);
-        }
+        if (dbpath == null) dbpath = "./tmp/chirp.db";
+        
+        var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        var querySchema = new StreamReader(embeddedProvider.GetFileInfo("data/schema.sql").CreateReadStream()).ReadToEnd();
+        var queryDump = new StreamReader(embeddedProvider.GetFileInfo("data/dump.sql").CreateReadStream()).ReadToEnd();
 
         using (connection = new SqliteConnection($"Data Source={dbpath}"))
         {
             connection.Open();
+
+            var commandSchema = connection.CreateCommand();
+            commandSchema.CommandText = querySchema;
+            commandSchema.ExecuteNonQuery();
+            
+            var commandDump = connection.CreateCommand();
+            commandDump.CommandText = queryDump;
+            commandDump.ExecuteNonQuery();
         }
+        
     }
 
     public List<CheepViewModel> GetCheeps()
