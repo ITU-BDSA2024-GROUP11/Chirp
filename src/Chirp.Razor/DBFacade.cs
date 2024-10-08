@@ -16,7 +16,7 @@ public class DBFacade : IDisposable//
     ///
     public DBFacade()
     {
-        if (dbpath == null) dbpath = "./tmp/chirp.db";
+        if (dbpath == null) dbpath = "/tmp/chirp.db";
 
         bool dbExists = File.Exists(dbpath);
 
