@@ -12,6 +12,7 @@ public class DBFacade : IDisposable//
     string AuthorQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc";
     string AllCheepsQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc";
     string PageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
+    string AuthorPageQuery = @"SELECT username, text, pub_date FROM message, user WHERE author_id = user_id and username = @Author ORDER by message.pub_date desc LIMIT 32 OFFSET @PageOffset";
     SqliteConnection connection;
     ///
     public DBFacade()
@@ -85,9 +86,26 @@ public class DBFacade : IDisposable//
         }
         return cheeps;
     }
+    public List<CheepViewModel> GetCheepsFromAuthorPage(string author, int page)
+    {
+        connection.Open();
+        using var command = new SqliteCommand(AuthorPageQuery, connection);
+        command.Parameters.Add("@Author", SqliteType.Text); 
+        command.Parameters["@Author"].Value = author;
+        command.Parameters.AddWithValue("@PageOffset", (page-1)*32);
+        using var reader = command.ExecuteReader();
+        var cheeps = new List<CheepViewModel>();
+        while (reader.Read()) 
+        { 
+            cheeps.Add(new CheepViewModel(reader.GetString(0), reader.GetString(1), UnixTimeStampToDateTimeString(reader.GetDouble(2))));
+        }
+
+        return cheeps;
+    }
     
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
+        
         // Unix timestamp is seconds past epoch
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(unixTimeStamp);

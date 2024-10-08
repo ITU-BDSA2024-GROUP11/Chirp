@@ -23,6 +23,16 @@ namespace Chirp.Razor.Tests;
             var cheeps = dbFacade.GetCheepsFromPage(1);
             Assert.Equal("Jacqualine Gilcoine", cheeps[0].username);
         }
+
+        [Fact]
+        public void PaginationUserPageTest()
+        {
+            DBFacade dBFacade = new DBFacade();
+            var cheeps = dBFacade.GetCheepsFromAuthorPage("Jacqualine Gilcoine", 2);
+            Assert.Equal("Jacqualine Gilcoine", cheeps[0].username);
+            Assert.Equal("What a relief it was the place examined.", cheeps[0].message);
+        }
+
         [Fact]
         public void PaginationSecondPageTest()
         {
