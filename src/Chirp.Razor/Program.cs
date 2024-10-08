@@ -21,6 +21,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Migrate Database and Seed
+using (var scope = app.Services.CreateScope())
+{
+    using var context = scope.ServiceProvider.GetService<ChirpDBContext>();
+    context.Database.Migrate();
+    DbInitializer.SeedDatabase(context);
+}
 app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
