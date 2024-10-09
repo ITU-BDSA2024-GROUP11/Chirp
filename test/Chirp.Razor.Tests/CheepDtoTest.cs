@@ -9,13 +9,13 @@ namespace Chirp.Razor.Tests;
 public class CheepDTOTest{
     [Fact]
     public void DtoConversion(){
-        Author Oliver = new Author{AuthorId = 1, Name = "Oliver Brinch", Email = "Yourmom@gmail.com", 
+        Author Gunner = new Author{AuthorId = 1, Name = "Gunner Nielsen", Email = "Yourmom@gmail.com", 
             Cheeps = new List<Cheep>()};
-        Cheep cheep = new Cheep{CheepId = 1, AuthorId = 1, Author = Oliver, 
+        Cheep cheep = new Cheep{CheepId = 1, AuthorId = 1, Author = Gunner, 
             Text = "It just do be like it is", TimeStamp = DateTime.Parse("2024-08-01 15:50:32")};
         
         CheepDTO dto = CheepRepository.CheepToDTO(cheep);
-        Assert.Equal("Oliver Brinch", dto.Author);
+        Assert.Equal("Gunner Nielsen", dto.Author);
         Assert.Equal("It just do be like it is", dto.Text);
         Assert.Equal("2024-08-01 15:50:32", dto.TimeStamp);
     }
