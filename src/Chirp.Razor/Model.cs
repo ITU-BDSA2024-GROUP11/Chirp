@@ -1,5 +1,6 @@
 using Chirp.Razor.Pages;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Razor;
 
@@ -11,14 +12,16 @@ public class ChirpDBContext : DbContext
     {
     }
 }
+
 public class Cheep
 { 
     public int CheepId { get; set; }
     public int AuthorId { get; set; }
     public Author Author { get; set; }
+
+    [StringLength(maximumLength: 160)]
     public string Text { get; set; }
     public DateTime TimeStamp { get; set; }
-    
 }
 
 public class Author
@@ -31,5 +34,4 @@ public class Author
     {
         Cheeps.Add(cheep);
     }
-    
 }
