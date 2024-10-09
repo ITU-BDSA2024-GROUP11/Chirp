@@ -28,11 +28,28 @@ public class CheepRepository : ICheepRepository
 
         // Skip and take based on the parameters
         query = query.Skip(skip);
-       
 
         return query.ToList();
     }
-
+    
+    public void AddCheep(string text, int  authorId)
+    {
+        // Create a cheep object
+        Cheep newCheep = new Cheep()
+        {
+            AuthorId = authorId,
+            Author = FindAutoherById(authorId),
+            Text = text,
+            TimeStamp = DateTime.Now
+        };
+        
+        // Add the new Cheep to the DbSet
+        _dbContext.Cheeps.Add(newCheep);
+    
+        // Save changes to the database
+        _dbContext.SaveChanges();
+    }
+    
 
 
     
