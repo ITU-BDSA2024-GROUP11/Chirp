@@ -2,8 +2,8 @@ namespace Chirp.Razor;
 
 public interface IAuthorRepository
 {
-    //AuthorDTO FindAuthorByName(string name);
-    //AuthorDTO FindAuthorByEmail(string email);
+    AuthorDTO FindAuthorByName(string name);
+    AuthorDTO FindAuthorByEmail(string email);
 
     Author FindAuthorById(int id);
 }
