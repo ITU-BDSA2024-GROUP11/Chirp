@@ -26,7 +26,7 @@ public class AuthorRepositoryTests
     }
 
     [Fact]
-    public async void FindAuthorByIDTest()
+public async void FindAuthorByIDTest()
     {
         var result = _repository.FindAuthorById(1);
         var result2 = _repository.FindAuthorById(11);
