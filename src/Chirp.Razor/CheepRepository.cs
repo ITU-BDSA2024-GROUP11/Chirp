@@ -49,9 +49,4 @@ public class CheepRepository : ICheepRepository
         // Save changes to the database
         _dbContext.SaveChanges();
     }
-    
-
-
-    
-
 }
