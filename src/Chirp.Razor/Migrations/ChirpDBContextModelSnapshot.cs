@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Razor.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    partial class CheepDBContextModelSnapshot : ModelSnapshot
+    partial class ChirpDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,7 +19,7 @@ namespace Chirp.Razor.Migrations
 
             modelBuilder.Entity("Chirp.Razor.Author", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -31,14 +31,14 @@ namespace Chirp.Razor.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("AuthorId");
 
                     b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Chirp.Razor.Cheep", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CheepId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -52,7 +52,7 @@ namespace Chirp.Razor.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("CheepId");
 
                     b.HasIndex("AuthorId");
 
@@ -61,11 +61,13 @@ namespace Chirp.Razor.Migrations
 
             modelBuilder.Entity("Chirp.Razor.Cheep", b =>
                 {
-                    b.HasOne("Chirp.Razor.Author", null)
+                    b.HasOne("Chirp.Razor.Author", "Author")
                         .WithMany("Cheeps")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Chirp.Razor.Author", b =>

@@ -29,4 +29,3 @@ public class CheepService : ICheepService
         return dbFacade.GetCheepsFromPage(page);
     }
 }
-
