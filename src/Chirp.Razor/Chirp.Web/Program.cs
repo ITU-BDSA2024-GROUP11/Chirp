@@ -1,4 +1,6 @@
-using Chirp.Razor;
+using Chirp.Razor.Chirp.Core;
+using Chirp.Razor.Chirp.Infrastructure;
+using Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
 var app = builder.Build();
@@ -28,6 +30,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 }
+
 app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -37,3 +40,7 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.Run();
+
+namespace Chirp.Razor.Chirp.Web
+{
+}

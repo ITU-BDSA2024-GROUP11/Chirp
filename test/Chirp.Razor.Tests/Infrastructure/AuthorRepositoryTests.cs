@@ -1,14 +1,19 @@
+using Chirp.Razor.Chirp.Core;
+using Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Xunit.Abstractions;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Razor.Tests.Infrastructure;
 
 public class AuthorRepositoryTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     private IAuthorRepository _repository;
 
-    public AuthorRepositoryTests()
+    public AuthorRepositoryTests(ITestOutputHelper testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         Initializer();
     }
 
@@ -39,28 +44,47 @@ public class AuthorRepositoryTests
     }
 
     [Fact]
-    public void FindAuthorByNameTest()
+    public void GetAuthorByNameTest()
     {
-        var result = _repository.FindAuthorByName("Roger Histand");
-        var result2 = _repository.FindAuthorByName("Helge");
-        
+        var result = _repository.GetAuthorByName("Roger Histand");
+        var result2 = _repository.GetAuthorByName("Helge");
+
         Assert.Equal("Roger Histand", result.Name);
         Assert.Equal("Roger+Histand@hotmail.com", result.Email);
 
         Assert.Equal("Helge", result2.Name);
         Assert.Equal("ropf@itu.dk", result2.Email);
     }
-    
+
     [Fact]
-    public void FindAuthorByEmailTest()
+    public void GetAuthorByEmailTest()
     {
-        var result = _repository.FindAuthorByEmail("Wendell-Ballan@gmail.com");
-        var result2 = _repository.FindAuthorByEmail("adho@itu.dk");
-        
+        var result = _repository.GetAuthorByEmail("Wendell-Ballan@gmail.com");
+        var result2 = _repository.GetAuthorByEmail("adho@itu.dk");
+
         Assert.Equal("Wendell Ballan", result.Name);
         Assert.Equal("Wendell-Ballan@gmail.com", result.Email);
 
         Assert.Equal("Adrian", result2.Name);
         Assert.Equal("adho@itu.dk", result2.Email);
+    }
+
+    [Fact]
+    public void CreateAuthorTest()
+    {
+        try
+        {
+            var result = _repository.GetAuthorByName("Jon Lehmann");
+        }
+        catch (Exception e)
+        {
+            _testOutputHelper.WriteLine(e.Message + " with value Jon Lehmann");
+        }
+
+        _repository.CreateAuthor("Jon Lehmann", "jble@itu.dk");
+        var result2 = _repository.FindAuthorByName("Jon Lehmann");
+        Assert.Equal("Jon Lehmann", result2.Name);
+        _testOutputHelper.WriteLine("Author Jon Lehmann was found in DB with id " + result2.AuthorId);
+        Assert.Equal(13, result2.AuthorId);
     }
 }

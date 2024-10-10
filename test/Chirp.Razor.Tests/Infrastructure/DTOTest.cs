@@ -1,4 +1,7 @@
-namespace Chirp.Razor.Tests;
+using Chirp.Razor.Chirp.Core;
+using Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
+
+namespace Chirp.Razor.Tests.Infrastructure;
 
 public class DTOTest
 {
