@@ -6,6 +6,8 @@ namespace Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
 public interface ICheepRepository
 {
     public IEnumerable<Cheep> GetCheeps(int skip = 0, string? authorUsername = null);
+    public void CreateCheep(string text, int authorId);
+    public Cheep GetLastCheep();
 }
 
 public class CheepRepository : ICheepRepository
@@ -32,17 +34,7 @@ public class CheepRepository : ICheepRepository
         return query.ToList();
     }
 
-    public static CheepDTO CheepToDTO(Cheep cheep)
-    {
-        return new CheepDTO
-        {
-            Text = cheep.Text,
-            Author = cheep.Author.Name,
-            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")
-        };
-    }
-
-    public void AddCheep(string text, int authorId)
+    public void CreateCheep(string text, int authorId)
     {
         var authorRepository = new AuthorRepository(_dbContext);
         // Create a cheep object
@@ -59,6 +51,21 @@ public class CheepRepository : ICheepRepository
 
         // Save changes to the database
         _dbContext.SaveChanges();
+    }
+
+    public Cheep GetLastCheep()
+    {
+        return _dbContext.Cheeps.OrderByDescending(c => c.TimeStamp).FirstOrDefault();
+    }
+
+    public static CheepDTO CheepToDTO(Cheep cheep)
+    {
+        return new CheepDTO
+        {
+            Text = cheep.Text,
+            Author = cheep.Author.Name,
+            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")
+        };
     }
 }
 
