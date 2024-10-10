@@ -11,6 +11,7 @@ public class UserTimelineModel : PageModel
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
+        Cheeps = new List<CheepViewModel>();
     }
 
     public ActionResult OnGet([FromQuery] int page, string author)
