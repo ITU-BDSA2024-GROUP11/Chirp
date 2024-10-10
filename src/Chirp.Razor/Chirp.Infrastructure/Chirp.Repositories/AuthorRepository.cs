@@ -6,9 +6,9 @@ public interface IAuthorRepository
 {
     AuthorDTO GetAuthorByName(string name);
     AuthorDTO GetAuthorByEmail(string email);
-    Author FindAuthorByName(string name);
     Author FindAuthorById(int id);
     void CreateAuthor(string name, string email);
+    Author FindAuthorByName(string name);
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -64,7 +64,7 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
-    public Author FindAuthorByEmail(string email)
+    private Author FindAuthorByEmail(string email)
     {
         var query = from author in _dbContext.Authors
             where author.Email == email
