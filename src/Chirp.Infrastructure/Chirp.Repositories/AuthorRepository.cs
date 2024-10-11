@@ -1,13 +1,8 @@
-namespace Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Core.DTO;
+using Chirp.Core.RepositoryInterfaces;
+using Chirp.Infrastructure.DataModel;
 
-public interface IAuthorRepository
-{
-    AuthorDTO GetAuthorByName(string name);
-    AuthorDTO GetAuthorByEmail(string email);
-    Author FindAuthorById(int id);
-    void CreateAuthor(string name, string email);
-    Author FindAuthorByName(string name);
-}
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public class AuthorRepository : IAuthorRepository
 {
@@ -32,15 +27,6 @@ public class AuthorRepository : IAuthorRepository
         return authorDTO;
     }
 
-    public Author FindAuthorById(int id)
-    {
-        var query = from author in _dbContext.Authors
-            where author.AuthorId == id
-            select author;
-        var result = query.First();
-        return result;
-    }
-
     public void CreateAuthor(string name, string email)
     {
         var author = new Author
@@ -51,6 +37,15 @@ public class AuthorRepository : IAuthorRepository
         };
         _dbContext.Authors.Add(author);
         _dbContext.SaveChanges();
+    }
+
+    public Author FindAuthorById(int id)
+    {
+        var query = from author in _dbContext.Authors
+            where author.AuthorId == id
+            select author;
+        var result = query.First();
+        return result;
     }
 
     public Author FindAuthorByName(string name)
@@ -79,10 +74,4 @@ public class AuthorRepository : IAuthorRepository
             Email = author.Email
         };
     }
-}
-
-public class AuthorDTO
-{
-    public string Name { get; set; }
-    public string Email { get; set; }
 }

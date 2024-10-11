@@ -1,9 +1,9 @@
-namespace Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Core.DTO;
+using Chirp.Core.RepositoryInterfaces;
+using Chirp.Infrastructure.DataModel;
+using Microsoft.EntityFrameworkCore;
 
-public interface ICheepRepository
-{
-    public IEnumerable<Cheep> GetCheeps(int skip = 0, string? authorUsername = null);
-}
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
@@ -15,7 +15,7 @@ public class CheepRepository : ICheepRepository
         _dbContext = dbContext;
     }
 
-    public IEnumerable<Cheep> GetCheeps(int skip = 0, string? authorUsername = null)
+    public List<CheepDTO> GetCheeps(int skip = 0, string? authorUsername = null)
     {
         var query = _dbContext.Cheeps.Include(cheep => cheep.Author)
             .AsQueryable();
@@ -26,7 +26,11 @@ public class CheepRepository : ICheepRepository
         // Skip and take based on the parameters
         query = query.Skip(skip);
 
-        return query.ToList();
+        query.ToList();
+        var result = new List<CheepDTO>();
+        foreach (var cheep in query) result.Add(CheepToDTO(cheep));
+
+        return result;
     }
 
     public static CheepDTO CheepToDTO(Cheep cheep)
@@ -57,11 +61,4 @@ public class CheepRepository : ICheepRepository
         // Save changes to the database
         _dbContext.SaveChanges();
     }
-}
-
-public class CheepDTO
-{
-    public string Text { get; set; }
-    public string Author { get; set; }
-    public string TimeStamp { get; set; }
 }

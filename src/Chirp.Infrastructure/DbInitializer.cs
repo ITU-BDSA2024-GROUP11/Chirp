@@ -1,4 +1,6 @@
-namespace Chirp.Core;
+using Chirp.Infrastructure.DataModel;
+
+namespace Chirp.Infrastructure;
 
 public static class DbInitializer
 {
