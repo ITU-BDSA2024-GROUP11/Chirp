@@ -1,4 +1,5 @@
-﻿using Chirp.Razor.Chirp.Infrastructure;
+﻿using Chirp.Core.CheepServiceInterface;
+using Chirp.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,10 +14,11 @@ public class UserTimelineModel : PageModel
         _service = service;
     }
 
-    public List<CheepViewModel> Cheeps { get; set; }
+    public List<CheepDTO> Cheeps { get; set; }
 
     public ActionResult OnGet([FromQuery] int page, string author)
     {
+        if (page == 0) page = 1;
         Cheeps = _service.GetCheepsFromAuthor(author, page);
         return Page();
     }

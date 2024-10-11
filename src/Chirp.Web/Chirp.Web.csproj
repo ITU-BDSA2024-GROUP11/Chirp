@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Chirp.Web</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,13 +21,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Pages\Shared\"/>
+        <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="Chirp.Web\Pages\Public.cshtml"/>
-        <AdditionalFiles Include="Chirp.Web\Pages\Shared\_Layout.cshtml"/>
-        <AdditionalFiles Include="Chirp.Web\Pages\UserTimeline.cshtml"/>
+        <None Include="Pages\Public.cshtml"/>
+        <None Include="Pages\Shared\_Layout.cshtml"/>
+        <None Include="Pages\UserTimeline.cshtml"/>
+        <None Include="wwwroot\css\style.css"/>
+        <None Include="wwwroot\favicon\favicon.ico"/>
+        <None Include="wwwroot\images\icon1.png"/>
     </ItemGroup>
 
 </Project>

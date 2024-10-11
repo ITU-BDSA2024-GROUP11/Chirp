@@ -1,7 +1,7 @@
-using Chirp.Razor.Chirp.Core;
-using Chirp.Razor.Chirp.Infrastructure;
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Chirp.Core.CheepServiceInterface;
+using Chirp.Core.RepositoryInterfaces;
+using Chirp.Infrastructure;
+using Chirp.Infrastructure.Chirp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +41,6 @@ app.MapRazorPages();
 
 app.Run();
 
-namespace Chirp.Razor.Chirp.Web
+namespace Chirp.Razor
 {
 }

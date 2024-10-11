@@ -1,4 +1,4 @@
-namespace Chirp.Razor.Chirp.Infrastructure;
+namespace Chirp.Infrastructure;
 
 public record Message(int message_id, int author_id, string message, int pub_date);
 

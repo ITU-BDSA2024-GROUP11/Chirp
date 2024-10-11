@@ -1,6 +1,4 @@
-using Chirp.Razor.Chirp.Core;
-
-namespace Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public interface IAuthorRepository
 {
