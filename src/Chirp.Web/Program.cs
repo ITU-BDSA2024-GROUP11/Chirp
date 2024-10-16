@@ -28,7 +28,7 @@ if (!app.Environment.IsDevelopment())
 // Migrate Database and Seed
 using (var scope = app.Services.CreateScope())
 {
-    using var context = scope.ServiceProvider.GetService<ChirpDBContext>();
+    using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
     context.Database.EnsureCreated();
     DbInitializer.SeedDatabase(context);
 }
