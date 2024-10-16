@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f7d5973-54c6-4f45-9a0e-14a72952582d" name="Changes" comment="" />
+    <list default="true" id="3f7d5973-54c6-4f45-9a0e-14a72952582d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Chirp.Infrastructure/DataModel/Cheep.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chirp.Infrastructure/DataModel/Cheep.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +14,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/test/Chirp.Infrastructure.Tests/CheepConstraintsTest.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -25,7 +30,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Onion",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -44,6 +49,7 @@
       <updated>1726574610716</updated>
       <workItem from="1726574612195" duration="17000" />
       <workItem from="1726574638381" duration="279000" />
+      <workItem from="1729082884608" duration="93000" />
     </task>
     <servers />
   </component>
