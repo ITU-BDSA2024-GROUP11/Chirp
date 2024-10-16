@@ -1,3 +1,4 @@
+using System.Globalization;
 using Chirp.Core.DTO;
 using Chirp.Core.RepositoryInterfaces;
 using Chirp.Infrastructure.DataModel;
@@ -59,7 +60,7 @@ public class CheepRepository : ICheepRepository
         {
             Text = cheep.Text,
             Author = cheep.Author.Name,
-            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss")
+            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         };
     }
 
