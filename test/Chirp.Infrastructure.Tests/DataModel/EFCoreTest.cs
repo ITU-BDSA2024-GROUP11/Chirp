@@ -1,7 +1,7 @@
-using Chirp.Razor.Chirp.Core;
+using Chirp.Infrastructure.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Tests.Model;
+namespace Chirp.Infrastructure.Tests;
 
 public class EFCoreTest
 {

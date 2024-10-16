@@ -1,7 +1,7 @@
-using Chirp.Razor.Chirp.Core;
-using Chirp.Razor.Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.DataModel;
 
-namespace Chirp.Razor.Tests.Infrastructure;
+namespace Chirp.Infrastructure.Tests;
 
 public class DTOTest
 {
