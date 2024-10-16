@@ -1,5 +1,6 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup11chirprazor
 
 on:
@@ -39,20 +40,20 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # This is required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FB57BEE3841B4AB7BDB3E2ABEC5F53BE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D2B0AEC30EEC46888F9F45CE0444A8F1 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_82970DD98ABC452B80158EFA18934258 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_91B09532813044739956BC3C5670A12E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C1C7FD0DFB3F45CE998DF7CA98F5D245 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_37A23F27D993459AB973976FFC17EEA7 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -61,4 +62,4 @@ jobs:
           app-name: 'bdsagroup11chirprazor'
           slot-name: 'Production'
           package: .
-          startup-command: 'dotnet Chirp.Razor.dll'
+          
