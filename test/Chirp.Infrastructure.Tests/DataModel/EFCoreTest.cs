@@ -8,8 +8,15 @@ public class EFCoreTest
     [Fact]
     public void CheepTest()
     {
+        var author = new Author
+        {
+            Name = "John Doe",
+            Email = "",
+            AuthorId = 1,
+            Cheeps = new List<Cheep>()
+        };
         var timestamp = DateTime.Now;
-        var cheep = new Cheep { Text = "Hello", TimeStamp = timestamp, AuthorId = 1, CheepId = 1 };
+        var cheep = new Cheep { Text = "Hello", TimeStamp = timestamp, Author = author, AuthorId = 1, CheepId = 1 };
         Assert.Equal("Hello", cheep.Text);
         Assert.Equal(timestamp, cheep.TimeStamp);
         Assert.Equal(1, cheep.AuthorId);
@@ -30,7 +37,7 @@ public class EFCoreTest
     {
         var timestamp = DateTime.Now;
         var author = new Author { Name = "John Doe", Email = "jd@gmail.com", AuthorId = 1, Cheeps = new List<Cheep>() };
-        var cheep = new Cheep { AuthorId = 1, CheepId = 1, Text = "Hello", TimeStamp = timestamp };
+        var cheep = new Cheep { AuthorId = 1, CheepId = 1, Author = author, Text = "Hello", TimeStamp = timestamp };
         author.AddCheep(cheep);
         Assert.Single(author.Cheeps);
         Assert.Equal(cheep, author.Cheeps[0]);
