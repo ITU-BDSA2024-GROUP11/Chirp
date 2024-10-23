@@ -9,7 +9,7 @@
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="Identity"
            asp-page="/Account/Manage/Index" title="Manage">
-            Hello @User.Identity.Name!</a>
+            Hello @User.Identity?.Name!</a> //Question mark safely returns null for warning CS8602.
     </li>
     <li class="nav-item">
         <form class="form-inline" asp-page="/Account/Logout"
