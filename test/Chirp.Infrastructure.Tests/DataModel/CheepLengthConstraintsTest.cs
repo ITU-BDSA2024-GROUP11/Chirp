@@ -1,36 +1,58 @@
-/*using System;
+using System;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 using Chirp.Infrastructure.DataModel;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Chirp.Repositories;
 using System.ComponentModel.DataAnnotations;
+using Chirp.Core.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 
 namespace Chirp.Infrastructure.Tests;
 
-public class CheepLengthConstraintsTest {
-    [Fact]
+public class CheepConstraintsTest {
+    private CheepRepository _cheepRepository;
+    private IAuthorRepository _authorRepository;
+    private readonly ITestOutputHelper _testOutputHelper;
+    
+    public CheepConstraintsTest(ITestOutputHelper testOutputHelper)
+    {
+        
+        _testOutputHelper = testOutputHelper;
+        Initializer();
+    }
 
-    public void cheepLength() {
-        Author Lisa = new Author{AuthorId = 1, Name = "Lisa Hauge", Email = "Yourdad@gmail.com", 
-            Cheeps = new List<Cheep>()};
-        AddCheep("This one is allowed here", 1);
-
-        Author Oliver = new Author{AuthorId = 2, Name = "Oliver Brinch", Email = "Yourmom@gmail.com", 
-            Cheeps = new List<Cheep>()};
-        AddCheep("This cheep right here is definetly not allowed, it is too fucking long, i will not accept it, it is plain stupid, but i mean what else could you expect, typical behaviour", 2);
-
+    private async void Initializer()
+    {
         var connection = new SqliteConnection("Filename=:memory:");
         await connection.OpenAsync();
         var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlite(connection);
-
         var context = new ChirpDBContext(builder.Options);
+        
         await context.Database.EnsureCreatedAsync();
-
-        _repository = new AuthorRepository(context);
+        
+        _authorRepository = new AuthorRepository(context);
+        _cheepRepository = new CheepRepository(context);
         DbInitializer.SeedDatabase(context);
-
-        Assert.Equal("This one is allowed here", DbInitializer.SeedDatabase("This one is allowed here"));
-        //Assert.Equal();
     }
-}*/
+
+    [Fact]
+    public void CheepLength() 
+    {
+        _authorRepository.CreateAuthor("Lisa Hauge", "Yourdad@gmail.com");
+        _cheepRepository.AddCheep("This one is allowed here", 13);
+
+        _authorRepository.CreateAuthor("Oliver Brinch", "Yourmom@gmail.com");
+        _cheepRepository.AddCheep("This cheep right here is definetly not allowed, it is too fucking long, i will not accept it, it is plain stupid, but i mean what else could you expect, typical behaviour, Well go for even longer. WOooooooooooooW So looooooong", 14);
+        
+        Assert.Equal(1, _cheepRepository.GetCheeps(1, "Lisa Hauge").Count());
+        
+        foreach (var cheep in _cheepRepository.GetCheeps(1, "Oliver Brinch"))
+        {
+            _testOutputHelper.WriteLine(cheep.Text);
+        }
+
+        Assert.Equal(0, _cheepRepository.GetCheeps(1, "Oliver Brinch").Count());
+    }
+}
