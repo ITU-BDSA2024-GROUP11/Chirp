@@ -15,6 +15,10 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ChirpDBContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,7 +33,7 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
-    context.Database.EnsureCreated();
+    context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 }
 

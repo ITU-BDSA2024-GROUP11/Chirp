@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.DataModel;
 
-public class ChirpDBContext : DbContext
+public class ChirpDBContext : IdentityDbContext<ApplicationUser>
 {
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
     {
