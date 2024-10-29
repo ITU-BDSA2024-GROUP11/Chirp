@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 </head>
 <body>
-<div class=page>
+<div class="page">
     <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
 
-    <div class=body>
-            @RenderBody()
+    <div class="navigation">
+        @if (User.Identity?.IsAuthenticated == true) //Checks user auth and safely returns null for warning CS8602.
+        {
+            <div>
+                <a href="/@(User.Identity?.Name)">my timeline</a> | //References to the user's timeline.
+                <a href="/">public timeline</a> | //References to the public timeline.
+                <a ...>logout [@(User.Identity?.Name)]</a> //References to the logout button.
+            </div>
+        }
+        else
+        {
+            <div>
+                <a href="/">public timeline</a> | //References to the public timeline.
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" href="/Identity/Account/Register">register</a> //References to the register button.
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" href="/Identity/Account/Login">login</a> //References to the login button.
+            </div>
+        }
     </div>
-    <div class=footer>
+
+    <div class="body">
+        @RenderBody()
+    </div>
+    <div class="footer">
         Chirp &mdash; An ASP.NET Application
     </div>
 </div>
 
+<partial name="_LoginPartial"/>
+
 </body>
-@await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", false)
 </html>
