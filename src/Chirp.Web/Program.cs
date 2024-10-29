@@ -5,16 +5,6 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.EntityFrameworkCore;
 
-// Delete the chirp.db file if it exists
-// Construct the correct path to the chirp.db file
-var dbFilePath = Path.Combine(Directory.GetCurrentDirectory(), "chirp.db");
-Console.WriteLine("HERE: " + dbFilePath);
-if (File.Exists(dbFilePath))
-{
-    Console.WriteLine("Deleting existing database file chirp.db");
-    File.Delete(dbFilePath);
-}
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
