@@ -1,38 +1,40 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Chirp.Web</RootNamespace>
-    </PropertyGroup>
+      <UserSecretsId>dc0bd024-f394-4b0f-a5d8-e9340b4d8a49</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10"/>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8"/>
+        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="data/**/*"/>
+        <EmbeddedResource Include="data/**/*" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="Pages\Public.cshtml"/>
-        <None Include="Pages\Shared\_Layout.cshtml"/>
-        <None Include="Pages\UserTimeline.cshtml"/>
-        <None Include="wwwroot\css\style.css"/>
-        <None Include="wwwroot\favicon\favicon.ico"/>
-        <None Include="wwwroot\images\icon1.png"/>
+        <None Include="Pages\Public.cshtml" />
+        <None Include="Pages\Shared\_Layout.cshtml" />
+        <None Include="Pages\UserTimeline.cshtml" />
+        <None Include="wwwroot\css\style.css" />
+        <None Include="wwwroot\favicon\favicon.ico" />
+        <None Include="wwwroot\images\icon1.png" />
     </ItemGroup>
 
 </Project>

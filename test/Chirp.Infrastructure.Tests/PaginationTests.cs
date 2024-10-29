@@ -17,6 +17,7 @@ public class PaginationTests
         var options = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlite(connection).Options;
         var context = new ChirpDBContext(options);
         context.Database.EnsureCreated();
+
         DbInitializer.SeedDatabase(context);
         _repository = new CheepRepository(context);
     }
