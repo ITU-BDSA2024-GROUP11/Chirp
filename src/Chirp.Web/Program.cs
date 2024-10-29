@@ -20,6 +20,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ChirpDBContext>();
 
 var app = builder.Build();
+app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
