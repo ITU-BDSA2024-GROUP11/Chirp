@@ -4,6 +4,7 @@ using Chirp.Infrastructure;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -11,11 +11,17 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10"/>
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -33,6 +39,10 @@
         <None Include="wwwroot\css\style.css"/>
         <None Include="wwwroot\favicon\favicon.ico"/>
         <None Include="wwwroot\images\icon1.png"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Areas\Identity\Data\"/>
     </ItemGroup>
 
 </Project>
