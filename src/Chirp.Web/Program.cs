@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 var app = builder.Build();
-
+app.UseDeveloperExceptionPage();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -59,7 +59,7 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.SeedDatabase(context);
 }
 
-app.UseDeveloperExceptionPage();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
