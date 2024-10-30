@@ -74,4 +74,10 @@ public class AuthorRepository : IAuthorRepository
             Email = author.Email
         };
     }
+    
+    public int GetAuthorID(string username)
+    {
+        var result = FindAuthorByName(username);
+        return result.AuthorId;
+    }
 }
