@@ -15,6 +15,7 @@ Layout = "Shared/_Layout";
         <form method="post" asp-page-handler="SendCheep">
             <input style="float: left" type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()" >
             <input type="submit" value="Share">
+            <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character limit!</span>
         </form>
     </div>
     }
