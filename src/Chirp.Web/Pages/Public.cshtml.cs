@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
-using Chirp.Core.CheepServiceInterface;
+﻿using Chirp.Core.CheepServiceInterface;
 using Chirp.Core.DTO;
 using Chirp.Core.RepositoryInterfaces;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -41,7 +39,7 @@ public class PublicModel : PageModel
         }
 
         Console.WriteLine(User.Identity.Name);
-        _authorRepository.CreateAuthor(User.Identity.Name, "TEST");
+        _authorRepository.CreateAuthor(User.Identity.Name, User.Identity.Name);
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
         return RedirectToPage();
     }
