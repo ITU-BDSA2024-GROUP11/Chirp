@@ -63,7 +63,6 @@ public class RegisterModel : PageModel
     /// </summary>
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-
     public async Task OnGetAsync(string returnUrl = null)
     {
         ReturnUrl = returnUrl;
