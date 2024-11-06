@@ -41,6 +41,7 @@ public class PublicModel : PageModel
         }
 
         Console.WriteLine(User.Identity.Name);
+        _authorRepository.CreateAuthor(User.Identity.Name, "TEST");
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
         return RedirectToPage();
     }

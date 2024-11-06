@@ -29,6 +29,7 @@ public class AuthorRepository : IAuthorRepository
 
     public void CreateAuthor(string name, string email)
     {
+        if(FindAuthorByEmail(email) == null) return;
         var author = new Author
         {
             Name = name,
@@ -62,7 +63,7 @@ public class AuthorRepository : IAuthorRepository
         var query = from author in _dbContext.Authors
             where author.Email == email
             select author;
-        var result = query.First();
+        var result = query.FirstOrDefault();
         return result;
     }
 
