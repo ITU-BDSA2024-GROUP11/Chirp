@@ -29,7 +29,7 @@ public class AuthorRepository : IAuthorRepository
 
     public void CreateAuthor(string name, string email)
     {
-        if(FindAuthorByEmail(email) == null) return;
+        if (FindAuthorByEmail(email) != null) return;
         var author = new Author
         {
             Name = name,
@@ -38,6 +38,12 @@ public class AuthorRepository : IAuthorRepository
         };
         _dbContext.Authors.Add(author);
         _dbContext.SaveChanges();
+    }
+
+    public int GetAuthorID(string username)
+    {
+        var result = FindAuthorByName(username);
+        return result.AuthorId;
     }
 
     public Author FindAuthorById(int id)
@@ -74,11 +80,5 @@ public class AuthorRepository : IAuthorRepository
             Name = author.Name,
             Email = author.Email
         };
-    }
-    
-    public int GetAuthorID(string username)
-    {
-        var result = FindAuthorByName(username);
-        return result.AuthorId;
     }
 }
