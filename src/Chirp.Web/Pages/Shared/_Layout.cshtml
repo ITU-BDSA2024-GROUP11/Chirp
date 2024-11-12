@@ -34,9 +34,28 @@
     </div>
     <div class="footer">
         Chirp &mdash; An ASP.NET Application
+        <button onclick="changePage(-1)"> Previous</button>
+        <button onclick="changePage(1)">Next page</button>
     </div>
 </div>
 
+<script>
+    //This script is used to change the page number in the URL.
+    function getCurrentPage(){
+    const urlParams = new URLSearchParams(window.location.search);
+    return parseInt(urlParams.get('page')) || 1;
+    }
+    
+    function changePage(delta) {
+        const currentPage = getCurrentPage();
+        let newPage = currentPage + delta;
+        if (newPage <= 0) {
+            newPage = 1;
+        }
+        window.location.href = `?page=${newPage}`;
+    }
+
+</script>
 <partial name="_LoginPartial"/>
 
 </body>
