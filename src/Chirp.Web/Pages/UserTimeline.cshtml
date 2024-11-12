@@ -8,6 +8,33 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+    <div class="cheepbox">
+        <h3>What's on your mind @(User.Identity.Name)?</h3>
+        <form method="post" asp-page-handler="SendCheep">
+            <div style="display: flex; align-items: center;">
+                <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()" style="float: left; margin-right: 10px;">
+                <input type="submit" value="Share" style="margin-left: 10px;">
+            </div>
+            <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character limit!</span>
+        </form>
+    </div>
+    }
+    
+    <script>
+        function checkCharacterLimit() {
+            var cheepInput = document.getElementById("cheepText");
+            var message = document.getElementById("charLimitMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+    </script>
+    
 
     @if (Model.Cheeps.Any())
     {
