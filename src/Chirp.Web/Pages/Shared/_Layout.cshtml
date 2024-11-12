@@ -40,6 +40,7 @@
 </div>
 
 <script>
+    //This script is used to change the page number in the URL.
     function getCurrentPage(){
     const urlParams = new URLSearchParams(window.location.search);
     return parseInt(urlParams.get('page')) || 1;
@@ -53,6 +54,7 @@
         }
         window.location.href = `?page=${newPage}`;
     }
+
 </script>
 <partial name="_LoginPartial"/>
 
