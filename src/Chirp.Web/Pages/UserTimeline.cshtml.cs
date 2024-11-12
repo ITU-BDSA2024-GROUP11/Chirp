@@ -1,5 +1,6 @@
 ﻿using Chirp.Core.CheepServiceInterface;
 using Chirp.Core.DTO;
+using Chirp.Core.RepositoryInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,11 +8,13 @@ namespace Chirp.Razor.Pages;
 
 public class UserTimelineModel : PageModel
 {
+    private readonly IAuthorRepository _authorRepository;
     private readonly ICheepService _service;
 
-    public UserTimelineModel(ICheepService service)
+    public UserTimelineModel(ICheepService service, IAuthorRepository authorService)
     {
         _service = service;
+        _authorRepository = authorService;
     }
 
     public List<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
@@ -35,8 +38,8 @@ public class UserTimelineModel : PageModel
             return Page();
         }
 
-        var authorId = _service.GetAuthorID(User.Identity.Name); // Adjust this as needed
-        _service.AddCheep(NewCheepText, authorId);
+        _authorRepository.CreateAuthor(User.Identity.Name, User.Identity.Name);
+        _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
 
         return RedirectToPage(new { author = User.Identity.Name });
     }
