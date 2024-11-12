@@ -38,4 +38,9 @@ public class CheepService : ICheepService
     {
         return _authorRepository.GetAuthorID(username);
     }
+
+    public int GetCheepCount()
+    {
+        return _cheepRepository.GetCheepCount();
+    }
 }

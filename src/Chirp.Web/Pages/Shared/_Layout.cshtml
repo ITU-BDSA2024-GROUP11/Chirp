@@ -1,5 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+@using Chirp.Core.CheepServiceInterface
+@using Chirp.Infrastructure
+@inject ICheepService CheepService
 <head>
     <title>@ViewData["Title"]</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css"/>
@@ -36,15 +39,17 @@
         Chirp &mdash; An ASP.NET Application
         <div class="button-group">
             <button onclick="goToFirstPage()">First</button>
-            <button onclick="changePage(-1)">Previous</button>
+            <button id="previous-button" onclick="changePage(-1)">Previous</button>
             <span id="page-number"></span>
-            <button onclick="changePage(1)">Next</button>
+            <button id="next-button" onclick="changePage(1)">Next</button>
             <button onclick="goToLastPage()">Last</button>
         </div>
     </div>
 
-<script>
-    //This script is used to change the page number in the URL.
+    <script>
+    let totalPages = @Math.Ceiling(@CheepService.GetCheepCount()/32.0)
+    
+    //This script is used to change the page number in the URL
     function getCurrentPage(){
     const urlParams = new URLSearchParams(window.location.search);
     return parseInt(urlParams.get('page')) || 1;
@@ -56,7 +61,20 @@
         if (newPage <= 0) {
             newPage = 1;
         }
+        if (newPage >= totalPages) {
+            checkPageButtons();
+        }
         window.location.href = `?page=${newPage}`;
+    }
+    
+    function checkPageButtons() {
+        const nextButton = document.getElementById("next-button");
+
+        if (currentPage === totalPages) {
+            nextButton.disabled = true;
+        } else {
+            nextButton.disabled = false;
+        }
     }
 
     function displayCurrentPage() {
@@ -69,16 +87,16 @@
     function goToFirstPage() {
         window.location.href = `?page=${1}`;
     }
-    
-    /*
+
     function goToLastPage() {
-    let lastpage = 
-        window.location.href = `?page=${lastpage}`;
-    }*/
+        window.location.href = `?page=${totalPages}`;
+    }
 
-</script>
-<partial name="_LoginPartial"/>
+    
+    </script>
+    <partial name="_LoginPartial"/>
 
+</div>
 </body>
 @await RenderSectionAsync("Scripts", false)
 </html>
