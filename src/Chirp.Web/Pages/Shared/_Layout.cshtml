@@ -34,10 +34,12 @@
     </div>
     <div class="footer">
         Chirp &mdash; An ASP.NET Application
-        <button onclick="changePage(-1)"> Previous</button>
-        <button onclick="changePage(1)">Next page</button>
+        <div class="button-group">
+            <button onclick="changePage(-1)">Previous</button>
+            <span id="page-number">Page 1</span>
+            <button onclick="changePage(1)">Next page</button>
+        </div>
     </div>
-</div>
 
 <script>
     //This script is used to change the page number in the URL.
