@@ -5,10 +5,10 @@
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
-@*&& User.Identity.Name == routeName*@
+
 <div>
     <h2> @routeName's Timeline </h2>
-    
+
     @if (User.Identity?.IsAuthenticated == true && routeName.Equals(User.Identity.Name))
     {
 
