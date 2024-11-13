@@ -66,6 +66,10 @@ public class CheepRepository : ICheepRepository
 
     public void AddCheep(string text, int authorId)
     {
+        if (text.Length > 160)
+        {
+            return;
+        }
         // Create a cheep object
         var newCheep = new Cheep
         {
