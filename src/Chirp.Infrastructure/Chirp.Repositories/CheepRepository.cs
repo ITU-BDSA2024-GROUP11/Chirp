@@ -86,4 +86,9 @@ public class CheepRepository : ICheepRepository
     {
         return _dbContext.Cheeps.Count();
     }
+
+    public int GetCheepCountByAuthorId(int authorId)
+    {
+        return _dbContext.Cheeps.Where(cheep => cheep.AuthorId == authorId).Count();
+    }
 }
