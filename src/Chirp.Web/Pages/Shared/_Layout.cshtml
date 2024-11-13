@@ -64,7 +64,7 @@
         if (newPage <= 0) {
             newPage = 1;
         }
-        if (newPage >= totalPages) {
+        if (newPage === totalPages + 1) {
             checkPageButtons();
         }
         window.location.href = `?page=${newPage}`;
