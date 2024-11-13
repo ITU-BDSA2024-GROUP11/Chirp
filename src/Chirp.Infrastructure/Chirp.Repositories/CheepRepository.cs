@@ -81,4 +81,9 @@ public class CheepRepository : ICheepRepository
         // Save changes to the database
         _dbContext.SaveChanges();
     }
+
+    public int GetCheepCount()
+    {
+        return _dbContext.Cheeps.Count();
+    }
 }
