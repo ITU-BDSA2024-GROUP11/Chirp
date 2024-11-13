@@ -8,6 +8,10 @@ Layout = "Shared/_Layout";
 <div>
     <h2> Public Timeline </h2>
 
+    @{
+    ViewData["Title"] = "Timeline";
+    }
+    
     @if (User.Identity?.IsAuthenticated == true)
     {
     <div class="cheepbox">
