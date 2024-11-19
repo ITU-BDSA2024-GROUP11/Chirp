@@ -37,6 +37,7 @@ public class UserTimelineModel : PageModel
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
             return Page();
         }
+        // Cheep length logic here too?
 
         _authorRepository.CreateAuthor(User.Identity.Name, User.Identity.Name);
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
