@@ -15,9 +15,11 @@
         cheepCount = Math.Ceiling(CheepService.GetCheepCount() / 32.0);
     } else if (ViewData["Title"]?.ToString() == "MyTimeline")
     {
-        cheepCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(User.Identity.Name)) / 32.0);
-        Console.WriteLine("HERE123" + cheepCount);
-        if (cheepCount == 0)
+        try
+        {
+            cheepCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(User.Identity.Name)) / 32.0);
+        }
+        catch (Exception)
         {
             cheepCount = 1;
         }
