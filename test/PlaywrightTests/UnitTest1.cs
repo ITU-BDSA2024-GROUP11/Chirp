@@ -12,7 +12,7 @@ public class ExampleTest : PageTest
     public async Task GetStartedLink()
     {
         await Page.GotoAsync("https://bdsagroup011chirprazor.azurewebsites.net/");
-        await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
+        await Expect(Page).ToHaveTitleAsync(new Regex("PublicTimeline"));
     }
 
     [Test]
