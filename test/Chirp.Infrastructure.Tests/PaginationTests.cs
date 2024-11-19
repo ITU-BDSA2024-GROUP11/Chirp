@@ -50,4 +50,5 @@ public class PaginationTests
         var cheeps = _repository.GetCheeps(2);
         Assert.Equal("Nathan Sirmon", cheeps[1].Author);
     }
+
 }
