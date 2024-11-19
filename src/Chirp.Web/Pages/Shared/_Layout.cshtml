@@ -8,17 +8,24 @@
 
 @{
     var isTimeline = ViewData["Title"]?.ToString() == "PublicTimeline" || ViewData["Title"]?.ToString() == "MyTimeline";
-    var cheepCount = 0.0;
+    var pageCount = 0.0;
     
     if (ViewData["Title"]?.ToString() == "PublicTimeline")
     {
-        cheepCount = Math.Ceiling(CheepService.GetCheepCount() / 32.0);
+        pageCount = Math.Ceiling(CheepService.GetCheepCount() / 32.0);
     } else if (ViewData["Title"]?.ToString() == "MyTimeline")
     {
-        cheepCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(User.Identity.Name)) / 32.0);
+        try
+        {
+            pageCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(User.Identity.Name)) / 32.0);
+        }
+        catch (Exception)
+        {
+            pageCount = 1;
+        }
     }
 
-    isTimeline = cheepCount > 1;
+    isTimeline = pageCount > 1;
 }
 
 <head>
@@ -68,7 +75,7 @@
     </div>
 
     <script>
-    let totalPages = @cheepCount;
+    let totalPages = @pageCount;
     
     //This script is used to change the page number in the URL
     function getCurrentPage(){
