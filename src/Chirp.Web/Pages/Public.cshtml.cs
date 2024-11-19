@@ -37,9 +37,6 @@ public class PublicModel : PageModel
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
             return Page();
         }
-
-        Console.WriteLine(User.Identity.Name);
-        _authorRepository.CreateAuthor(User.Identity.Name, User.Identity.Name);
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
         return RedirectToPage();
     }

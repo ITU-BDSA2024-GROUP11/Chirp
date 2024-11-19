@@ -29,10 +29,9 @@ public class AuthorRepository : IAuthorRepository
 
     public void CreateAuthor(string name, string email)
     {
-        if (FindAuthorByEmail(email) != null) return;
         var author = new Author
         {
-            Name = name,
+            UserName = name,
             Email = email,
             Cheeps = new List<Cheep>()
         };
@@ -40,16 +39,16 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.SaveChanges();
     }
 
-    public int GetAuthorID(string username)
+    public string GetAuthorID(string username)
     {
         var result = FindAuthorByName(username);
-        return result.AuthorId;
+        return result.Id;
     }
 
-    public Author FindAuthorById(int id)
+    public Author FindAuthorById(string id)
     {
         var query = from author in _dbContext.Authors
-            where author.AuthorId == id
+            where author.Id == id
             select author;
         var result = query.First();
         return result;
@@ -58,7 +57,7 @@ public class AuthorRepository : IAuthorRepository
     public Author FindAuthorByName(string name)
     {
         var query = from author in _dbContext.Authors
-            where author.Name == name
+            where author.UserName == name
             select author;
         var result = query.First();
         return result;
@@ -77,7 +76,7 @@ public class AuthorRepository : IAuthorRepository
     {
         return new AuthorDTO
         {
-            Name = author.Name,
+            Name = author.UserName,
             Email = author.Email
         };
     }

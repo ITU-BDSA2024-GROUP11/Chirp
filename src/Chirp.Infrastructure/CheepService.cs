@@ -10,12 +10,12 @@ public record User(int user_id, string username, string email);
 
 public class CheepService : ICheepService
 {
-    private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly ICheepRepository _cheepRepository;
 
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        _cheepRepository = cheepRepository; 
+        _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
     }
 
@@ -28,13 +28,13 @@ public class CheepService : ICheepService
     {
         return _cheepRepository.GetCheeps(page);
     }
-    
-    public void AddCheep(string cheepText, int authorid)
+
+    public void AddCheep(string cheepText, string authorid)
     {
         _cheepRepository.AddCheep(cheepText, authorid);
     }
-    
-    public int GetAuthorID(string username)
+
+    public string GetAuthorID(string username)
     {
         return _authorRepository.GetAuthorID(username);
     }
@@ -44,7 +44,7 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCheepCount();
     }
 
-    public int GetCheepCountByAuthorId(int authorId)
+    public int GetCheepCountByAuthorId(string authorId)
     {
         return _cheepRepository.GetCheepCountByAuthorId(authorId);
     }
