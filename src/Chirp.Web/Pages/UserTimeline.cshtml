@@ -8,6 +8,10 @@
 @*&& User.Identity.Name == routeName*@
 <div>
     <h2> @routeName's Timeline </h2>
+
+    @{
+    ViewData["Title"] = "MyTimeline";
+    }
     
     @if (User.Identity?.IsAuthenticated == true && routeName.Equals(User.Identity.Name))
     {

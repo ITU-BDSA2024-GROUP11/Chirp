@@ -8,4 +8,6 @@ public interface ICheepService
     public List<CheepDTO> GetCheepsFromPage(int page);
     public void AddCheep(string cheepText, int authorid);
     public int GetAuthorID(string username);
+    public int GetCheepCount();
+    public int GetCheepCountByAuthorId(int authorid);
 }

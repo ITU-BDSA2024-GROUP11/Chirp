@@ -66,6 +66,10 @@ public class CheepRepository : ICheepRepository
 
     public void AddCheep(string text, int authorId)
     {
+        if (text.Length > 160)
+        {
+            return;
+        }
         // Create a cheep object
         var newCheep = new Cheep
         {
@@ -80,5 +84,15 @@ public class CheepRepository : ICheepRepository
 
         // Save changes to the database
         _dbContext.SaveChanges();
+    }
+
+    public int GetCheepCount()
+    {
+        return _dbContext.Cheeps.Count();
+    }
+
+    public int GetCheepCountByAuthorId(int authorId)
+    {
+        return _dbContext.Cheeps.Where(cheep => cheep.AuthorId == authorId).Count();
     }
 }
