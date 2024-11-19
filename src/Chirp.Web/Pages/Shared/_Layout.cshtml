@@ -79,9 +79,11 @@
     function changePage(delta) {
         const currentPage = getCurrentPage();
         let newPage = currentPage + delta;
+        
         if (newPage <= 0) {
-            newPage = 1;
+            checkPageButtons();
         }
+        
         if (newPage === totalPages + 1) {
             checkPageButtons();
         }
@@ -89,8 +91,15 @@
     }
     
     function checkPageButtons() {
+        const previousButton = document.getElementById("previous-button");
         const nextButton = document.getElementById("next-button");
 
+        if (currentPage === 1) {
+            previousButton.disabled = true;
+        } else {
+            previousButton.disabled = false;
+        }
+        
         if (currentPage === totalPages) {
             nextButton.disabled = true;
         } else {
