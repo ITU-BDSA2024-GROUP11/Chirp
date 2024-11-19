@@ -93,6 +93,7 @@ public class ExampleTest : PageTest
         Assert.AreEqual("http://localhost:5273/", Page.Url);
     }
 
+    /*
     //This test requires the users to not already be registered
     [Test]
     public async Task RegisterAcount()
@@ -114,7 +115,7 @@ public class ExampleTest : PageTest
         //await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
         //Console.WriteLine(await Page.GetByText("Thank you for confirming your").TextContentAsync());
     }
-    
+    */
     /*
     public async Task Login
     */
