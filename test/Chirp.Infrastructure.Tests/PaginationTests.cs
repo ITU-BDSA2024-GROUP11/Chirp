@@ -3,12 +3,14 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Chirp.Razor.Tests;
 
 public class PaginationTests
 {
     private readonly CheepRepository _repository;
+    private readonly Mock<IServiceProvider> _serviceProvider;
 
     public PaginationTests()
     {
@@ -18,7 +20,9 @@ public class PaginationTests
         var context = new ChirpDBContext(options);
         context.Database.EnsureCreated();
 
-        DbInitializer.SeedDatabase(context);
+        _serviceProvider = new Mock<IServiceProvider>();
+
+        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
         _repository = new CheepRepository(context);
     }
 

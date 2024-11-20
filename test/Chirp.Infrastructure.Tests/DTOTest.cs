@@ -10,12 +10,12 @@ public class DTOTest
     {
         var Gunner = new Author
         {
-            AuthorId = 1, Name = "Gunner Nielsen", Email = "Yourmom@gmail.com",
+            Id = "1", UserName = "Gunner Nielsen", Email = "Yourmom@gmail.com",
             Cheeps = new List<Cheep>()
         };
         var cheep = new Cheep
         {
-            CheepId = 1, AuthorId = 1, Author = Gunner,
+            CheepId = 1, AuthorId = "1", Author = Gunner,
             Text = "It just do be like it is", TimeStamp = DateTime.Parse("2024-08-01 15:50:32")
         };
 
@@ -30,7 +30,7 @@ public class DTOTest
     {
         var Mike = new Author
         {
-            AuthorId = 2, Name = "Mike Oxlong", Email = "MikeOxlong@gmail.com",
+            Id = "2", UserName = "Mike Oxlong", Email = "MikeOxlong@gmail.com",
             Cheeps = new List<Cheep>()
         };
 

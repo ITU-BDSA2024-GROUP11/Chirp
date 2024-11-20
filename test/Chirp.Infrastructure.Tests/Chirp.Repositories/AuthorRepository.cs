@@ -2,6 +2,7 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit.Abstractions;
 
 namespace Chirp.Infrastructure.Tests.Chirp.Repositories;
@@ -10,6 +11,7 @@ public class AuthorRepositoryTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
     private AuthorRepository _repository;
+    private Mock<IServiceProvider> _serviceProvider;
 
     public AuthorRepositoryTests(ITestOutputHelper testOutputHelper)
     {
@@ -23,21 +25,23 @@ public class AuthorRepositoryTests
         await connection.OpenAsync();
         var builder = new DbContextOptionsBuilder<ChirpDBContext>().UseSqlite(connection);
 
+        _serviceProvider = new Mock<IServiceProvider>();
+
         var context = new ChirpDBContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
 
         _repository = new AuthorRepository(context);
-        DbInitializer.SeedDatabase(context);
+        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
     }
 
     [Fact]
     public void FindAuthorByIDTest()
     {
-        var result = _repository.FindAuthorById(1);
-        var result2 = _repository.FindAuthorById(11);
+        var result = _repository.FindAuthorById("1");
+        var result2 = _repository.FindAuthorById("11");
 
-        Assert.Equal(1, result.AuthorId);
-        Assert.Equal("Roger Histand", result.Name);
+        Assert.Equal("1", result.Id);
+        Assert.Equal("Roger Histand", result.UserName);
         Assert.Equal("Roger+Histand@hotmail.com", result.Email);
 
         Assert.Single(result2.Cheeps);
@@ -83,8 +87,8 @@ public class AuthorRepositoryTests
 
         _repository.CreateAuthor("Jon Lehmann", "jble@itu.dk");
         var result2 = _repository.FindAuthorByName("Jon Lehmann");
-        Assert.Equal("Jon Lehmann", result2.Name);
-        _testOutputHelper.WriteLine("Author Jon Lehmann was found in DB with id " + result2.AuthorId);
-        Assert.Equal(13, result2.AuthorId);
+        Assert.Equal("Jon Lehmann", result2.UserName);
+        _testOutputHelper.WriteLine("Author Jon Lehmann was found in DB with id " + result2.Id);
+        Assert.Equal("13", result2.Id);
     }
 }
