@@ -10,7 +10,6 @@ namespace Chirp.Razor.Tests;
 public class PaginationTests
 {
     private readonly CheepRepository _repository;
-    private readonly Mock<IServiceProvider> _serviceProvider;
 
     public PaginationTests()
     {
@@ -20,9 +19,7 @@ public class PaginationTests
         var context = new ChirpDBContext(options);
         context.Database.EnsureCreated();
 
-        _serviceProvider = new Mock<IServiceProvider>();
-
-        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
+        TestDBInitializer.SeedDatabase(context);
         _repository = new CheepRepository(context);
     }
 

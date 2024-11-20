@@ -12,7 +12,6 @@ public class AuthorRepositoryTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
     private IAuthorRepository _repository;
-    private Mock<IServiceProvider> _serviceProvider;
 
     public AuthorRepositoryTests(ITestOutputHelper testOutputHelper)
     {
@@ -29,9 +28,8 @@ public class AuthorRepositoryTests
         var context = new ChirpDBContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
 
-        _serviceProvider = new Mock<IServiceProvider>();
         _repository = new AuthorRepository(context);
-        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
+        TestDBInitializer.SeedDatabase(context);
     }
 
     [Fact]
