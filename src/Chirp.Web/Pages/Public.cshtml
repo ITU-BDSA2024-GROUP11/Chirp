@@ -13,7 +13,7 @@
     <h2> Public Timeline </h2>
 
     @{
-    ViewData["Title"] = "Public Timeline";
+        ViewData["Title"] = "Public Timeline";
     }
 
     @if (User.Identity?.IsAuthenticated == true)
@@ -53,6 +53,13 @@
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
+                            @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author)
+                            {
+                                <form asp-page-handler="Follow" method="post">
+                                    <input type="hidden" name="authorName" value="@cheep.Author" />
+                                    <button type="submit" class="btn btn-default">Follow</button>
+                                </form>
+                            }
                         </strong>
                         @cheep.Text
                         <small>&mdash; @cheep.TimeStamp</small>

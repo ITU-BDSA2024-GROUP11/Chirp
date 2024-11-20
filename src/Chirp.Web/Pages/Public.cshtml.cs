@@ -37,7 +37,17 @@ public class PublicModel : PageModel
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
             return Page();
         }
+
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
+        return RedirectToPage();
+    }
+
+    public ActionResult OnPostFollow(string authorName)
+    {
+        if (!User.Identity.IsAuthenticated) return RedirectToPage("/Account/Login");
+
+        var authorId = _authorRepository.GetAuthorID(authorName);
+        _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
         return RedirectToPage();
     }
 }

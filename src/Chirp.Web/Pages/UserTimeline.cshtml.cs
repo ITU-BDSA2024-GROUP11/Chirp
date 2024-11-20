@@ -38,8 +38,6 @@ public class UserTimelineModel : PageModel
             return Page();
         }
         // Cheep length logic here too?
-
-        _authorRepository.CreateAuthor(User.Identity.Name, User.Identity.Name);
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
 
         return RedirectToPage(new { author = User.Identity.Name });

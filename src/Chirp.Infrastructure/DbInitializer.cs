@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure;
 
 public static class DbInitializer
 {
-    public async static void SeedDatabase(ChirpDBContext chirpContext, IServiceProvider serviceProvider)
+    public static async void SeedDatabase(ChirpDBContext chirpContext, IServiceProvider serviceProvider)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
@@ -15,58 +15,62 @@ public static class DbInitializer
             var a1 = new Author
             {
                 Id = "182cac86-ec77-417f-83bd-35c6dd7f9391", UserName = "Roger Histand",
-                Email = "Roger+Histand@hotmail.com", Cheeps = []
+                Email = "Roger+Histand@hotmail.com", Cheeps = [], Follows = []
             };
             var a2 = new Author
             {
                 Id = "4bf52408-b693-4ba6-a82d-6946ca4619c2", UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk",
-                Cheeps = []
+                Cheeps = [], Follows = []
             };
             var a3 = new Author
             {
                 Id = "5e7a3446-d9ca-438e-861e-eb09245429d2", UserName = "Wendell Ballan",
-                Email = "Wendell-Ballan@gmail.com", Cheeps = []
+                Email = "Wendell-Ballan@gmail.com", Cheeps = [], Follows = []
             };
             var a4 = new Author
             {
                 Id = "d25286e6-0691-4b6b-b9aa-8bad8343f76a", UserName = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk",
-                Cheeps = []
+                Cheeps = [], Follows = []
             };
             var a5 = new Author
             {
                 Id = "83daf8c1-cc90-4c84-b4ee-f12a4635620c", UserName = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk",
-                Cheeps = []
+                Cheeps = [], Follows = []
             };
             var a6 = new Author
             {
                 Id = "82f0c4b9-32ce-43f5-ade1-6082b0d5151c", UserName = "Mellie Yost", Email = "Mellie+Yost@ku.dk",
-                Cheeps = []
+                Cheeps = [], Follows = []
             };
             var a7 = new Author
             {
                 Id = "a0ea8997-3ba0-46db-9718-5fc15c27dfe6", UserName = "Malcolm Janski",
-                Email = "Malcolm-Janski@gmail.com", Cheeps = []
+                Email = "Malcolm-Janski@gmail.com", Cheeps = [], Follows = []
             };
             var a8 = new Author
             {
                 Id = "4e9d45c2-c1b2-455a-b1d3-767fae48c44c", UserName = "Octavio Wagganer",
-                Email = "Octavio.Wagganer@dtu.dk", Cheeps = []
+                Email = "Octavio.Wagganer@dtu.dk", Cheeps = [], Follows = []
             };
             var a9 = new Author
             {
                 Id = "338e3cde-f248-438d-b292-e89f011915ed", UserName = "Johnnie Calixto",
-                Email = "Johnnie+Calixto@itu.dk", Cheeps = []
+                Email = "Johnnie+Calixto@itu.dk", Cheeps = [], Follows = []
             };
             var a10 = new Author
             {
                 Id = "60ca63fb-e53f-4dba-9969-7482187c782b", UserName = "Jacqualine Gilcoine",
-                Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = []
+                Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = [], Follows = []
             };
             var a11 = new Author
-                { Id = "15c1bc9e-e64b-4ea0-aa49-19b85f5a5dd6", UserName = "Helge", Email = "ropf@itu.dk", Cheeps = [] };
+            {
+                Id = "15c1bc9e-e64b-4ea0-aa49-19b85f5a5dd6", UserName = "Helge", Email = "ropf@itu.dk", Cheeps = [],
+                Follows = []
+            };
             var a12 = new Author
             {
-                Id = "915ae556-b0d8-4c90-982f-ad0fa74ec85b", UserName = "Adrian", Email = "adho@itu.dk", Cheeps = []
+                Id = "915ae556-b0d8-4c90-982f-ad0fa74ec85b", UserName = "Adrian", Email = "adho@itu.dk", Cheeps = [],
+                Follows = []
             };
 
             await userManager.CreateAsync(a1);

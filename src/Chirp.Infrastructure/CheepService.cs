@@ -4,10 +4,6 @@ using Chirp.Core.RepositoryInterfaces;
 
 namespace Chirp.Infrastructure;
 
-public record Message(int message_id, int author_id, string message, int pub_date);
-
-public record User(int user_id, string username, string email);
-
 public class CheepService : ICheepService
 {
     private readonly IAuthorRepository _authorRepository;
@@ -47,5 +43,10 @@ public class CheepService : ICheepService
     public int GetCheepCountByAuthorId(string authorId)
     {
         return _cheepRepository.GetCheepCountByAuthorId(authorId);
+    }
+
+    public void FollowAuthor(string userId, string followId)
+    {
+        _authorRepository.FollowAuthor(userId, followId);
     }
 }

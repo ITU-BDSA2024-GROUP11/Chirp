@@ -33,7 +33,8 @@ public class AuthorRepository : IAuthorRepository
         {
             UserName = name,
             Email = email,
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Follows = new List<Author>()
         };
         _dbContext.Authors.Add(author);
         _dbContext.SaveChanges();
@@ -43,6 +44,14 @@ public class AuthorRepository : IAuthorRepository
     {
         var result = FindAuthorByName(username);
         return result.Id;
+    }
+
+    public void FollowAuthor(string userId, string followId)
+    {
+        var user = FindAuthorById(userId);
+        var follow = FindAuthorById(followId);
+        user.Follows.Add(follow);
+        _dbContext.SaveChanges();
     }
 
     public Author FindAuthorById(string id)

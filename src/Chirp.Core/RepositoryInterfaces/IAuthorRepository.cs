@@ -8,4 +8,5 @@ public interface IAuthorRepository
     AuthorDTO GetAuthorByEmail(string email);
     void CreateAuthor(string name, string email);
     string GetAuthorID(string username);
+    void FollowAuthor(string userId, string followId);
 }

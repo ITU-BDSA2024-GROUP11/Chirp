@@ -4,5 +4,6 @@ namespace Chirp.Infrastructure.DataModel;
 
 public class Author : IdentityUser
 {
-    public required List<Cheep> Cheeps { get; set; }
+    public required List<Cheep> Cheeps { get; set; } = [];
+    public required List<Author> Follows { get; set; } = [];
 }

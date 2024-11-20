@@ -10,4 +10,5 @@ public interface ICheepService
     public string GetAuthorID(string username);
     public int GetCheepCount();
     public int GetCheepCountByAuthorId(string authorid);
+    public void FollowAuthor(string userId, string followId);
 }
