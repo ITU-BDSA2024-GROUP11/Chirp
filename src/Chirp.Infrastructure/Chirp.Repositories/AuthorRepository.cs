@@ -13,6 +13,15 @@ public class AuthorRepository : IAuthorRepository
         _dbContext = dbContext;
     }
 
+    public List<AuthorDTO> GetFollowedAuthors(string userName)
+    {
+        var user = FindAuthorByName(userName);
+        var authors = user.Follows;
+        Console.WriteLine(user + " Followed authors: " + authors.Count);
+        var authorDTOs = authors.Select(AuthorToDTO).ToList();
+        return authorDTOs;
+    }
+
     public AuthorDTO GetAuthorByName(string name)
     {
         var result = FindAuthorByName(name);
@@ -51,6 +60,22 @@ public class AuthorRepository : IAuthorRepository
         var user = FindAuthorById(userId);
         var follow = FindAuthorById(followId);
         user.Follows.Add(follow);
+        foreach (var author in user.Follows)
+        {
+            Console.WriteLine(author.UserName);
+        }
+        _dbContext.SaveChanges();
+    }
+
+    public void UnfollowAuthor(string userId, string followId)
+    {
+        var user = FindAuthorById(userId);
+        var follow = FindAuthorById(followId);
+        user.Follows.Remove(follow);
+        foreach (var author in user.Follows)
+        {
+            Console.WriteLine(author.UserName);
+        }
         _dbContext.SaveChanges();
     }
 
@@ -86,7 +111,9 @@ public class AuthorRepository : IAuthorRepository
         return new AuthorDTO
         {
             Name = author.UserName,
-            Email = author.Email
+            Email = author.Email,
+            Id = author.Id,
+            Follows = author.Follows.Select(AuthorToDTO).ToList()
         };
     }
 }

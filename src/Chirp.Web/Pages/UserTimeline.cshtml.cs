@@ -24,7 +24,17 @@ public class UserTimelineModel : PageModel
     public ActionResult OnGet([FromQuery] int page, string author)
     {
         if (page == 0) page = 1;
-        Cheeps = _service.GetCheepsFromAuthor(author, page);
+
+        if (author == User.Identity.Name)
+        {
+            var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+            Cheeps = _service.GetCheepsFromAuthors(followedAuthors, page);
+        }
+        else
+        {
+            Cheeps = _service.GetCheepsFromAuthor(author, page);
+        }
+
         return Page();
     }
 

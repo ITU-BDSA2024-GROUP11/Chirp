@@ -44,10 +44,17 @@ public class PublicModel : PageModel
 
     public ActionResult OnPostFollow(string authorName)
     {
-        if (!User.Identity.IsAuthenticated) return RedirectToPage("/Account/Login");
-
         var authorId = _authorRepository.GetAuthorID(authorName);
         _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        Console.WriteLine("Followed: " + authorName);
+        return RedirectToPage();
+    }
+
+    public ActionResult OnPostUnfollow(string authorName)
+    {
+        var authorId = _authorRepository.GetAuthorID(authorName);
+        _service.UnfollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        Console.WriteLine("Unfollowed: " + authorName);
         return RedirectToPage();
     }
 }

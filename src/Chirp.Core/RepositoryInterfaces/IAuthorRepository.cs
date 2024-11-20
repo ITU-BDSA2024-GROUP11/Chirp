@@ -9,4 +9,6 @@ public interface IAuthorRepository
     void CreateAuthor(string name, string email);
     string GetAuthorID(string username);
     void FollowAuthor(string userId, string followId);
+    void UnfollowAuthor(string userId, string followId);
+    List<AuthorDTO> GetFollowedAuthors(string userId);
 }

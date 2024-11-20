@@ -92,4 +92,25 @@ public class CheepRepository : ICheepRepository
             TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         };
     }
+
+    public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page)
+    {
+        var authorIds = authors.Select(author => author.Id).ToList();
+        var query = _dbContext.Cheeps
+            .Where(cheep => authorIds.Contains(cheep.AuthorId))
+            .OrderByDescending(cheep => cheep.TimeStamp)
+            .Skip((page - 1) * size)
+            .Take(size)
+            .ToList();
+        var result = query;
+        var list = new List<CheepDTO>();
+        foreach (var cheep in result)
+        {
+            _authorRepository.FindAuthorById(cheep.AuthorId);
+            list.Add(CheepToDTO(cheep));
+        }
+
+        return list;
+    }
+
 }

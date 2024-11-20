@@ -49,4 +49,14 @@ public class CheepService : ICheepService
     {
         _authorRepository.FollowAuthor(userId, followId);
     }
+
+    public void UnfollowAuthor(string userId, string followId)
+    {
+        _authorRepository.UnfollowAuthor(userId, followId);
+    }
+
+    public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page)
+    {
+        return _cheepRepository.GetCheepsFromAuthors(authors, page);
+    }
 }
