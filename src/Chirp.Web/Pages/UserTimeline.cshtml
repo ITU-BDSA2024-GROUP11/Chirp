@@ -14,7 +14,7 @@
     <h2> @routeName's Timeline </h2>
 
     @{
-        ViewData["Title"] = "MyTimeline";
+    ViewData["Title"] = "My Timeline";
     }
 
     @if (User.Identity?.IsAuthenticated == true && routeName.Equals(User.Identity.Name))
