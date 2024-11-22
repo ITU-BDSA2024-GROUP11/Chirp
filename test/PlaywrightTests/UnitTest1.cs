@@ -22,6 +22,8 @@ public class ExampleTest : PageTest
         // Construct the path to your project
         _startupProjectPath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "Chirp.Web.csproj");
 
+        Environment.SetEnvironmentVariable("ASPNETCORE_URLS", baseUrl);
+
         // Start the local server
         // Start the ASP.NET application
         _appProcess = new Process
