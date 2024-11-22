@@ -12,7 +12,6 @@ public class ExampleTest : PageTest
     private const string baseUrl = "http://localhost:5273";
     private Process? _serverProcess;
     private string _startupProjectPath;
-    private Process _appProcess;
 
     [OneTimeSetUp]
     public async Task SetupLocalServer()
@@ -26,7 +25,7 @@ public class ExampleTest : PageTest
 
         // Start the local server
         // Start the ASP.NET application
-        _appProcess = new Process
+        _serverProcess = new Process
         {
             StartInfo = new ProcessStartInfo
             {
@@ -38,21 +37,24 @@ public class ExampleTest : PageTest
                 CreateNoWindow = true,
             }
         };
-        _appProcess.Start();
+        _serverProcess.Start();
 
         // Wait for the application to start
-        await Task.Delay(5000); // Adjust delay if needed
+        await Task.Delay(15000); // Adjust delay if needed
     }
 
+    //Tear down does not work
     [OneTimeTearDown]
     public void TeardownLocalServer()
     {
         if (_serverProcess != null && !_serverProcess.HasExited)
         {
             _serverProcess.Kill();
+            _serverProcess.WaitForExit();  // Optionally wait for the process to terminate
             _serverProcess.Dispose();
         }
     }
+
 
     [Test]
     public async Task GetStartedLink()
@@ -60,7 +62,7 @@ public class ExampleTest : PageTest
         await Page.GotoAsync($"{baseUrl}/");
         await Expect(Page).ToHaveTitleAsync(new Regex("Public Timeline"));
     }
-    
+    /*
     // Other tests go here...
 
 
