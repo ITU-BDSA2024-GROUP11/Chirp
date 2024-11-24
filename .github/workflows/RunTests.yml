@@ -40,3 +40,7 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        # Use GitHub Secrets for sensitive data
+        authentication_github_clientid: ${{ secrets.authentication_github_clientid }}
+        authentication_github_clientsecret: ${{ secrets.authentication_github_clientsecret }}
