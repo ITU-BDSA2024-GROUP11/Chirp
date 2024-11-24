@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
@@ -16,15 +17,29 @@ public class ExampleTest : PageTest
     [OneTimeSetUp]
     public async Task SetupLocalServer()
     {
-        var solutionDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\.."));
+        // Base directory of the test assembly
+        var baseDirectory = AppContext.BaseDirectory;
+
+        // Adjust the relative path to your solution root
+        var solutionDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", ".."));
+
+        if (!Directory.Exists(solutionDirectory))
+        {
+            throw new DirectoryNotFoundException($"Solution directory not found: {solutionDirectory}");
+        }
 
         // Construct the path to your project
         _startupProjectPath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "Chirp.Web.csproj");
 
+        if (!File.Exists(_startupProjectPath))
+        {
+            throw new FileNotFoundException($"Startup project file not found: {_startupProjectPath}");
+        }
+
+        // Set environment variable
         Environment.SetEnvironmentVariable("ASPNETCORE_URLS", baseUrl);
 
         // Start the local server
-        // Start the ASP.NET application
         _serverProcess = new Process
         {
             StartInfo = new ProcessStartInfo
@@ -37,22 +52,27 @@ public class ExampleTest : PageTest
                 CreateNoWindow = true,
             }
         };
+
         _serverProcess.Start();
 
         // Wait for the application to start
-        await Task.Delay(15000); // Adjust delay if needed
+        await Task.Delay(15000); // Adjust delay if necessary
     }
+
+
 
     //Tear down does not work
     [OneTimeTearDown]
     public void TeardownLocalServer()
     {
+        Console.WriteLine("Teardown being called");
         if (_serverProcess != null && !_serverProcess.HasExited)
         {
             _serverProcess.Kill();
             _serverProcess.WaitForExit();  // Optionally wait for the process to terminate
             _serverProcess.Dispose();
         }
+        Console.WriteLine("Teardown over");
     }
 
 
@@ -62,8 +82,6 @@ public class ExampleTest : PageTest
         await Page.GotoAsync($"{baseUrl}/");
         await Expect(Page).ToHaveTitleAsync(new Regex("Public Timeline"));
     }
-    /*
-    // Other tests go here...
 
 
     [Test]
