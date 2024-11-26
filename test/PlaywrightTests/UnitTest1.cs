@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
+using System.Data.SqlClient;
+
+
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
@@ -35,7 +38,9 @@ public class ExampleTest : PageTest
         {
             throw new FileNotFoundException($"Startup project file not found: {_startupProjectPath}");
         }
+        
 
+        
         // Set environment variable
         Environment.SetEnvironmentVariable("ASPNETCORE_URLS", baseUrl);
 
@@ -65,15 +70,34 @@ public class ExampleTest : PageTest
     [OneTimeTearDown]
     public void TeardownLocalServer()
     {
-        Console.WriteLine("Teardown being called");
         if (_serverProcess != null && !_serverProcess.HasExited)
         {
             _serverProcess.Kill();
             _serverProcess.WaitForExit();  // Optionally wait for the process to terminate
             _serverProcess.Dispose();
         }
-        Console.WriteLine("Teardown over");
+        try
+        {
+            DeleteDatabase();
+            Console.WriteLine("Database deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to delete the database: {ex.Message}");
+        }
     }
+    private void DeleteDatabase()
+{
+    // Replace with your actual database deletion logic
+    var connectionString = "src/Chirp.Web/chirp.db";
+
+    using var connection = new SqlConnection(connectionString);
+    connection.Open();
+
+    var commandText = "DROP DATABASE IF EXISTS [YourDatabaseName]";
+    using var command = new SqlCommand(commandText, connection);
+    command.ExecuteNonQuery();
+}
 
 
     [Test]
