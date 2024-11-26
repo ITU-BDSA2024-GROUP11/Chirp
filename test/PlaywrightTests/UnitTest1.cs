@@ -92,16 +92,18 @@ public class ExampleTest : PageTest
     }
     private void DeleteDatabase()
     {
-        // Get the base directory of the test assembly (your UnitTest1.cs file)
-        var testBaseDirectory = AppContext.BaseDirectory;
+        // Base directory of the test assembly
+        var baseDirectory = AppContext.BaseDirectory;
 
-        // Construct the relative path to the chirp.db-wal file
-        var dbWalPath = Path.Combine(testBaseDirectory, "..", "..", "..", "src", "Chirp.Web", "chirp.db-wal");
-
-        // Normalize the path (this is optional but helps in case of directory traversal issues)
-        dbWalPath = Path.GetFullPath(dbWalPath);
-
-        File.Delete("../../../src/Chirp.Web/chirp.db-shm");
+        var solutionDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", ".."));
+        
+        var dbwalFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db-wal");
+        var dbshmlFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db-shm");
+        var dbFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db");
+        DeleteFileIfExists(dbwalFilepath);
+        DeleteFileIfExists(dbshmlFilepath);
+        DeleteFileIfExists(dbFilepath);
+        
         //File.Delete("C:/Users/basti/Downloads/thirdSemester/Chirp.CLI/src/Chirp.Web/chirp.db-shm");
         
         // Delete the file if it exists
