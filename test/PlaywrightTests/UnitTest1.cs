@@ -215,36 +215,59 @@ public class ExampleTest : PageTest
         Assert.AreEqual($"{baseUrl}/", Page.Url);
     }
 
-    /*
+    
     //This test requires the users to not already be registered
     [Test]
-    public async Task RegisterAcount()
+    public async Task End2endtest()
     {
-        await Page.GotoAsync($"{baseUrl}/");
+        await Page.GotoAsync("http://localhost:5273/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "register" }).ClickAsync();
-        await Page.GetByLabel("UserName").ClickAsync();
-        await Page.GetByLabel("UserName").FillAsync("TestUser");
-        await Page.GetByLabel("UserName").PressAsync("Tab");
-        await Page.GetByPlaceholder("name@example.com").FillAsync("TestUser@testmail.com");
+        Assert.AreEqual($"{baseUrl}/Identity/Account/Register",Page.Url);
+        await Page.GetByPlaceholder("user name").ClickAsync();
+        await Page.GetByPlaceholder("user name").FillAsync("TestUser");
+        await Page.GetByPlaceholder("user name").PressAsync("Tab");
+        await Page.GetByPlaceholder("name@example.com").FillAsync("test@mail.dk");
         await Page.GetByPlaceholder("name@example.com").PressAsync("Tab");
-        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("TestPassword1!");
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
         await Page.GetByLabel("Password", new() { Exact = true }).PressAsync("Tab");
-        await Page.GetByLabel("Confirm Password").FillAsync("TestPassword1!");
+        await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
+        await Page.GetByLabel("Confirm Password").PressAsync("Tab");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
-
-        //Assert.AreEqual($"{baseUrl}/Identity/Account/ConfirmEmail?userId=53398aa4-e617-4cf6-be4b-47e8544806f3&code=Q2ZESjhDZ0tEZFFiUTQ5Qm1uK2JTVDFsTlU3YTZvS1kvNEJ1MmV3dVFmZUZsMWl5KzJnQUZxbEJ0aHpzZHpNV0Yyc2ZqQ3o0c21SYThKaEw4MHE1VWVhTWVqZkFVSjU0K2VJaVNFYTdCS2hQb1p6SndqN0J0b0Y1Wk5uVERFT1VzSmNxY3RiZ25LazJKWGxLeXM4QVVMeWVMYktFTk9MeFA1UXh1dVNYZUV1M2tjLzhlU0J0VC8xNWp4WU9MZEtjMUNwUzd0VU5PeC9aRmZYV3hsMHMwS0pldjhJNW1PUlpDOWZ3U3hXNEUzRG0yVDBabGJZZURWTnR5SlkxdFRqNkExZjkrZz09&returnUrl=%2F", Page.Url);
-        //await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
-        //Console.WriteLine(await Page.GetByText("Thank you for confirming your").TextContentAsync());
+        await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/Identity/Account/Login",Page.Url);
+        await Page.GetByPlaceholder("user name").ClickAsync();
+        await Page.GetByPlaceholder("user name").FillAsync("TestUser");
+        await Page.GetByPlaceholder("user name").PressAsync("Tab");
+        await Page.GetByPlaceholder("password").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/",Page.Url);
+        await Page.Locator("#cheepText").ClickAsync();
+        await Page.Locator("#cheepText").FillAsync("I do not have a mind, I am simply a test user");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Starbuck now is what we hear the worst. — 2023-08-01" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/TestUser",Page.Url);
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Unfollow Starbuck now is what we hear the worst. — 2023-08-" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "logout [TestUser]" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/",Page.Url);
     }
-    */
 
-    /*
-    public async Task Login
-    */
-    /*
-    public async Task MytimelineButton
-    */
     
+    public async Task LoginAndMyTimelineButton()
+    {
+        await Page.GotoAsync($"{baseUrl}/");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/Identity/Account/Login",Page.Url);
+        await Page.GetByPlaceholder("user name").ClickAsync();
+        await Page.GetByPlaceholder("user name").FillAsync("TestUser");
+        await Page.GetByPlaceholder("user name").PressAsync("Tab");
+        await Page.GetByPlaceholder("password").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        Assert.AreEqual($"{baseUrl}/",Page.Url);
+    
+    }
     
 }
