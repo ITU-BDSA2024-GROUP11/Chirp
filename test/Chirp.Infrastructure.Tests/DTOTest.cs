@@ -11,7 +11,8 @@ public class DTOTest
         var Gunner = new Author
         {
             Id = "1", UserName = "Gunner Nielsen", Email = "Yourmom@gmail.com",
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Follows = new List<Author>()
         };
         var cheep = new Cheep
         {
@@ -31,7 +32,8 @@ public class DTOTest
         var Mike = new Author
         {
             Id = "2", UserName = "Mike Oxlong", Email = "MikeOxlong@gmail.com",
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Follows = new List<Author>()
         };
 
         var dto = AuthorRepository.AuthorToDTO(Mike);
