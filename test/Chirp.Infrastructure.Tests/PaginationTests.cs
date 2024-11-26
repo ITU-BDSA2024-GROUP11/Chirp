@@ -22,7 +22,7 @@ public class PaginationTests
 
         _serviceProvider = new Mock<IServiceProvider>();
 
-        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
+        DbInitializerTest.SeedDatabase(context, _serviceProvider.Object);
         _repository = new CheepRepository(context);
     }
 

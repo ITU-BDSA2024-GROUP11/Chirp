@@ -31,7 +31,7 @@ public class AuthorRepositoryTests
 
         _serviceProvider = new Mock<IServiceProvider>();
         _repository = new AuthorRepository(context);
-        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
+        DbInitializerTest.SeedDatabase(context, _serviceProvider.Object);
     }
 
     [Fact]

@@ -29,7 +29,7 @@ public class CheepServiceTest
         _serviceProvider = new Mock<IServiceProvider>();
         context.Database.EnsureCreated();
 
-        DbInitializer.SeedDatabase(context, _serviceProvider.Object);
+        DbInitializerTest.SeedDatabase(context, _serviceProvider.Object);
 
         _mockCheepRepository = new Mock<ICheepRepository>();
         _mockAuthorRepository = new Mock<IAuthorRepository>();
