@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.DataModel;
 
-public class ChirpDBContext : IdentityDbContext<ApplicationUser>
+public class ChirpDBContext : IdentityDbContext<Author>
 {
     public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
     {
@@ -11,4 +11,5 @@ public class ChirpDBContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
+    public DbSet<AuthorFollows> AuthorFollows { get; set; }
 }

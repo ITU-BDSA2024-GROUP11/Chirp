@@ -1,16 +1,17 @@
 using Chirp.Infrastructure.DataModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace Chirp.Infrastructure;
 
-public static class DbInitializer
+public static class DbInitializerTest
 {
     public static async void SeedDatabase(ChirpDBContext chirpContext, IServiceProvider serviceProvider)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<Author>>();
+
 
             var a1 = new Author
             {
@@ -73,18 +74,10 @@ public static class DbInitializer
                 Follows = []
             };
 
-            await userManager.CreateAsync(a1);
-            await userManager.CreateAsync(a2);
-            await userManager.CreateAsync(a3);
-            await userManager.CreateAsync(a4);
-            await userManager.CreateAsync(a5);
-            await userManager.CreateAsync(a6);
-            await userManager.CreateAsync(a7);
-            await userManager.CreateAsync(a8);
-            await userManager.CreateAsync(a9);
-            await userManager.CreateAsync(a10);
-            await userManager.CreateAsync(a11, "LetM31n!");
-            await userManager.CreateAsync(a12, "M32Want_Access");
+            var authors = new List<Author>
+            {
+                a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12
+            };
 
             var c1 = new Cheep
             {

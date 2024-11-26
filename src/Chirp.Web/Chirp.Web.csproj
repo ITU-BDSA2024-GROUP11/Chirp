@@ -5,11 +5,11 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Chirp.Web</RootNamespace>
-      <UserSecretsId>dc0bd024-f394-4b0f-a5d8-e9340b4d8a49</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>dc0bd024-f394-4b0f-a5d8-e9340b4d8a49</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
+        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10"/>
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8"/>
@@ -27,24 +27,28 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="data/**/*" />
+        <EmbeddedResource Include="data/**/*"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
+        <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="Pages\Public.cshtml" />
-        <None Include="Pages\Shared\_Layout.cshtml" />
-        <None Include="Pages\UserTimeline.cshtml" />
-        <None Include="wwwroot\css\style.css" />
-        <None Include="wwwroot\favicon\favicon.ico" />
-        <None Include="wwwroot\images\icon1.png" />
+        <None Include="Pages\Public.cshtml"/>
+        <None Include="Pages\Shared\_Layout.cshtml"/>
+        <None Include="Pages\UserTimeline.cshtml"/>
+        <None Include="wwwroot\css\style.css"/>
+        <None Include="wwwroot\favicon\favicon.ico"/>
+        <None Include="wwwroot\images\icon1.png"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Areas\Identity\Data\"/>
+        <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Register.cshtml"/>
+        <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\_ViewImports.cshtml"/>
+        <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml"/>
+        <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml"/>
+        <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml"/>
     </ItemGroup>
 
 </Project>
