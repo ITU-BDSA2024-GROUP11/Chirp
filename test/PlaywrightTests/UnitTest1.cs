@@ -1,15 +1,22 @@
 using System.Diagnostics;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
+using System.Data.SqlClient;
+using System.Data.SQLite;
+
+
+
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 public class ExampleTest : PageTest
 {
+
     private const string baseUrl = "http://localhost:5273";
     private Process? _serverProcess;
     private string _startupProjectPath;
@@ -35,7 +42,9 @@ public class ExampleTest : PageTest
         {
             throw new FileNotFoundException($"Startup project file not found: {_startupProjectPath}");
         }
+        
 
+        
         // Set environment variable
         Environment.SetEnvironmentVariable("ASPNETCORE_URLS", baseUrl);
 
@@ -65,15 +74,59 @@ public class ExampleTest : PageTest
     [OneTimeTearDown]
     public void TeardownLocalServer()
     {
-        Console.WriteLine("Teardown being called");
         if (_serverProcess != null && !_serverProcess.HasExited)
         {
             _serverProcess.Kill();
             _serverProcess.WaitForExit();  // Optionally wait for the process to terminate
             _serverProcess.Dispose();
         }
-        Console.WriteLine("Teardown over");
+        try
+        {
+            DeleteDatabase();
+            Console.WriteLine("Database deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to delete the database: {ex.Message}");
+        }
     }
+    private void DeleteDatabase()
+    {
+        // Base directory of the test assembly
+        var baseDirectory = AppContext.BaseDirectory;
+
+        var solutionDirectory = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", ".."));
+        
+        var dbwalFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db-wal");
+        var dbshmlFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db-shm");
+        var dbFilepath = Path.Combine(solutionDirectory, "src", "Chirp.Web", "chirp.db");
+        DeleteFileIfExists(dbwalFilepath);
+        DeleteFileIfExists(dbshmlFilepath);
+        DeleteFileIfExists(dbFilepath);
+        
+        //File.Delete("C:/Users/basti/Downloads/thirdSemester/Chirp.CLI/src/Chirp.Web/chirp.db-shm");
+        
+        // Delete the file if it exists
+        //File.Delete(dbWalPath);
+    }
+
+    private void DeleteFileIfExists(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                File.Delete(filePath);
+                Console.WriteLine($"File {filePath} deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to delete {filePath}: {ex.Message}");
+            }
+        }
+    }
+
+
 
 
     [Test]
