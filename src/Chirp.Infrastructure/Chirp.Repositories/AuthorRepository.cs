@@ -1,6 +1,7 @@
 using Chirp.Core.DTO;
 using Chirp.Core.RepositoryInterfaces;
 using Chirp.Infrastructure.DataModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
@@ -15,9 +16,11 @@ public class AuthorRepository : IAuthorRepository
 
     public List<AuthorDTO> GetFollowedAuthors(string userName)
     {
-        var user = FindAuthorByName(userName);
+        var user = _dbContext.Authors
+            .Where(a => a.UserName == userName)
+            .Include(a => a.Follows)
+            .First(a => a.UserName == userName);
         var authors = user.Follows;
-        Console.WriteLine(user + " Followed authors: " + authors.Count);
         var authorDTOs = authors.Select(AuthorToDTO).ToList();
         return authorDTOs;
     }
@@ -57,13 +60,14 @@ public class AuthorRepository : IAuthorRepository
 
     public void FollowAuthor(string userId, string followId)
     {
-        var user = FindAuthorById(userId);
+        var user = _dbContext.Authors
+            .Where(a => a.Id == userId)
+            .Include(a => a.Follows)
+            .First(a => a.Id == userId);
         var follow = FindAuthorById(followId);
+
+        // Check if already following
         user.Follows.Add(follow);
-        foreach (var author in user.Follows)
-        {
-            Console.WriteLine(author.UserName);
-        }
         _dbContext.SaveChanges();
     }
 
@@ -72,10 +76,6 @@ public class AuthorRepository : IAuthorRepository
         var user = FindAuthorById(userId);
         var follow = FindAuthorById(followId);
         user.Follows.Remove(follow);
-        foreach (var author in user.Follows)
-        {
-            Console.WriteLine(author.UserName);
-        }
         _dbContext.SaveChanges();
     }
 

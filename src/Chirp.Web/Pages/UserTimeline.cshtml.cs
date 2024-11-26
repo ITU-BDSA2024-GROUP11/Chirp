@@ -17,7 +17,7 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorService;
     }
 
-    public List<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
+    public List<CheepDTO> Cheeps { get; set; } = new();
 
     [BindProperty] public string NewCheepText { get; set; }
 
@@ -28,6 +28,7 @@ public class UserTimelineModel : PageModel
         if (author == User.Identity.Name)
         {
             var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+            followedAuthors.Add(_authorRepository.GetAuthorByName(User.Identity.Name));
             Cheeps = _service.GetCheepsFromAuthors(followedAuthors, page);
         }
         else
@@ -47,9 +48,34 @@ public class UserTimelineModel : PageModel
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
             return Page();
         }
+
         // Cheep length logic here too?
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
 
         return RedirectToPage(new { author = User.Identity.Name });
+    }
+
+    public ActionResult OnPostFollow(string authorName)
+    {
+        var authorId = _authorRepository.GetAuthorID(authorName);
+        _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        return RedirectToPage();
+    }
+
+    public ActionResult OnPostUnfollow(string authorName)
+    {
+        var authorId = _authorRepository.GetAuthorID(authorName);
+        _service.UnfollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        return RedirectToPage();
+    }
+
+    public bool FollowsAuthor(string authorName)
+    {
+        var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+        foreach (var author in followedAuthors)
+            if (author.Name == authorName)
+                return true;
+
+        return false;
     }
 }

@@ -55,14 +55,22 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                             @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
-                                <form asp-page-handler="Follow" method="post">
-                                    <input type="hidden" name="authorName" value="@cheep.Author" />
-                                    <button type="submit" class="btn btn-default">Follow</button>
-                                </form>
-                                <form asp-page-handler="Unfollow" method="post">
-                                    <input type="hidden" name="authorName" value="@cheep.Author" />
-                                    <button type="submit" class="btn btn-default">Unfollow</button>
-                                </form>
+                                // if user does not follow author of cheep, show follow button
+                                @if (!Model.FollowsAuthor(cheep.Author))
+                                {
+                                    <form asp-page-handler="Follow" method="post">
+                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
+                                        <button type="submit" class="btn btn-default">Follow</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    // if user follows author of cheep, show Unfollow button
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
+                                        <button type="submit" class="btn btn-default">Unfollow</button>
+                                    </form>
+                                }
                             }
                         </strong>
                         @cheep.Text

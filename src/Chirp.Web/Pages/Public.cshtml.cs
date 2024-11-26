@@ -46,7 +46,6 @@ public class PublicModel : PageModel
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
         _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
-        Console.WriteLine("Followed: " + authorName);
         return RedirectToPage();
     }
 
@@ -54,7 +53,16 @@ public class PublicModel : PageModel
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
         _service.UnfollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
-        Console.WriteLine("Unfollowed: " + authorName);
         return RedirectToPage();
+    }
+
+    public bool FollowsAuthor(string authorName)
+    {
+        var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+        foreach (var author in followedAuthors)
+            if (author.Name == authorName)
+                return true;
+
+        return false;
     }
 }

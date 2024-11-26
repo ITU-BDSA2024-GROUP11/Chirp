@@ -11,4 +11,5 @@ public class ChirpDBContext : IdentityDbContext<Author>
 
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
+    public DbSet<AuthorFollows> AuthorFollows { get; set; }
 }
