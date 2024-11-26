@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,8 @@ using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
 using System.Data.SqlClient;
+using System.Data.SQLite;
+
 
 
 
@@ -13,6 +16,7 @@ using System.Data.SqlClient;
 [TestFixture]
 public class ExampleTest : PageTest
 {
+
     private const string baseUrl = "http://localhost:5273";
     private Process? _serverProcess;
     private string _startupProjectPath;
@@ -87,17 +91,40 @@ public class ExampleTest : PageTest
         }
     }
     private void DeleteDatabase()
-{
-    // Replace with your actual database deletion logic
-    var connectionString = "src/Chirp.Web/chirp.db";
+    {
+        // Get the base directory of the test assembly (your UnitTest1.cs file)
+        var testBaseDirectory = AppContext.BaseDirectory;
 
-    using var connection = new SqlConnection(connectionString);
-    connection.Open();
+        // Construct the relative path to the chirp.db-wal file
+        var dbWalPath = Path.Combine(testBaseDirectory, "..", "..", "..", "src", "Chirp.Web", "chirp.db-wal");
 
-    var commandText = "DROP DATABASE IF EXISTS [YourDatabaseName]";
-    using var command = new SqlCommand(commandText, connection);
-    command.ExecuteNonQuery();
-}
+        // Normalize the path (this is optional but helps in case of directory traversal issues)
+        dbWalPath = Path.GetFullPath(dbWalPath);
+
+        File.Delete("../../../src/Chirp.Web/chirp.db-shm");
+        //File.Delete("C:/Users/basti/Downloads/thirdSemester/Chirp.CLI/src/Chirp.Web/chirp.db-shm");
+        
+        // Delete the file if it exists
+        //File.Delete(dbWalPath);
+    }
+
+    private void DeleteFileIfExists(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                File.Delete(filePath);
+                Console.WriteLine($"File {filePath} deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to delete {filePath}: {ex.Message}");
+            }
+        }
+    }
+
+
 
 
     [Test]
