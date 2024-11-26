@@ -4,8 +4,8 @@ using Chirp.Infrastructure;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -17,29 +17,27 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddDefaultIdentity<Author>(options =>
         options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ChirpDBContext>();
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "GitHub";
-    })
-    .AddCookie()
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.SlidingExpiration = true;
+
+});
+
+builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
         o.ClientId = builder.Configuration["authentication_github_clientid"];
         o.ClientSecret = builder.Configuration["authentication_github_clientsecret"];
-        o.CallbackPath = "/signin-github";
+        o.Scope.Add("user:email");
     });
 
 var app = builder.Build();
@@ -48,7 +46,6 @@ app.UseDeveloperExceptionPage();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -57,18 +54,16 @@ using (var scope = app.Services.CreateScope())
 {
     using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
     context.Database.Migrate();
-    DbInitializer.SeedDatabase(context);
+    DbInitializer.SeedDatabase(context, scope.ServiceProvider);
 }
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
-
-app.UseRouting();
 
 app.MapRazorPages();
 

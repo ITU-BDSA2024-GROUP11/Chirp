@@ -3,6 +3,7 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit.Abstractions;
 
 namespace Chirp.Infrastructure.Tests;
@@ -11,6 +12,7 @@ public class AuthorRepositoryTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
     private IAuthorRepository _repository;
+    private Mock<IServiceProvider> _serviceProvider;
 
     public AuthorRepositoryTests(ITestOutputHelper testOutputHelper)
     {
@@ -27,8 +29,9 @@ public class AuthorRepositoryTests
         var context = new ChirpDBContext(builder.Options);
         await context.Database.EnsureCreatedAsync();
 
+        _serviceProvider = new Mock<IServiceProvider>();
         _repository = new AuthorRepository(context);
-        DbInitializer.SeedDatabase(context);
+        DbInitializerTest.SeedDatabase(context, _serviceProvider.Object);
     }
 
     [Fact]

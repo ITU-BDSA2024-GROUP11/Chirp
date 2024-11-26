@@ -6,8 +6,11 @@ public interface ICheepService
 {
     public List<CheepDTO> GetCheepsFromAuthor(string author, int page);
     public List<CheepDTO> GetCheepsFromPage(int page);
-    public void AddCheep(string cheepText, int authorid);
-    public int GetAuthorID(string username);
+    public void AddCheep(string cheepText, string authorid);
+    public string GetAuthorID(string username);
     public int GetCheepCount();
-    public int GetCheepCountByAuthorId(int authorid);
+    public int GetCheepCountByAuthorId(string authorid);
+    public void FollowAuthor(string userId, string followId);
+    public void UnfollowAuthor(string userId, string followId);
+    public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page);
 }

@@ -6,7 +6,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using Chirp.Core.RepositoryInterfaces;
 using Chirp.Infrastructure.DataModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -19,21 +18,19 @@ namespace Chirp.Web.Areas.Identity.Pages.Account;
 
 public class RegisterModel : PageModel
 {
-    private readonly IAuthorRepository _authorRepository;
     private readonly IEmailSender _emailSender;
-    private readonly IUserEmailStore<ApplicationUser> _emailStore;
+    private readonly IUserEmailStore<Author> _emailStore;
     private readonly ILogger<RegisterModel> _logger;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IUserStore<ApplicationUser> _userStore;
+    private readonly SignInManager<Author> _signInManager;
+    private readonly UserManager<Author> _userManager;
+    private readonly IUserStore<Author> _userStore;
 
     public RegisterModel(
-        UserManager<ApplicationUser> userManager,
-        IUserStore<ApplicationUser> userStore,
-        SignInManager<ApplicationUser> signInManager,
+        UserManager<Author> userManager,
+        IUserStore<Author> userStore,
+        SignInManager<Author> signInManager,
         ILogger<RegisterModel> logger,
-        IEmailSender emailSender,
-        IAuthorRepository authorRepository)
+        IEmailSender emailSender)
     {
         _userManager = userManager;
         _userStore = userStore;
@@ -41,7 +38,6 @@ public class RegisterModel : PageModel
         _signInManager = signInManager;
         _logger = logger;
         _emailSender = emailSender;
-        _authorRepository = authorRepository;
     }
 
     /// <summary>
@@ -63,6 +59,7 @@ public class RegisterModel : PageModel
     /// </summary>
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+
     public async Task OnGetAsync(string returnUrl = null)
     {
         ReturnUrl = returnUrl;
@@ -83,7 +80,6 @@ public class RegisterModel : PageModel
 
             if (result.Succeeded)
             {
-                _authorRepository.CreateAuthor(user.UserName, user.Email);
                 _logger.LogInformation("User created a new account with password.");
 
                 var userId = await _userManager.GetUserIdAsync(user);
@@ -112,25 +108,25 @@ public class RegisterModel : PageModel
         return Page();
     }
 
-    private ApplicationUser CreateUser()
+    private Author CreateUser()
     {
         try
         {
-            return Activator.CreateInstance<ApplicationUser>();
+            return Activator.CreateInstance<Author>();
         }
         catch
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                                                $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " +
+                                                $"Ensure that '{nameof(Author)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                                                 $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
         }
     }
 
-    private IUserEmailStore<ApplicationUser> GetEmailStore()
+    private IUserEmailStore<Author> GetEmailStore()
     {
         if (!_userManager.SupportsUserEmail)
             throw new NotSupportedException("The default UI requires a user store with email support.");
-        return (IUserEmailStore<ApplicationUser>)_userStore;
+        return (IUserEmailStore<Author>)_userStore;
     }
 
     /// <summary>
@@ -139,9 +135,6 @@ public class RegisterModel : PageModel
     /// </summary>
     public class InputModel
     {
-        /// <summary>
-        ///     Username
-        /// </summary>
         [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }
