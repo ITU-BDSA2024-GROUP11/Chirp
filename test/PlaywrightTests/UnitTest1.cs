@@ -255,7 +255,7 @@ public class ExampleTest : PageTest
         Assert.AreEqual($"{baseUrl}/",Page.Url);
     }
 
-    
+    [Test]
     public async Task LoginAndMyTimelineButton()
     {
         await Page.GotoAsync($"{baseUrl}/");
@@ -267,7 +267,10 @@ public class ExampleTest : PageTest
         await Page.GetByPlaceholder("password").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         Assert.AreEqual($"{baseUrl}/",Page.Url);
-    
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+        await Page.Locator("#cheepText").ClickAsync();
+        await Page.Locator("#cheepText").FillAsync("I still do not have a mind, I am simply a test user");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
     }
     
 }
