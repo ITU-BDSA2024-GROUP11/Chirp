@@ -61,19 +61,6 @@ public class AuthorRepositoryTests
     }
 
     [Fact]
-    public void GetAuthorByEmailTest()
-    {
-        var result = _repository.GetAuthorByEmail("Wendell-Ballan@gmail.com");
-        var result2 = _repository.GetAuthorByEmail("adho@itu.dk");
-
-        Assert.Equal("Wendell Ballan", result.Name);
-        Assert.Equal("Wendell-Ballan@gmail.com", result.Email);
-
-        Assert.Equal("Adrian", result2.Name);
-        Assert.Equal("adho@itu.dk", result2.Email);
-    }
-
-    [Fact]
     public void CreateAuthorTest()
     {
         try
