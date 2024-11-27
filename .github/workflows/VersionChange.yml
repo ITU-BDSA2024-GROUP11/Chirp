@@ -3,6 +3,7 @@ name: .NET Release and Test Workflow
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   release:
