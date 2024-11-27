@@ -141,9 +141,7 @@ public class ExampleTest : PageTest
     public async Task ClickOnUser()
     {
         await Page.GotoAsync($"{baseUrl}/");
-        await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Seems to" })
-            .GetByRole(AriaRole.Link)
-            .ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Save Starbuck now is what we hear the worst. — 2023-08-01" }).GetByRole(AriaRole.Link).ClickAsync();
         Assert.That(Page.Url,Is.EqualTo($"{baseUrl}/Jacqualine%20Gilcoine"));
     }
 
@@ -238,7 +236,6 @@ public class ExampleTest : PageTest
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Starbuck now is what we hear the worst. — 2023-08-01" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/TestUser"));
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Unfollow Starbuck now is what we hear the worst. — 2023-08-" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "logout [TestUser]" }).ClickAsync();
         await Task.Delay(1000); // Adjust delay if necessary
