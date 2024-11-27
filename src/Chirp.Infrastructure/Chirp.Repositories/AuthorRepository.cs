@@ -32,13 +32,6 @@ public class AuthorRepository : IAuthorRepository
         return authorDTO;
     }
 
-    public AuthorDTO GetAuthorByEmail(string email)
-    {
-        var result = FindAuthorByEmail(email);
-        var authorDTO = AuthorToDTO(result);
-        return authorDTO;
-    }
-
     public void CreateAuthor(string name, string email)
     {
         var author = new Author
@@ -95,15 +88,6 @@ public class AuthorRepository : IAuthorRepository
             select author;
         var result = query.First();
         return result;
-    }
-
-    private Author FindAuthorByEmail(string email)
-    {
-        var query = from author in _dbContext.Authors
-            where author.Email == email
-            select author;
-        var result = query.FirstOrDefault();
-        return result!;
     }
 
     public static AuthorDTO AuthorToDTO(Author author)
