@@ -103,7 +103,7 @@ public class AuthorRepository : IAuthorRepository
             where author.Email == email
             select author;
         var result = query.FirstOrDefault();
-        return result;
+        return result!;
     }
 
     public static AuthorDTO AuthorToDTO(Author author)

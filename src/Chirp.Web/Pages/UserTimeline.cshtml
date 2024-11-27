@@ -17,18 +17,18 @@
         ViewData["Title"] = "My Timeline";
     }
 
-    @if (User.Identity?.IsAuthenticated == true && routeName.Equals(User.Identity.Name))
+    @if (User.Identity?.IsAuthenticated == true && routeName!.Equals(User.Identity.Name))
     {
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity.Name)?</h3>
             <form method="post" asp-page-handler="SendCheep">
                 <div style="display: flex; align-items: center;">
-                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText"
-                           oninput="checkCharacterLimit()" style="float: left; margin-right: 10px;">
+                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()"
+                        style="float: left; margin-right: 10px;">
                     <input type="submit" value="Share" style="margin-left: 10px;">
                 </div>
-                <span id="charLimitMessage"
-                      style="color: red; display: none;">You have reached the 160 character limit!</span>
+                <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character
+                    limit!</span>
             </form>
         </div>
     }
@@ -59,7 +59,7 @@
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
                                 <form asp-page-handler="Unfollow" method="post">
-                                    <input type="hidden" name="authorName" value="@cheep.Author"/>
+                                    <input type="hidden" name="authorName" value="@cheep.Author" />
                                     <button type="submit" class="btn btn-default">Unfollow</button>
                                 </form>
                             }
