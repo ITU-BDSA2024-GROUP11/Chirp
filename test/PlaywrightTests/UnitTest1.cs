@@ -65,7 +65,7 @@ public class ExampleTest : PageTest
         _serverProcess.Start();
 
         // Wait for the application to start
-        await Task.Delay(5000); // Adjust delay if necessary
+        await Task.Delay(10000); // Adjust delay if necessary
     }
 
 
