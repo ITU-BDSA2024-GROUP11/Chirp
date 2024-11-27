@@ -35,9 +35,9 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      #env:
-       # authentication_github_clientid: ${{ secrets.authentication_github_clientid }}
-        #authentication_github_clientsecret: ${{ secrets.authentication_github_clientsecret }}
+      env:
+        authentication_github_clientid: ${{ secrets.authentication_github_clientid }}
+        authentication_github_clientsecret: ${{ secrets.authentication_github_clientsecret }}
 
     - name: Publish Windows
       run: dotnet publish -r win-x64 -c Release
@@ -65,3 +65,69 @@ jobs:
           Windows.zip
           Linux.zip
           MacOS.zip
+
+  # Job for Windows to run the .exe file with secrets
+  run_windows:
+    name: Run Windows Executable with Secrets
+    runs-on: windows-latest
+    needs: release
+    steps:
+    - name: Download Windows ZIP
+      uses: actions/download-artifact@v3
+      with:
+        name: Windows.zip
+
+    - name: Extract ZIP
+      run: |
+        mkdir extracted
+        Expand-Archive -Path Windows.zip -DestinationPath extracted
+
+    - name: Run .exe with secrets on Windows
+      run: |
+        $env:authentication_github_clientid = '${{ secrets.authentication_github_clientid }}'
+        $env:authentication_github_clientsecret = '${{ secrets.authentication_github_clientsecret }}'
+        Start-Process -FilePath "extracted/YourApp.exe" -Wait
+
+  # Job for Linux to run the .exe file with secrets
+  run_linux:
+    name: Run Linux Executable with Secrets
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+    - name: Download Linux ZIP
+      uses: actions/download-artifact@v3
+      with:
+        name: Linux.zip
+
+    - name: Extract ZIP
+      run: |
+        mkdir extracted
+        unzip Linux.zip -d extracted
+
+    - name: Run .exe with secrets on Linux
+      run: |
+        export authentication_github_clientid=${{ secrets.authentication_github_clientid }}
+        export authentication_github_clientsecret=${{ secrets.authentication_github_clientsecret }}
+        ./extracted/YourApp # Adjust based on your actual executable's name
+
+  # Job for macOS to run the .exe file with secrets
+  run_macos:
+    name: Run macOS Executable with Secrets
+    runs-on: macos-latest
+    needs: release
+    steps:
+    - name: Download macOS ZIP
+      uses: actions/download-artifact@v3
+      with:
+        name: MacOS.zip
+
+    - name: Extract ZIP
+      run: |
+        mkdir extracted
+        unzip MacOS.zip -d extracted
+
+    - name: Run .exe with secrets on macOS
+      run: |
+        export authentication_github_clientid=${{ secrets.authentication_github_clientid }}
+        export authentication_github_clientsecret=${{ secrets.authentication_github_clientsecret }}
+        ./extracted/YourApp # Adjust based on your actual executable's name
