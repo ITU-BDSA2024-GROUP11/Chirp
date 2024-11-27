@@ -205,6 +205,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
                 foreach (var error in result.Errors)
                 {
+                    if (error.Code == "DuplicateUserName")
+                    {
+                        return RedirectToPage("ChooseNewUsername", new { returnUrl, email = Input.Email });
+                    }
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
