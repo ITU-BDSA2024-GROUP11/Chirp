@@ -73,5 +73,5 @@ jobs:
           Linux.zip
           MacOS.zip
       env:
-        GHUB_CLIENT_ID: ${{ secrets.GHUB_CLIENT_ID }}
-        GHUB_CLIENT_SECRET: ${{ secrets.GHUB_CLIENT_SECRET }}
+        authentication_github_clientid: ${{ secrets.authentication_github_clientid }}
+        authentication_github_clientsecret: ${{ secrets.authentication_github_clientsecret }}
