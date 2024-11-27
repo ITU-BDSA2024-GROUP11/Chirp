@@ -53,7 +53,7 @@
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
-                            @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author)
+                            @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
                                 // if user does not follow author of cheep, show follow button
                                 @if (!Model.FollowsAuthor(cheep.Author))

@@ -88,7 +88,7 @@ public class CheepRepository : ICheepRepository
         return new CheepDTO
         {
             Text = cheep.Text,
-            Author = cheep.Author.UserName,
+            Author = cheep.Author.UserName!,
             TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         };
     }

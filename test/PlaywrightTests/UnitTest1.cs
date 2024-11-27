@@ -245,7 +245,7 @@ public class ExampleTest : PageTest
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
     }
 
-    
+    [Test]
     public async Task LoginAndMyTimelineButton()
     {
         await Page.GotoAsync($"{baseUrl}/");
@@ -257,7 +257,7 @@ public class ExampleTest : PageTest
         await Page.GetByPlaceholder("password").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
-    
+
     }
     
 }
