@@ -86,7 +86,6 @@ jobs:
       run: |
         $env:authentication_github_clientid = '${{ secrets.authentication_github_clientid }}'
         $env:authentication_github_clientsecret = '${{ secrets.authentication_github_clientsecret }}'
-        Start-Process -FilePath "extracted/YourApp.exe" -Wait
 
   # Job for Linux to run the .exe file with secrets
   run_linux:
@@ -108,7 +107,6 @@ jobs:
       run: |
         export authentication_github_clientid=${{ secrets.authentication_github_clientid }}
         export authentication_github_clientsecret=${{ secrets.authentication_github_clientsecret }}
-        ./extracted/YourApp # Adjust based on your actual executable's name
 
   # Job for macOS to run the .exe file with secrets
   run_macos:
@@ -130,4 +128,3 @@ jobs:
       run: |
         export authentication_github_clientid=${{ secrets.authentication_github_clientid }}
         export authentication_github_clientsecret=${{ secrets.authentication_github_clientsecret }}
-        ./extracted/YourApp # Adjust based on your actual executable's name
