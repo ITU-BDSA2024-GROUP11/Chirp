@@ -98,7 +98,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasIndex("FollowsId");
 
-                    b.ToTable("AuthorFollows");
+                    b.ToTable("AuthorFollows", (string)null);
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.DataModel.Cheep", b =>
@@ -122,7 +122,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Cheeps");
+                    b.ToTable("Cheeps", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
