@@ -48,6 +48,9 @@ jobs:
     - name: Publish macOS
       run: dotnet publish -r osx-x64 -c Release
 
+    - name: List Windows Publish Directory
+      run: ls -R src/Chirp.CLI.Client/bin/Release/net8.0/win-x64/publish
+
     - name: Zip Windows
       run: zip -r Windows.zip src/Chirp.CLI.Client/bin/Release/net8.0/win-x64/publish
 
