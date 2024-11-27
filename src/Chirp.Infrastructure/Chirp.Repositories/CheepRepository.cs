@@ -17,13 +17,13 @@ public class CheepRepository : ICheepRepository
         _authorRepository = new AuthorRepository(dbContext);
     }
 
-    public List<CheepDTO> GetCheeps(int page, string authorUsername)
+    public List<CheepDTO> GetCheeps(int page, string authorUsername, int pageSize)
     {
         var query = _dbContext.Cheeps
             .Where(cheep => cheep.Author.UserName == authorUsername)
             .OrderByDescending(cheep => cheep.TimeStamp)
-            .Skip((page - 1) * size)
-            .Take(size)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToList();
         var result = query;
         var list = new List<CheepDTO>();

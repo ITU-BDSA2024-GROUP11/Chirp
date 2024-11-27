@@ -100,4 +100,14 @@ public class AuthorRepository : IAuthorRepository
             Follows = author.Follows.Select(AuthorToDTO).ToList()
         };
     }
+
+    public void RemoveFollows(string userName)
+    {
+        var userId = GetAuthorID(userName);
+        var user = FindAuthorById(userId);
+        foreach (var follow in user.Follows)
+        {
+            UnfollowAuthor(userId, follow.Id);
+        }
+    }
 }
