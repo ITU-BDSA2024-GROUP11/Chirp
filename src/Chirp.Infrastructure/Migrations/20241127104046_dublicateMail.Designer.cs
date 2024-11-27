@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20241120154635_follows")]
-    partial class Follows
+    [Migration("20241127104046_dublicateMail")]
+    partial class dublicateMail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,6 +87,21 @@ namespace Chirp.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.DataModel.AuthorFollows", b =>
+                {
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FollowsId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AuthorId", "FollowsId");
+
+                    b.HasIndex("FollowsId");
+
+                    b.ToTable("AuthorFollows");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.DataModel.Cheep", b =>
@@ -250,6 +265,25 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasOne("Chirp.Infrastructure.DataModel.Author", null)
                         .WithMany("Follows")
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("Chirp.Infrastructure.DataModel.AuthorFollows", b =>
+                {
+                    b.HasOne("Chirp.Infrastructure.DataModel.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Infrastructure.DataModel.Author", "Follows")
+                        .WithMany()
+                        .HasForeignKey("FollowsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Follows");
                 });
 
             modelBuilder.Entity("Chirp.Infrastructure.DataModel.Cheep", b =>

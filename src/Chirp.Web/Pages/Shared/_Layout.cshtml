@@ -9,15 +9,21 @@
 @{
     var isTimeline = ViewData["Title"]?.ToString() == "Public Timeline" || ViewData["Title"]?.ToString() == "My Timeline";
     var pageCount = 0.0;
-    
+
     if (ViewData["Title"]?.ToString() == "Public Timeline")
     {
         pageCount = Math.Ceiling(CheepService.GetCheepCount() / 32.0);
-    } else if (ViewData["Title"]?.ToString() == "My Timeline")
+    }
+    else if (ViewData["Title"]?.ToString() == "My Timeline")
     {
         try
         {
-            pageCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(User.Identity.Name)) / 32.0);
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new InvalidOperationException("User is not authenticated.");
+            }
+            pageCount = Math.Ceiling(CheepService.GetCheepCountByAuthorId(AuthorRepository.GetAuthorID(username)) / 32.0);
         }
         catch (Exception)
         {
@@ -30,123 +36,126 @@
 
 <head>
     <title>@ViewData["Title"]</title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 
 </head>
+
 <body>
-<div class="page">
-    <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
+    <div class="page">
+        <h1><img src="/images/icon1.png" alt="Icon1" />Chirp!</h1>
 
-    <div class="navigation">
-        @if (User.Identity?.IsAuthenticated == true) //Checks user auth and safely returns null for warning CS8602.
-        {
-            <div>
-                <a href="/@(User.Identity?.Name)">my timeline</a> |
-                <a href="/">public timeline</a> |
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">logout [@(User.Identity?.Name)]</a>
-            </div>
-        }
-        else
-        {
-            <div>
-                <a href="/">public timeline</a> |
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">register</a> |
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">login</a>
-            </div>
-        }
+        <div class="navigation">
+            @if (User.Identity?.IsAuthenticated == true) //Checks user auth and safely returns null for warning CS8602.
+            {
+                <div>
+                    <a href="/@(User.Identity?.Name)">my timeline</a> |
+                    <a href="/">public timeline</a> |
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">logout
+                        [@(User.Identity?.Name)]</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="/">public timeline</a> |
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">register</a> |
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">login</a>
+                </div>
+            }
+        </div>
+
+        <div class="body">
+            @RenderBody()
+        </div>
+        <div class="footer">
+            Chirp &mdash; An ASP.NET Application
+            @if (isTimeline)
+            {
+                <div class="button-group">
+                    <button id="first-page" onclick="goToFirstPage()"> First </button>
+                    <button id="previous-button" onclick="changePage(-1)"> Previous </button>
+                    <span id="page-number"> </span>
+                    <button id="next-button" onclick="changePage(1)"> Next </button>
+                    <button id="last-page" onclick="goToLastPage()"> Last </button>
+                </div>
+            }
+        </div>
+
+        <script>
+            let totalPages = @pageCount;
+
+            //This script is used to change the page number in the URL
+            function getCurrentPage() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return parseInt(urlParams.get('page')) || 1;
+            }
+
+            function changePage(delta) {
+                const currentPage = getCurrentPage();
+                let newPage = currentPage + delta;
+
+                if (newPage <= 0) {
+                    checkPageButtons();
+                }
+
+                if (newPage === totalPages + 1) {
+                    checkPageButtons();
+                }
+                window.location.href = `?page=${newPage}`;
+            }
+
+            function checkPageButtons() {
+                const firstPage = document.getElementById("first-page");
+                const previousButton = document.getElementById("previous-button");
+                const nextButton = document.getElementById("next-button");
+                const lastPage = document.getElementById("last-page");
+
+                if (currentPage === 1) {
+                    firstPage.disabled = true;
+                    previousButton.disabled = true;
+                } else {
+                    firstPage.disabled = false;
+                    previousButton.disabled = false;
+                }
+
+                if (currentPage === totalPages) {
+                    nextButton.disabled = true;
+                    lastPage.disabled = true;
+                } else {
+                    nextButton.disabled = false;
+                    lastPage.disabled = false;
+                }
+            }
+
+            function displayCurrentPage() {
+                const currentPage = getCurrentPage();
+                document.getElementById('page-number').textContent = `Page ${currentPage}`;
+            }
+
+            displayCurrentPage();
+
+            function goToFirstPage() {
+                if (getCurrentPage() === 1) {
+                    checkPageButtons();
+                } else {
+                    window.location.href = `?page=${1}`;
+                }
+            }
+
+            function goToLastPage() {
+                if (getCurrentPage() === totalPages) {
+                    checkPageButtons();
+                } else {
+                    window.location.href = `?page=${totalPages}`;
+                }
+            }
+
+        </script>
+        <partial name="_LoginPartial" />
+
     </div>
-
-    <div class="body">
-        @RenderBody()
-    </div>
-    <div class="footer">
-        Chirp &mdash; An ASP.NET Application
-        @if (isTimeline)
-        {
-            <div class="button-group">
-                <button id = "first-page" onclick = "goToFirstPage()"> First </button>
-                <button id = "previous-button" onclick = "changePage(-1)"> Previous </button>
-                <span id = "page-number"> </span>
-                <button id="next-button" onclick="changePage(1)"> Next </button>
-                <button id = "last-page" onclick = "goToLastPage()"> Last </button>
-            </div>
-        }
-    </div>
-
-    <script>
-    let totalPages = @pageCount;
-    
-    //This script is used to change the page number in the URL
-    function getCurrentPage(){
-    const urlParams = new URLSearchParams(window.location.search);
-    return parseInt(urlParams.get('page')) || 1;
-    }
-    
-    function changePage(delta) {
-        const currentPage = getCurrentPage();
-        let newPage = currentPage + delta;
-        
-        if (newPage <= 0) {
-            checkPageButtons();
-        }
-        
-        if (newPage === totalPages + 1) {
-            checkPageButtons();
-        }
-        window.location.href = `?page=${newPage}`;
-    }
-    
-    function checkPageButtons() {
-        const firstPage = document.getElementById("first-page");
-        const previousButton = document.getElementById("previous-button");
-        const nextButton = document.getElementById("next-button");
-        const lastPage = document.getElementById("last-page");
-
-        if (currentPage === 1) {
-            firstPage.disabled = true;
-            previousButton.disabled = true;
-        } else {
-            firstPage.disabled = false;
-            previousButton.disabled = false;
-        }
-        
-        if (currentPage === totalPages) {
-            nextButton.disabled = true;
-            lastPage.disabled = true;
-        } else {
-            nextButton.disabled = false;
-            lastPage.disabled = false;
-        }
-    }
-
-    function displayCurrentPage() {
-        const currentPage = getCurrentPage();
-        document.getElementById('page-number').textContent = `Page ${currentPage}`;
-    }
-
-    displayCurrentPage();
-    
-    function goToFirstPage() {
-        if (getCurrentPage() === 1) {
-            checkPageButtons();
-        } else {
-            window.location.href = `?page=${1}`;
-        }
-    }
-
-    function goToLastPage() {
-        if (getCurrentPage() === totalPages) {
-            checkPageButtons();
-        } else {
-            window.location.href = `?page=${totalPages}`;
-        }
-    }
-    
-    </script>
-    <partial name="_LoginPartial"/>
-
-</div>
 </body>
 @await RenderSectionAsync("Scripts", false)
+
 </html>

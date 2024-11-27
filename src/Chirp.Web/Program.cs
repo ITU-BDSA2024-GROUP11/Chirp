@@ -18,7 +18,10 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddDefaultIdentity<Author>(options =>
-        options.SignIn.RequireConfirmedAccount = true)
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = false;
+    })
     .AddEntityFrameworkStores<ChirpDBContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -32,11 +35,16 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 });
 
+var clientId = builder.Configuration["authentication_github_clientid"] 
+    ?? throw new InvalidOperationException("GitHub ClientId is not configured.");
+var clientSecret = builder.Configuration["authentication_github_clientsecret"] 
+    ?? throw new InvalidOperationException("GitHub ClientSecret is not configured.");
+
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = builder.Configuration["authentication_github_clientid"];
-        o.ClientSecret = builder.Configuration["authentication_github_clientsecret"];
+        o.ClientId = clientId;
+        o.ClientSecret = clientSecret;
         o.Scope.Add("user:email");
     });
 

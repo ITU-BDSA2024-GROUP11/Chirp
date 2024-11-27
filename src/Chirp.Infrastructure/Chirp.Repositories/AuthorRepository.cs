@@ -32,13 +32,6 @@ public class AuthorRepository : IAuthorRepository
         return authorDTO;
     }
 
-    public AuthorDTO GetAuthorByEmail(string email)
-    {
-        var result = FindAuthorByEmail(email);
-        var authorDTO = AuthorToDTO(result);
-        return authorDTO;
-    }
-
     public void CreateAuthor(string name, string email)
     {
         var author = new Author
@@ -97,21 +90,12 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
-    private Author FindAuthorByEmail(string email)
-    {
-        var query = from author in _dbContext.Authors
-            where author.Email == email
-            select author;
-        var result = query.FirstOrDefault();
-        return result;
-    }
-
     public static AuthorDTO AuthorToDTO(Author author)
     {
         return new AuthorDTO
         {
-            Name = author.UserName,
-            Email = author.Email,
+            Name = author.UserName ?? throw new InvalidOperationException("Username cannot be null"),
+            Email = author.Email ?? throw new InvalidOperationException("Email cannot be null"),
             Id = author.Id,
             Follows = author.Follows.Select(AuthorToDTO).ToList()
         };
