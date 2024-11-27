@@ -56,7 +56,7 @@
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
-                            @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author)
+                            @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
                                 <form asp-page-handler="Unfollow" method="post">
                                     <input type="hidden" name="authorName" value="@cheep.Author"/>

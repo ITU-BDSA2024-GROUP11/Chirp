@@ -110,8 +110,8 @@ public class AuthorRepository : IAuthorRepository
     {
         return new AuthorDTO
         {
-            Name = author.UserName,
-            Email = author.Email,
+            Name = author.UserName ?? throw new InvalidOperationException("Username cannot be null"),
+            Email = author.Email ?? throw new InvalidOperationException("Email cannot be null"),
             Id = author.Id,
             Follows = author.Follows.Select(AuthorToDTO).ToList()
         };
