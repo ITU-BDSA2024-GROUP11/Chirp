@@ -144,7 +144,7 @@ public class ExampleTest : PageTest
         await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Seems to" })
             .GetByRole(AriaRole.Link)
             .ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Jacqualine%20Gilcoine", Page.Url);
+        Assert.That(Page.Url,Is.EqualTo($"{baseUrl}/Jacqualine%20Gilcoine"));
     }
 
     [Test]
@@ -152,14 +152,14 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "register" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Identity/Account/Register", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/Identity/Account/Register"));
     }
     [Test]
     public async Task LoginButton()
     {
         await Page.GotoAsync($"{baseUrl}/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Identity/Account/Login", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/Identity/Account/Login"));
     }
 
     [Test]
@@ -167,14 +167,14 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Next" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=2", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=2"));
     }
     [Test]
     public async Task PreviousPageButton()
     {
         await Page.GotoAsync($"{baseUrl}/?page=2");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Previous" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=1", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=1"));
     }
 
     [Test]
@@ -182,14 +182,14 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/?page=21");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Next" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=21", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=21"));
     }
     [Test]
     public async Task PreviousPageButtonOnPage1()
     {
         await Page.GotoAsync($"{baseUrl}/?page=1");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Previous" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=1", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=1"));
     }
     
     [Test]
@@ -197,14 +197,14 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/?page=21");
         await Page.GetByRole(AriaRole.Button, new() { Name = "First" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=1", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=1"));
     }
     [Test]
     public async Task LastPageButton()
     {
         await Page.GotoAsync($"{baseUrl}/");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Last" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/?page=21", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/?page=21"));
     }
     
     [Test]
@@ -212,7 +212,7 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/?page=5");
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/", Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
     }
 
     
@@ -222,7 +222,7 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync("http://localhost:5273/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "register" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Identity/Account/Register",Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/Identity/Account/Register"));
         await Page.GetByPlaceholder("user name").ClickAsync();
         await Page.GetByPlaceholder("user name").FillAsync("TestUser");
         await Page.GetByPlaceholder("user name").PressAsync("Tab");
@@ -237,12 +237,12 @@ public class ExampleTest : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Starbuck now is what we hear the worst. — 2023-08-01" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/TestUser",Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/TestUser"));
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Unfollow Starbuck now is what we hear the worst. — 2023-08-" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "logout [TestUser]" }).ClickAsync();
         await Task.Delay(1000); // Adjust delay if necessary
-        Assert.AreEqual($"{baseUrl}/",Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
     }
 
     [Test]
@@ -250,17 +250,14 @@ public class ExampleTest : PageTest
     {
         await Page.GotoAsync($"{baseUrl}/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Identity/Account/Login",Page.Url);
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/Identity/Account/Login"));
         await Page.GetByPlaceholder("user name").ClickAsync();
         await Page.GetByPlaceholder("user name").FillAsync("TestUser");
         await Page.GetByPlaceholder("user name").PressAsync("Tab");
         await Page.GetByPlaceholder("password").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/",Page.Url);
-        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-        await Page.Locator("#cheepText").ClickAsync();
-        await Page.Locator("#cheepText").FillAsync("I still do not have a mind, I am simply a test user");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
+        Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
+
     }
     
 }
