@@ -19,13 +19,13 @@ public class UserTimelineModel : PageModel
 
     public List<CheepDTO> Cheeps { get; set; } = new();
 
-    [BindProperty] public string NewCheepText { get; set; }
+    [BindProperty] public required string NewCheepText { get; set; }
 
     public ActionResult OnGet([FromQuery] int page, string author)
     {
         if (page == 0) page = 1;
 
-        if (author == User.Identity.Name)
+        if (author == User.Identity?.Name)
         {
             var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
             followedAuthors.Add(_authorRepository.GetAuthorByName(User.Identity.Name));
@@ -41,7 +41,6 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnPostSendCheep()
     {
-        if (!User.Identity.IsAuthenticated) return RedirectToPage("/Account/Login");
 
         if (string.IsNullOrWhiteSpace(NewCheepText))
         {
@@ -49,29 +48,50 @@ public class UserTimelineModel : PageModel
             return Page();
         }
 
-        // Cheep length logic here too?
-        _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
 
-        return RedirectToPage(new { author = User.Identity.Name });
+        _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(username));
+
+        return RedirectToPage(new { author = User.Identity?.Name });
     }
 
     public ActionResult OnPostFollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
-        _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        _service.FollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
     }
 
     public ActionResult OnPostUnfollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
-        _service.UnfollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+        _service.UnfollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
     }
 
     public bool FollowsAuthor(string authorName)
     {
-        var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+        var followedAuthors = _authorRepository.GetFollowedAuthors(username);
         foreach (var author in followedAuthors)
             if (author.Name == authorName)
                 return true;
