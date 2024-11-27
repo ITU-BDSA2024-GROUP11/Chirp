@@ -10,4 +10,5 @@ public interface ICheepRepository
     public int GetCheepCount();
     public int GetCheepCountByAuthorId(string authorid);
     public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page);
+    public CheepDTO EditCheep(CheepDTO cheep, string text);
 }

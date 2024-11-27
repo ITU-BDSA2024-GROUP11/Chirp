@@ -59,4 +59,9 @@ public class CheepService : ICheepService
     {
         return _cheepRepository.GetCheepsFromAuthors(authors, page);
     }
+
+    public CheepDTO EditCheep(CheepDTO cheep, string text)
+    {
+        return _cheepRepository.EditCheep(cheep, text);
+    }
 }
