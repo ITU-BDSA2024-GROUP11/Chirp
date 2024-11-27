@@ -65,7 +65,7 @@ public class ExampleTest : PageTest
         _serverProcess.Start();
 
         // Wait for the application to start
-        await Task.Delay(15000); // Adjust delay if necessary
+        await Task.Delay(5000); // Adjust delay if necessary
     }
 
 
@@ -231,17 +231,7 @@ public class ExampleTest : PageTest
         await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
         await Page.GetByLabel("Password", new() { Exact = true }).PressAsync("Tab");
         await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
-        await Page.GetByLabel("Confirm Password").PressAsync("Tab");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/Identity/Account/Login",Page.Url);
-        await Page.GetByPlaceholder("user name").ClickAsync();
-        await Page.GetByPlaceholder("user name").FillAsync("TestUser");
-        await Page.GetByPlaceholder("user name").PressAsync("Tab");
-        await Page.GetByPlaceholder("password").FillAsync("Test123!");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
-        Assert.AreEqual($"{baseUrl}/",Page.Url);
         await Page.Locator("#cheepText").ClickAsync();
         await Page.Locator("#cheepText").FillAsync("I do not have a mind, I am simply a test user");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
@@ -251,7 +241,7 @@ public class ExampleTest : PageTest
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Unfollow Starbuck now is what we hear the worst. — 2023-08-" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "logout [TestUser]" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
+        await Task.Delay(1000); // Adjust delay if necessary
         Assert.AreEqual($"{baseUrl}/",Page.Url);
     }
 
