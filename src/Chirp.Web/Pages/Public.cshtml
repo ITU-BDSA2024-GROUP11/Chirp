@@ -17,20 +17,19 @@
     }
 
     @if (User.Identity?.IsAuthenticated == true)
-    {
-        <div class="cheepbox">
-            <h3>What's on your mind @(User.Identity.Name)?</h3>
-            <form method="post" asp-page-handler="SendCheep">
-                <div style="display: flex; align-items: center;">
-                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText"
-                           oninput="checkCharacterLimit()" style="float: left; margin-right: 10px;">
-                    <input type="submit" value="Share" style="margin-left: 10px;">
-                </div>
-                <span id="charLimitMessage"
-                      style="color: red; display: none;">You have reached the 160 character limit!</span>
-            </form>
-        </div>
-    }
+{
+    <div class="cheepbox">
+        <h3>What's on your mind @(User.Identity.Name)?</h3>
+        <form method="post" asp-page-handler="SendCheep">
+            <div style="display: flex; align-items: center;">
+                <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()" 
+                    style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                <input type="submit" value="Share" style="padding: 5px 10px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">
+            </div>
+            <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character limit!</span>
+        </form>
+    </div>
+}
 
     <script>
         function checkCharacterLimit() {
@@ -59,7 +58,7 @@
                                 @if (!Model.FollowsAuthor(cheep.Author))
                                 {
                                     <form asp-page-handler="Follow" method="post">
-                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
+                                        <input type="hidden" name="authorName" value="@cheep.Author" />
                                         <button type="submit" class="btn btn-default">Follow</button>
                                     </form>
                                 }
@@ -67,14 +66,32 @@
                                 {
                                     // if user follows author of cheep, show Unfollow button
                                     <form asp-page-handler="Unfollow" method="post">
-                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
+                                        <input type="hidden" name="authorName" value="@cheep.Author" />
                                         <button type="submit" class="btn btn-default">Unfollow</button>
                                     </form>
                                 }
                             }
                         </strong>
-                        @cheep.Text
-                        <small>&mdash; @cheep.TimeStamp</small>
+                        @if (cheep.IsImage)
+                        {
+                            var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
+                            if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                    style="max-width: 100%; height: auto; border-radius: 5px; margin-top: 10px; display: block;" />
+                            }
+                            else
+                            {
+                            <p>@cheep.Text</p> <!-- Fallback for invalid image URLs -->
+                            }
+                        }
+                        else
+                        {
+                            @cheep.Text
+                        }
+                    <small>&mdash; @cheep.TimeStamp</small>
+
                     </p>
                 </li>
             }
@@ -84,4 +101,5 @@
     {
         <em>There are no more Cheeps to read.</em>
     }
+
 </div>
