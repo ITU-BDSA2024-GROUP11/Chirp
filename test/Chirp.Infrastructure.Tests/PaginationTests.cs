@@ -36,14 +36,14 @@ public class PaginationTests
     [Fact]
     public void PaginationUserTest()
     {
-        var cheeps = _repository.GetCheeps(1, "Jacqualine Gilcoine");
+        var cheeps = _repository.GetCheeps(1, "Jacqualine Gilcoine", 32);
         Assert.Equal("Jacqualine Gilcoine", cheeps[0].Author);
     }
 
     [Fact]
     public void PaginationUserPageTest()
     {
-        var cheeps = _repository.GetCheeps(2, "Jacqualine Gilcoine");
+        var cheeps = _repository.GetCheeps(2, "Jacqualine Gilcoine", 32);
         Assert.Equal("Jacqualine Gilcoine", cheeps[0].Author);
         Assert.Equal("What a relief it was the place examined.", cheeps[0].Text);
     }
