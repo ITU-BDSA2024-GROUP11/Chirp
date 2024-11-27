@@ -42,6 +42,15 @@
                 message.style.display = "none";
             }
         }
+
+        function toggleEditField(cheepId) {
+            var editField = document.getElementById("editField_" + cheepId);
+            if (editField.style.display === "none") {
+                editField.style.display = "block";
+            } else {
+                editField.style.display = "none";
+            }
+        }
     </script>
 
     @if (Model.Cheeps.Any())
@@ -72,9 +81,20 @@
                                     </form>
                                 }
                             }
+                            @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
+                            {
+                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                            }
                         </strong>
-                        @cheep.Text
-                        <small>&mdash; @cheep.TimeStamp</small>
+                    <div id="editField_@cheep.CheepId" style="display: none;">
+                        <form method="post" asp-page-handler="SubmitEdit">
+                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                            <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
+                            <input type="submit" value="Save">
+                        </form>
+                    </div>
+                    @cheep.Text
+                    <small>&mdash; @cheep.TimeStamp</small>
                     </p>
                 </li>
             }
