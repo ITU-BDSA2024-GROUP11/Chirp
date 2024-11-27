@@ -19,7 +19,7 @@ public class PublicModel : PageModel
 
     public List<CheepDTO> Cheeps { get; set; } = new();
 
-    [BindProperty] public string NewCheepText { get; set; }
+    [BindProperty] public required string NewCheepText { get; set; }
 
     public ActionResult OnGet([FromQuery] int page)
     {
@@ -30,7 +30,6 @@ public class PublicModel : PageModel
 
     public ActionResult OnPost()
     {
-        if (!User.Identity.IsAuthenticated) return RedirectToPage("/Account/Login");
 
         if (string.IsNullOrWhiteSpace(NewCheepText))
         {
@@ -38,27 +37,53 @@ public class PublicModel : PageModel
             return Page();
         }
 
-        _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(User.Identity.Name));
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(username));
         return RedirectToPage();
     }
 
     public ActionResult OnPostFollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
-        _service.FollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        _service.FollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
     }
 
     public ActionResult OnPostUnfollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
-        _service.UnfollowAuthor(_authorRepository.GetAuthorID(User.Identity.Name), authorId);
+
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        _service.UnfollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
     }
 
     public bool FollowsAuthor(string authorName)
     {
-        var followedAuthors = _authorRepository.GetFollowedAuthors(User.Identity.Name);
+        var username = User.Identity?.Name;
+        if (string.IsNullOrEmpty(username))
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        var followedAuthors = _authorRepository.GetFollowedAuthors(username);
         foreach (var author in followedAuthors)
             if (author.Name == authorName)
                 return true;
