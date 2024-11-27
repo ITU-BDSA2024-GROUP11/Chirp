@@ -5,6 +5,7 @@ using Chirp.Infrastructure.DataModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Pages;
 
@@ -63,27 +64,6 @@ public class AboutMeModel : PageModel
             ModelState.AddModelError(string.Empty, "An error occurred while deleting the user.");
             return Redirect("~/");
         }
-
-        return Redirect("~/");
-
-        /*
-        var Author = _userManager.GetUserAsync(User).Result;
-        if (Author == null)
-        {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        }
-
-        await DeleteUserRelatedData(Author);
-
-        var result = await _userManager.DeleteAsync(Author);
-        if (!result.Succeeded)
-        {
-            return Page();
-        }
-
-        await _signInManager.SignOutAsync();
-        return Redirect("/Index");
-        */
     }
     
     public async Task DeleteUserRelatedData(IdentityUser user)
@@ -91,15 +71,10 @@ public class AboutMeModel : PageModel
         Console.WriteLine("Deleting user related data");
         var cheepsToRemove = _dbContext.Cheeps.Where(c => c.Author.Id == user.Id).ToList();
         _dbContext.Cheeps.RemoveRange(cheepsToRemove);
-        Console.WriteLine("Deleted Cheeps");
-        //_authorRepository.RemoveFollows(User.Identity.Name);
-        Console.WriteLine("Removed Follows");
-        
-        
-        //_cheepService.RemoveCheeps(User.Identity.Name);
-        //_authorRepository.RemoveFollows(User.Identity.Name);
-        //_dbContext.Cheeps.RemoveRange(_dbContext.Cheeps.Where(c => c.Author.UserName == user.UserName));
-        //_dbContext.AuthorFollows.RemoveRange(_dbContext.AuthorFollows.Where(f => f.AuthorId == user.Id));
+        Console.WriteLine("Deleted Cheeps"); 
+        _authorRepository.RemoveFollows(User.Identity.Name);
+        _dbContext.Authors.Where(c => c.Id == user.Id).Include(x => x.Follows).ToList();
+        _dbContext.SaveChanges();
     }
 
     public List<AuthorDTO> Following()
