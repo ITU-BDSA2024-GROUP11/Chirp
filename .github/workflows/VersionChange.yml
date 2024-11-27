@@ -72,3 +72,6 @@ jobs:
           Windows.zip
           Linux.zip
           MacOS.zip
+      env:
+        GHUB_CLIENT_ID: ${{ secrets.GHUB_CLIENT_ID }}
+        GHUB_CLIENT_SECRET: ${{ secrets.GHUB_CLIENT_SECRET }}
