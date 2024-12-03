@@ -23,7 +23,7 @@ public class DTOTest
         var dto = CheepRepository.CheepToDTO(cheep);
         Assert.Equal("Gunner Nielsen", dto.Author);
         Assert.Equal("It just do be like it is", dto.Text);
-        Assert.Equal("2024-08-01 15:50:32", dto.TimeStamp);
+        Assert.Equal("01/08/2024 15.50.32", dto.TimeStamp.ToString());
     }
 
     [Fact]
