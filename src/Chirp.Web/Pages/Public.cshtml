@@ -43,6 +43,15 @@
                 message.style.display = "none";
             }
         }
+
+        function toggleEditField(cheepId) {
+            var editField = document.getElementById("editField_" + cheepId);
+            if (editField.style.display === "none") {
+                editField.style.display = "block";
+            } else {
+                editField.style.display = "none";
+            }
+        }
     </script>
 
     @if (Model.Cheeps.Any())
@@ -73,7 +82,19 @@
                                     </form>
                                 }
                             }
+                            @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
+                            {
+                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                            }
                         </strong>
+                        <div id="editField_@cheep.CheepId" style="display: none;">
+                        <form method="post" asp-page-handler="SubmitEdit">
+                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                            <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
+                            <input type="submit" value="Save">
+                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
+                            </form>
+                    </div>
                         @if (cheep.IsImage)
                         {
                             var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
@@ -93,7 +114,6 @@
                             @cheep.Text
                         }
                     <small>&mdash; @cheep.TimeStamp</small>
-
                     </p>
                 </li>
             }

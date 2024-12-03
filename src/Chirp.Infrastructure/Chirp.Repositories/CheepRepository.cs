@@ -17,13 +17,13 @@ public class CheepRepository : ICheepRepository
         _authorRepository = new AuthorRepository(dbContext);
     }
 
-    public List<CheepDTO> GetCheeps(int page, string authorUsername)
+    public List<CheepDTO> GetCheeps(int page, string authorUsername, int pageSize)
     {
         var query = _dbContext.Cheeps
             .Where(cheep => cheep.Author.UserName == authorUsername)
             .OrderByDescending(cheep => cheep.TimeStamp)
-            .Skip((page - 1) * size)
-            .Take(size)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToList();
         var result = query;
         var list = new List<CheepDTO>();
@@ -83,16 +83,6 @@ public class CheepRepository : ICheepRepository
         return _dbContext.Cheeps.Where(cheep => cheep.AuthorId == authorId).Count();
     }
 
-    public static CheepDTO CheepToDTO(Cheep cheep)
-    {
-        return new CheepDTO
-        {
-            Text = cheep.Text,
-            Author = cheep.Author.UserName!,
-            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
-        };
-    }
-
     public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page)
     {
         var authorIds = authors.Select(author => author.Id).ToList();
@@ -113,4 +103,30 @@ public class CheepRepository : ICheepRepository
         return list;
     }
 
+    public CheepDTO EditCheep(CheepDTO cheepDTO, string text)
+    {
+        var cheep = _dbContext.Cheeps.Find(cheepDTO.CheepId);
+        cheep.Text = text;
+        cheepDTO.Text = text;
+        _dbContext.SaveChanges();
+        return cheepDTO;
+    }
+
+    public static CheepDTO CheepToDTO(Cheep cheep)
+    {
+        return new CheepDTO
+        {
+            CheepId = cheep.CheepId,
+            Text = cheep.Text,
+            Author = cheep.Author.UserName!,
+            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
+        };
+    }
+    
+    public void DeleteCheep(CheepDTO cheep)
+    {
+        var cheepToDelete = _dbContext.Cheeps.Find(cheep.CheepId);
+        _dbContext.Cheeps.Remove(cheepToDelete);
+        _dbContext.SaveChanges();
+    }
 }

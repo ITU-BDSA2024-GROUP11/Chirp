@@ -10,6 +10,7 @@ public class PublicModel : PageModel
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepService _service;
+    public bool editing;
 
     public PublicModel(ICheepService service, IAuthorRepository authorService)
     {
@@ -30,18 +31,14 @@ public class PublicModel : PageModel
 
     public ActionResult OnPost()
     {
-
         if (string.IsNullOrWhiteSpace(NewCheepText))
         {
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
-            return Page();
+            return RedirectToPage();
         }
 
         var username = User.Identity?.Name;
-        if (string.IsNullOrEmpty(username))
-        {
-            throw new InvalidOperationException("User is not authenticated.");
-        }
+        if (string.IsNullOrEmpty(username)) throw new InvalidOperationException("User is not authenticated.");
 
         _service.AddCheep(NewCheepText, _authorRepository.GetAuthorID(username));
         return RedirectToPage();
@@ -52,10 +49,7 @@ public class PublicModel : PageModel
         var authorId = _authorRepository.GetAuthorID(authorName);
 
         var username = User.Identity?.Name;
-        if (string.IsNullOrEmpty(username))
-        {
-            throw new InvalidOperationException("User is not authenticated.");
-        }
+        if (string.IsNullOrEmpty(username)) throw new InvalidOperationException("User is not authenticated.");
 
         _service.FollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
@@ -66,10 +60,7 @@ public class PublicModel : PageModel
         var authorId = _authorRepository.GetAuthorID(authorName);
 
         var username = User.Identity?.Name;
-        if (string.IsNullOrEmpty(username))
-        {
-            throw new InvalidOperationException("User is not authenticated.");
-        }
+        if (string.IsNullOrEmpty(username)) throw new InvalidOperationException("User is not authenticated.");
 
         _service.UnfollowAuthor(_authorRepository.GetAuthorID(username), authorId);
         return RedirectToPage();
@@ -78,16 +69,28 @@ public class PublicModel : PageModel
     public bool FollowsAuthor(string authorName)
     {
         var username = User.Identity?.Name;
-        if (string.IsNullOrEmpty(username))
-        {
-            throw new InvalidOperationException("User is not authenticated.");
-        }
+        if (string.IsNullOrEmpty(username)) throw new InvalidOperationException("User is not authenticated.");
 
         var followedAuthors = _authorRepository.GetFollowedAuthors(username);
         foreach (var author in followedAuthors)
             if (author.Name == authorName)
                 return true;
-
         return false;
+    }
+
+    public ActionResult OnPostSubmitEdit(CheepDTO cheep)
+    {
+        //Make Call to edit cheep
+        var text = Request.Form["text"];
+        if (!string.IsNullOrWhiteSpace(text)){
+            _service.EditCheep(cheep, text);
+        }
+        return RedirectToPage();
+    }
+    
+    public ActionResult OnPostDeleteCheep(CheepDTO cheep)
+    {
+        _service.DeleteCheep(cheep);
+        return RedirectToPage();
     }
 }

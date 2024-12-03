@@ -41,11 +41,10 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnPostSendCheep()
     {
-
         if (string.IsNullOrWhiteSpace(NewCheepText))
         {
             ModelState.AddModelError("NewCheepText", "Cheep text is required.");
-            return Page();
+            return RedirectToPage();
         }
 
         var username = User.Identity?.Name;
@@ -97,5 +96,18 @@ public class UserTimelineModel : PageModel
                 return true;
 
         return false;
+    }
+
+    public ActionResult OnPostSubmitEdit(CheepDTO cheep)
+    {
+        var text = Request.Form["text"];
+        _service.EditCheep(cheep, text);
+        return RedirectToPage();
+    }
+    
+    public ActionResult OnPostDeleteCheep(CheepDTO cheep)
+    {
+        _service.DeleteCheep(cheep);
+        return RedirectToPage();
     }
 }

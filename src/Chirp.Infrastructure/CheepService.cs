@@ -15,9 +15,9 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
-    public List<CheepDTO> GetCheepsFromAuthor(string author, int page)
+    public List<CheepDTO> GetCheepsFromAuthor(string author, int page, int pageSize = 32)
     {
-        return _cheepRepository.GetCheeps(page, author);
+        return _cheepRepository.GetCheeps(page, author, pageSize);
     }
 
     public List<CheepDTO> GetCheepsFromPage(int page)
@@ -58,5 +58,15 @@ public class CheepService : ICheepService
     public List<CheepDTO> GetCheepsFromAuthors(List<AuthorDTO> authors, int page)
     {
         return _cheepRepository.GetCheepsFromAuthors(authors, page);
+    }
+
+    public CheepDTO EditCheep(CheepDTO cheep, string text)
+    {
+        return _cheepRepository.EditCheep(cheep, text);
+    }
+    
+    public void DeleteCheep(CheepDTO cheep)
+    {
+        _cheepRepository.DeleteCheep(cheep);
     }
 }
