@@ -64,4 +64,9 @@ public class CheepService : ICheepService
     {
         return _cheepRepository.EditCheep(cheep, text);
     }
+    
+    public void DeleteCheep(CheepDTO cheep)
+    {
+        _cheepRepository.DeleteCheep(cheep);
+    }
 }

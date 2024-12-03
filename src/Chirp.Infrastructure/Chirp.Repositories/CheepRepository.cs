@@ -122,4 +122,11 @@ public class CheepRepository : ICheepRepository
             TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
         };
     }
+    
+    public void DeleteCheep(CheepDTO cheep)
+    {
+        var cheepToDelete = _dbContext.Cheeps.Find(cheep.CheepId);
+        _dbContext.Cheeps.Remove(cheepToDelete);
+        _dbContext.SaveChanges();
+    }
 }
