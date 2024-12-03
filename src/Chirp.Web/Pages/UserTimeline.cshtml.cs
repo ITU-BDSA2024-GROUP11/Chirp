@@ -104,4 +104,10 @@ public class UserTimelineModel : PageModel
         _service.EditCheep(cheep, text);
         return RedirectToPage();
     }
+    
+    public ActionResult OnPostDeleteCheep(CheepDTO cheep)
+    {
+        _service.DeleteCheep(cheep);
+        return RedirectToPage();
+    }
 }

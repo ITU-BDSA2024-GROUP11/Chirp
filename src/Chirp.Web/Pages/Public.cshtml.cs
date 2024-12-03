@@ -82,7 +82,15 @@ public class PublicModel : PageModel
     {
         //Make Call to edit cheep
         var text = Request.Form["text"];
-        _service.EditCheep(cheep, text);
+        if (!string.IsNullOrWhiteSpace(text)){
+            _service.EditCheep(cheep, text);
+        }
+        return RedirectToPage();
+    }
+    
+    public ActionResult OnPostDeleteCheep(CheepDTO cheep)
+    {
+        _service.DeleteCheep(cheep);
         return RedirectToPage();
     }
 }

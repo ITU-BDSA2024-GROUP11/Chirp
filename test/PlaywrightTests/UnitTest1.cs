@@ -235,8 +235,8 @@ public class ExampleTest : PageTest
         await Page.Locator("#cheepText").ClickAsync();
         await Page.Locator("#cheepText").FillAsync("I do not have a mind, I am simply a test user");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Save Starbuck now is what we hear the worst. — 01/08" }).GetByRole(AriaRole.Link).ClickAsync();
+
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/TestUser"));
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
