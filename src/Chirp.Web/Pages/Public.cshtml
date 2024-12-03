@@ -105,25 +105,14 @@
                             }
                             else
                             {
-                            <p>@cheep.Text</p> <!-- Fallback for invalid image URLs -->
+                            <p>@cheep.Text</p>
                             }
                         }
                         else
                         {
                             @cheep.Text
                         }
-                    <small data-utc-time="@cheep.TimeStamp.ToString("o")"></small>
-
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            var timeElements = document.querySelectorAll("[data-utc-time]");
-                            timeElements.forEach(function(element) {
-                                var utcTime = element.getAttribute("data-utc-time");
-                                var localTime = new Date(utcTime).toLocaleString();
-                                element.textContent = `— ${localTime}`;
-                            });
-                        });
-                    </script>
+                    <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
                     </p>
                 </li>
             }
