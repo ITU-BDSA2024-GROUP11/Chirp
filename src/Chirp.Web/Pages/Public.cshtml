@@ -22,8 +22,9 @@
             <h3>What's on your mind @(User.Identity.Name)?</h3>
             <form method="post" asp-page-handler="SendCheep">
                 <div style="display: flex; align-items: center;">
-                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()"
-                        style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText"
+                           oninput="checkCharacterLimit()"
+                           style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
                     <input type="submit" value="Share">
                 </div>
                 <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character
@@ -36,6 +37,16 @@
         function checkCharacterLimit() {
             var cheepInput = document.getElementById("cheepText");
             var message = document.getElementById("charLimitMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+
+        function checkEditLimit() {
+            var cheepInput = document.getElementById("editText");
+            var message = document.getElementById("charEditMessage");
             if (cheepInput.value.length >= 160) {
                 message.style.display = "inline";
             } else {
@@ -68,7 +79,7 @@
                                 @if (!Model.FollowsAuthor(cheep.Author))
                                 {
                                     <form asp-page-handler="Follow" method="post">
-                                        <input type="hidden" name="authorName" value="@cheep.Author" />
+                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
                                         <button type="submit" class="btn btn-default">Follow</button>
                                     </form>
                                 }
@@ -76,42 +87,50 @@
                                 {
                                     // if user follows author of cheep, show Unfollow button
                                     <form asp-page-handler="Unfollow" method="post">
-                                        <input type="hidden" name="authorName" value="@cheep.Author" />
+                                        <input type="hidden" name="authorName" value="@cheep.Author"/>
                                         <button type="submit" class="btn btn-default">Unfollow</button>
                                     </form>
                                 }
                             }
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
                             {
-                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                                <button type="button" class="btn btn-default"
+                                        onclick="toggleEditField('@cheep.CheepId')">Edit
+                                </button>
                             }
                         </strong>
-                        <div id="editField_@cheep.CheepId" style="display: none;">
+                    <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
-                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                            <input type="text" name="text" value="@cheep.Text" id="editText" oninput="checkEditLimit()"
+                                   maxlength="160">
                             <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
                             <input type="submit" value="Save">
-                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
-                            </form>
+                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId"
+                                   class="btn btn-default" value="Delete">
+                            <span id="charEditMessage"
+                                  style="color: red; display: none;">You have reached the 160 character limit!</span>
+                        </form>
                     </div>
-                        @if (cheep.IsImage)
+
+                    @if (cheep.IsImage)
+                    {
+                        var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                        var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
+                        if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                         {
-                            var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
-                            if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
-                            {
-                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
-                            }
-                            else
-                            {
-                            <p>@cheep.Text</p> <!-- Fallback for invalid image URLs -->
-                            }
+                            <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                 style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;"/>
                         }
                         else
                         {
-                            @cheep.Text
+                            <p>@cheep.Text</p>
+                            <!-- Fallback for invalid image URLs -->
                         }
+                    }
+                    else
+                    {
+                        @cheep.Text
+                    }
                     <small>&mdash; @cheep.TimeStamp.ToLocalTime()</small>
                     </p>
                 </li>

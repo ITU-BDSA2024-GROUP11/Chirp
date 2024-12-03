@@ -1,5 +1,6 @@
-namespace Chirp.Infrastructure.DataModel;
 using System.ComponentModel.DataAnnotations;
+
+namespace Chirp.Infrastructure.DataModel;
 
 public class Cheep
 {

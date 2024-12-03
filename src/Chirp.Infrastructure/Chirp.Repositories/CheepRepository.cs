@@ -105,6 +105,7 @@ public class CheepRepository : ICheepRepository
 
     public CheepDTO EditCheep(CheepDTO cheepDTO, string text)
     {
+        if (text.Length > 160) return cheepDTO;
         var cheep = _dbContext.Cheeps.Find(cheepDTO.CheepId);
         cheep.Text = text;
         cheepDTO.Text = text;
