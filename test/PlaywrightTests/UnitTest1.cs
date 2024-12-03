@@ -142,7 +142,7 @@ public class ExampleTest : PageTest
     public async Task ClickOnUser()
     {
         await Page.GotoAsync($"{baseUrl}/");
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Save delete Starbuck now is what we hear the worst. — 01/08" }).GetByRole(AriaRole.Link).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Save delete The train pulled up at his bereavement; but his" }).GetByRole(AriaRole.Link).ClickAsync();
         Assert.That(Page.Url,Is.EqualTo($"{baseUrl}/Jacqualine%20Gilcoine"));
     }
 
