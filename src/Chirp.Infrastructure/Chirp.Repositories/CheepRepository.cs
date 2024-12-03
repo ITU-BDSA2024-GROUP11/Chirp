@@ -108,6 +108,8 @@ public class CheepRepository : ICheepRepository
         var cheep = _dbContext.Cheeps.Find(cheepDTO.CheepId);
         cheep.Text = text;
         cheepDTO.Text = text;
+        cheep.EditedTimeStamp = DateTime.UtcNow;
+        cheepDTO.EditedTimeStamp = DateTime.UtcNow;
         _dbContext.SaveChanges();
         return cheepDTO;
     }
@@ -119,7 +121,8 @@ public class CheepRepository : ICheepRepository
             CheepId = cheep.CheepId,
             Text = cheep.Text,
             Author = cheep.Author.UserName!,
-            TimeStamp = cheep.TimeStamp
+            TimeStamp = cheep.TimeStamp,
+            EditedTimeStamp = cheep.EditedTimeStamp
         };
     }
     
