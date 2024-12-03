@@ -254,7 +254,16 @@ button {
     background-color: #cc6e6e;
     border: none;
     color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: #cc6e6e;
+    border: none;
     padding: 8px 16px;
+    color: white;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
