@@ -90,6 +90,7 @@ public class ExampleTest : PageTest
             Console.WriteLine($"Failed to delete the database: {ex.Message}");
         }
     }
+    
     private void DeleteDatabase()
     {
         // Base directory of the test assembly
@@ -128,7 +129,7 @@ public class ExampleTest : PageTest
 
 
 
-
+    
     [Test]
     public async Task GetStartedLink()
     {
@@ -141,6 +142,7 @@ public class ExampleTest : PageTest
     public async Task ClickOnUser()
     {
         await Page.GotoAsync($"{baseUrl}/");
+
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Save Starbuck now is what we hear the worst. — 01/08/2023" }).GetByRole(AriaRole.Link).ClickAsync();
         Assert.That(Page.Url,Is.EqualTo($"{baseUrl}/Jacqualine%20Gilcoine"));
     }
@@ -233,7 +235,8 @@ public class ExampleTest : PageTest
         await Page.Locator("#cheepText").ClickAsync();
         await Page.Locator("#cheepText").FillAsync("I do not have a mind, I am simply a test user");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Save Starbuck now is what we hear the worst. — 01/08/2023" }).GetByRole(AriaRole.Link).ClickAsync();
+
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Follow Save Starbuck now is what we hear the worst. — 01/08" }).GetByRole(AriaRole.Link).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/TestUser"));
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
@@ -256,5 +259,6 @@ public class ExampleTest : PageTest
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/"));
 
     }
+    
     
 }
