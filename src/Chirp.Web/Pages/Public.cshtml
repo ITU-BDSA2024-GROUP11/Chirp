@@ -105,14 +105,14 @@
                             }
                             else
                             {
-                            <p>@cheep.Text</p> <!-- Fallback for invalid image URLs -->
+                            <p>@cheep.Text</p>
                             }
                         }
                         else
                         {
                             @cheep.Text
                         }
-                    <small>&mdash; @cheep.TimeStamp.ToLocalTime()</small>
+                    <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
                     </p>
                 </li>
             }
