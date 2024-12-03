@@ -63,7 +63,7 @@ public class CheepRepository : ICheepRepository
             AuthorId = authorId,
             Author = _authorRepository.FindAuthorById(authorId),
             Text = text,
-            TimeStamp = DateTime.Now
+            TimeStamp = DateTime.UtcNow
         };
 
         // Add the new Cheep to the DbSet
@@ -119,7 +119,7 @@ public class CheepRepository : ICheepRepository
             CheepId = cheep.CheepId,
             Text = cheep.Text,
             Author = cheep.Author.UserName!,
-            TimeStamp = cheep.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
+            TimeStamp = cheep.TimeStamp
         };
     }
     
