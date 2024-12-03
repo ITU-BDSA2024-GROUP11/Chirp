@@ -52,7 +52,7 @@
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
+                <li style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; overflow: hidden;">
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
@@ -64,8 +64,25 @@
                                 </form>
                             }
                         </strong>
-                        @cheep.Text
-                        <small>&mdash; @cheep.TimeStamp</small>
+                        @if (cheep.IsImage)
+                        {
+                            var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
+                            if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                            }
+                            else
+                            {
+                            <p>@cheep.Text</p> <!-- Fallback for invalid image URLs -->
+                            }
+                        }
+                        else
+                        {
+                            @cheep.Text
+                        }
+                    <small>&mdash; @cheep.TimeStamp</small>
                     </p>
                 </li>
             }

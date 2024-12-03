@@ -17,19 +17,21 @@
     }
 
     @if (User.Identity?.IsAuthenticated == true)
-{
-    <div class="cheepbox">
-        <h3>What's on your mind @(User.Identity.Name)?</h3>
-        <form method="post" asp-page-handler="SendCheep">
-            <div style="display: flex; align-items: center;">
-                <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()" 
-                    style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-                <input type="submit" value="Share" style="padding: 5px 10px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">
-            </div>
-            <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character limit!</span>
-        </form>
-    </div>
-}
+    {
+        <div class="cheepbox">
+            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <form method="post" asp-page-handler="SendCheep">
+                <div style="display: flex; align-items: center;">
+                    <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()"
+                        style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                    <input type="submit" value="Share"
+                        style="padding: 5px 10px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">
+                </div>
+                <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character
+                    limit!</span>
+            </form>
+        </div>
+    }
 
     <script>
         function checkCharacterLimit() {
@@ -48,7 +50,7 @@
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
+                <li style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; overflow: hidden;">
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
@@ -79,7 +81,7 @@
                             if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                             {
                                 <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                    style="max-width: 100%; height: auto; border-radius: 5px; margin-top: 10px; display: block;" />
+                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                             }
                             else
                             {
