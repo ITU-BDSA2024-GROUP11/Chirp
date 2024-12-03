@@ -121,7 +121,8 @@ public class CheepRepository : ICheepRepository
             CheepId = cheep.CheepId,
             Text = cheep.Text,
             Author = cheep.Author.UserName!,
-            TimeStamp = cheep.TimeStamp
+            TimeStamp = cheep.TimeStamp,
+            EditedTimeStamp = cheep.EditedTimeStamp
         };
     }
     

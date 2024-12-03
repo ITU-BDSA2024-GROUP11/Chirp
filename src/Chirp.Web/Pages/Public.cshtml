@@ -88,7 +88,7 @@
                         </strong>
                         <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
-                            <input type="text" name="text" value="@cheep.Text" maxlength="160">i
+                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
                             <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
                             <input type="submit" value="Save">
                             <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
