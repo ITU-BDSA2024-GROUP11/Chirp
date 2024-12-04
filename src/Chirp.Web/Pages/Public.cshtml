@@ -81,7 +81,7 @@
                                     </form>
                                 }
                             }
-                            @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
+                            @if (User.Identity!.IsAuthenticated && (User.Identity.Name == cheep.Author || User.Identity.Name == "ADMIN"))
                             {
                                 <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
                             }

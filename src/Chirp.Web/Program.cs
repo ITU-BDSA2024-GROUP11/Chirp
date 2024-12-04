@@ -40,6 +40,9 @@ var clientId = builder.Configuration["authentication_github_clientid"]
 var clientSecret = builder.Configuration["authentication_github_clientsecret"] 
     ?? throw new InvalidOperationException("GitHub ClientSecret is not configured.");
 
+var adminPassword = builder.Configuration["ADMIN_PASSWORD"]
+                   ?? "Admin123!";
+
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
@@ -62,7 +65,7 @@ using (var scope = app.Services.CreateScope())
 {
     using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
     context.Database.Migrate();
-    DbInitializer.SeedDatabase(context, scope.ServiceProvider);
+    DbInitializer.SeedDatabase(context, scope.ServiceProvider, adminPassword);
 }
 
 app.UseHttpsRedirection();
