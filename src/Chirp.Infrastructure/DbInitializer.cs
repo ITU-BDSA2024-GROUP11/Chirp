@@ -74,7 +74,7 @@ public static class DbInitializer
             };
             var a13 = new Author
             {
-                Id = "admin?", UserName = "ADMIN", Email = "admin@mail.dk", Cheeps = [],
+                Id = "6e163c0d-113b-4521-87ae-8c4ec45d59d9", UserName = "ADMIN", Email = "admin@mail.com", Cheeps = [],
                 Follows = []
             };
 
