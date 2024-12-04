@@ -44,6 +44,16 @@
             }
         }
 
+        function checkEditLimit() {
+            var cheepInput = document.getElementById("editText");
+            var message = document.getElementById("charEditMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+
         function toggleEditField(cheepId) {
             var editField = document.getElementById("editField_" + cheepId);
             if (editField.style.display === "none") {
@@ -66,14 +76,16 @@
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
                                 <form asp-page-handler="Unfollow" method="post">
-                                    <input type="hidden" name="authorName" value="@cheep.Author" />
+                                    <input type="hidden" name="authorName" value="@cheep.Author"/>
                                     <button type="submit" class="btn btn-default">Unfollow</button>
                                 </form>
                             }
 
                             @if (User.Identity!.IsAuthenticated && (User.Identity.Name == cheep.Author || User.Identity.Name == "ADMIN"))
                             {
-                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                                <button type="button" class="btn btn-default"
+                                        onclick="toggleEditField('@cheep.CheepId')">Edit
+                                </button>
                             }
                         </strong>
                         <div id="editField_@cheep.CheepId" style="display: none;">
@@ -81,7 +93,7 @@
                                 <input type="text" name="text" value="@cheep.Text" maxlength="160">
                                 <input type="hidden" name="cheepId" value="@cheep.CheepId">
                                 <input type="submit" value="Save">
-                                <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
+                                <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="Delete">
                             </form>
                         </div>
                         @if (cheep.IsImage)

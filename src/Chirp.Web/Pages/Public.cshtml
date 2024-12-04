@@ -43,6 +43,16 @@
             }
         }
 
+        function checkEditLimit() {
+            var cheepInput = document.getElementById("editText");
+            var message = document.getElementById("charEditMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+
         function toggleEditField(cheepId) {
             var editField = document.getElementById("editField_" + cheepId);
             if (editField.style.display === "none") {
@@ -88,11 +98,15 @@
                         </strong>
                         <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
-                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                            <input type="text" name="text" value="@cheep.Text" id="editText" oninput="checkEditLimit()"
+                                   maxlength="160">
                             <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
                             <input type="submit" value="Save">
-                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
-                            </form>
+                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId"
+                                   class="btn btn-default" value="Delete">
+                            <span id="charEditMessage"
+                                  style="color: red; display: none;">You have reached the 160 character limit!</span>
+                        </form>
                     </div>
                         @if (cheep.IsImage)
                         {
