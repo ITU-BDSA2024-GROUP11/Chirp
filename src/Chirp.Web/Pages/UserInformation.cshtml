@@ -1,15 +1,15 @@
 @page "/aboutme"
 @model Chirp.Razor.Pages.AboutMeModel
 @{
-ViewData["Title"] = "Chirp!";
-Layout = "Shared/_Layout";
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
 }
 
 <div>
     <h2> About me </h2>
 
     @{
-    ViewData["Title"] = "About me";
+        ViewData["Title"] = "About me";
     }
 
     @if (User.Identity?.IsAuthenticated != null)
@@ -45,17 +45,35 @@ Layout = "Shared/_Layout";
                 <ul id="messagelist" class="cheeps">
                     @foreach (var cheep in Model.Cheeps)
                     {
-                        <li>
+                        <li style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; overflow: hidden;">
                             <p>
                                 <strong>
                                     <a href="/@cheep.Author">@cheep.Author</a>
                                 </strong>
-                                @cheep.Text
+                                @if (cheep.IsImage)
+                                {
+                                    var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                                    var cleanUrl = cheep.Text.Split('?')[0];
+                                    if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                            style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                                    }
+                                    else
+                                    {
+                                    <p>@cheep.Text</p>
+                                    }
+                                }
+                                else
+                                {
+                                    @cheep.Text
+                                }
                                 <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
                                 @if (cheep.EditedTimeStamp.HasValue)
                                 {
-                                    <small>(Edited: @cheep.EditedTimeStamp.Value.AddHours(1))</small>
+                                <small>(Edited: @cheep.EditedTimeStamp.Value.AddHours(1))</small>
                                 }
+                           
                             </p>
                         </li>
                     }
@@ -71,15 +89,16 @@ Layout = "Shared/_Layout";
     {
         <p>Error retrieving user information.</p>
     }
-    
+
     <div>
         <h3>Want to delete your account?</h3>
-        <form method="post" asp-page-handler="DeleteUser" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+        <form method="post" asp-page-handler="DeleteUser"
+            onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
             <button type="submit"
-                    style="background-color: #cc6e6e; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 0;">
+                style="background-color: #cc6e6e; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 0;">
                 Yes, forget me!
             </button>
         </form>
     </div>
-    
+
 </div>
