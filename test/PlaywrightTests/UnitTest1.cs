@@ -123,9 +123,7 @@ public class ExampleTest : PageTest
     public async Task ClickOnUser()
     {
         await Page.GotoAsync($"{baseUrl}/");
-        await Page.Locator("li").Filter(new LocatorFilterOptions
-                { HasText = "Jacqualine Gilcoine Save Delete The train pulled up at his bereavement; but his" })
-            .GetByRole(AriaRole.Link).ClickAsync();
+        await Page.Locator("strong > a").First.ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/Jacqualine%20Gilcoine"));
     }
 
@@ -221,9 +219,7 @@ public class ExampleTest : PageTest
         await Page.Locator("#cheepText").ClickAsync();
         await Page.Locator("#cheepText").FillAsync("I do not have a mind, I am simply a test user");
         await Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions { Name = "Share" }).ClickAsync();
-        await Page.Locator("li").Filter(new LocatorFilterOptions
-                { HasText = "Jacqualine Gilcoine Follow Save Delete Starbuck now is what we hear the worst" })
-            .GetByRole(AriaRole.Link).ClickAsync();
+        await Page.Locator("strong > a").First.ClickAsync();
         await Page.GetByRole(AriaRole.Link, new PageGetByRoleOptions { Name = "my timeline" }).ClickAsync();
         Assert.That(Page.Url, Is.EqualTo($"{baseUrl}/TestUser"));
         await Page.GetByRole(AriaRole.Link, new PageGetByRoleOptions { Name = "public timeline" }).ClickAsync();
