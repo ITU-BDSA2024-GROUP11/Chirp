@@ -72,6 +72,11 @@ public static class DbInitializer
                 Id = "915ae556-b0d8-4c90-982f-ad0fa74ec85b", UserName = "Adrian", Email = "adho@itu.dk", Cheeps = [],
                 Follows = []
             };
+            var a13 = new Author
+            {
+                Id = "admin?", UserName = "ADMIN", Email = "admin@mail.dk", Cheeps = [],
+                Follows = []
+            };
 
             await userManager.CreateAsync(a1);
             await userManager.CreateAsync(a2);
@@ -85,6 +90,7 @@ public static class DbInitializer
             await userManager.CreateAsync(a10);
             await userManager.CreateAsync(a11, "LetM31n!");
             await userManager.CreateAsync(a12, "M32Want_Access");
+            await userManager.CreateAsync(a13, "Admin123!");
 
             var c1 = new Cheep
             {
