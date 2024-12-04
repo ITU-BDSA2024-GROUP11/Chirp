@@ -24,11 +24,11 @@
             <form method="post" asp-page-handler="SendCheep">
                 <div style="display: flex; align-items: center;">
                     <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()"
-                        style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                           style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
                     <input type="submit" value="Share">
                 </div>
-                <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character
-                    limit!</span>
+                <span id="charLimitMessage"
+                      style="color: red; display: none;">You have reached the 160 character limit!</span>
             </form>
         </div>
     }
@@ -37,6 +37,16 @@
         function checkCharacterLimit() {
             var cheepInput = document.getElementById("cheepText");
             var message = document.getElementById("charLimitMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+
+        function checkEditLimit() {
+            var cheepInput = document.getElementById("editText");
+            var message = document.getElementById("charEditMessage");
             if (cheepInput.value.length >= 160) {
                 message.style.display = "inline";
             } else {
@@ -66,34 +76,34 @@
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
                                 <form asp-page-handler="Unfollow" method="post">
-                                    <input type="hidden" name="authorName" value="@cheep.Author" />
+                                    <input type="hidden" name="authorName" value="@cheep.Author"/>
                                     <button type="submit" class="btn btn-default">Unfollow</button>
                                 </form>
                             }
 
-                            @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
+                            @if (User.Identity!.IsAuthenticated && (User.Identity.Name == cheep.Author || User.Identity.Name == "ADMIN"))
                             {
                                 <button type="button" class="btn btn-default"
-                                    onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                                        onclick="toggleEditField('@cheep.CheepId')">Edit
+                                </button>
                             }
                         </strong>
-                    <div id="editField_@cheep.CheepId" style="display: none;">
-                        <form method="post" asp-page-handler="SubmitEdit">
-                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
-                            <input type="hidden" name="cheepId" value="@cheep.CheepId">
-                            <input type="submit" value="Save">
-                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId"
-                                class="btn btn-default" value="delete">
-                        </form>
-                    </div>
+                        <div id="editField_@cheep.CheepId" style="display: none;">
+                            <form method="post" asp-page-handler="SubmitEdit">
+                                <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                                <input type="hidden" name="cheepId" value="@cheep.CheepId">
+                                <input type="submit" value="Save">
+                                <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="Delete">
+                            </form>
+                        </div>
                         @if (cheep.IsImage)
                         {
                             var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                            var cleanUrl = cheep.Text.Split('?')[0];
+                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
                             if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                             {
-                            <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                             }
                             else
                             {

@@ -43,6 +43,16 @@
             }
         }
 
+        function checkEditLimit() {
+            var cheepInput = document.getElementById("editText");
+            var message = document.getElementById("charEditMessage");
+            if (cheepInput.value.length >= 160) {
+                message.style.display = "inline";
+            } else {
+                message.style.display = "none";
+            }
+        }
+
         function toggleEditField(cheepId) {
             var editField = document.getElementById("editField_" + cheepId);
             if (editField.style.display === "none") {
@@ -81,29 +91,31 @@
                                     </form>
                                 }
                             }
-                            @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
+                            @if (User.Identity!.IsAuthenticated && (User.Identity.Name == cheep.Author || User.Identity.Name == "ADMIN"))
                             {
-                                <button type="button" class="btn btn-default"
-                                    onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
                             }
                         </strong>
-                    <div id="editField_@cheep.CheepId" style="display: none;">
+                        <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
-                            <input type="text" name="text" value="@cheep.Text" maxlength="160">
+                            <input type="text" name="text" value="@cheep.Text" id="editText" oninput="checkEditLimit()"
+                                   maxlength="160">
                             <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
                             <input type="submit" value="Save">
                             <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId"
-                                class="btn btn-default" value="delete">
+                                   class="btn btn-default" value="Delete">
+                            <span id="charEditMessage"
+                                  style="color: red; display: none;">You have reached the 160 character limit!</span>
                         </form>
                     </div>
                         @if (cheep.IsImage)
                         {
                             var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                            var cleanUrl = cheep.Text.Split('?')[0];
+                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
                             if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                             {
-                            <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                             }
                             else
                             {
