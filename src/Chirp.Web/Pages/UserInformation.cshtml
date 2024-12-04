@@ -52,6 +52,10 @@ Layout = "Shared/_Layout";
                                 </strong>
                                 @cheep.Text
                                 <small>&mdash; @cheep.TimeStamp</small>
+                                @if (cheep.EditedTimeStamp.HasValue)
+                                {
+                                    <small>(Edited: @cheep.EditedTimeStamp.Value.AddHours(1))</small>
+                                }
                             </p>
                         </li>
                     }
