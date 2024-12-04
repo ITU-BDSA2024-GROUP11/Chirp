@@ -16,7 +16,7 @@ public class EFCoreTest
             Cheeps = new List<Cheep>(),
             Follows = new List<Author>()
         };
-        var timestamp = DateTime.Now;
+        var timestamp = DateTime.UtcNow;
         var cheep = new Cheep { Text = "Hello", TimeStamp = timestamp, Author = author, AuthorId = "1", CheepId = 1 };
         Assert.Equal("Hello", cheep.Text);
         Assert.Equal(timestamp, cheep.TimeStamp);
@@ -42,7 +42,7 @@ public class EFCoreTest
     [Fact]
     public void AuthorCheepTest()
     {
-        var timestamp = DateTime.Now;
+        var timestamp = DateTime.UtcNow;
         var author = new Author { UserName = "John Doe", Email = "jd@gmail.com", Id = "1", Cheeps = new List<Cheep>(), Follows = new List<Author>() };
         var cheep = new Cheep { AuthorId = "1", CheepId = 1, Author = author, Text = "Hello", TimeStamp = timestamp };
         author.Cheeps.Add(cheep);
