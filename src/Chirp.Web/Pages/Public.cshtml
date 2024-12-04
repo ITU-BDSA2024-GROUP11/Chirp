@@ -83,25 +83,27 @@
                             }
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name == cheep.Author)
                             {
-                                <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
+                                <button type="button" class="btn btn-default"
+                                    onclick="toggleEditField('@cheep.CheepId')">Edit</button>
                             }
                         </strong>
-                        <div id="editField_@cheep.CheepId" style="display: none;">
+                    <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
                             <input type="text" name="text" value="@cheep.Text" maxlength="160">
                             <input type="hidden" name="cheep.CheepId" value="@cheep.CheepId">
                             <input type="submit" value="Save">
-                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId" class="btn btn-default" value="delete">
-                            </form>
+                            <input type="submit" asp-page-handler="DeleteCheep" asp-route-cheepId="@cheep.CheepId"
+                                class="btn btn-default" value="delete">
+                        </form>
                     </div>
                         @if (cheep.IsImage)
                         {
                             var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
+                            var cleanUrl = cheep.Text.Split('?')[0];
                             if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                             {
-                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                    style="max-width: 100%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                            <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                             }
                             else
                             {
