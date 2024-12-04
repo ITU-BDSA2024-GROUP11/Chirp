@@ -41,7 +41,7 @@ var clientSecret = builder.Configuration["authentication_github_clientsecret"]
     ?? throw new InvalidOperationException("GitHub ClientSecret is not configured.");
 
 var adminPassword = builder.Configuration["ADMIN_PASSWORD"]
-                   ?? throw new InvalidOperationException("Admin password is not configured.");
+                   ?? "Admin123!";
 
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
