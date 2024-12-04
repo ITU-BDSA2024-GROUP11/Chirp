@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure;
 
 public static class DbInitializer
 {
-    public static async void SeedDatabase(ChirpDBContext chirpContext, IServiceProvider serviceProvider)
+    public static async void SeedDatabase(ChirpDBContext chirpContext, IServiceProvider serviceProvider, string adminPassword)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
@@ -90,7 +90,7 @@ public static class DbInitializer
             await userManager.CreateAsync(a10);
             await userManager.CreateAsync(a11, "LetM31n!");
             await userManager.CreateAsync(a12, "M32Want_Access");
-            await userManager.CreateAsync(a13, "Admin123!");
+            await userManager.CreateAsync(a13, adminPassword);
 
             var c1 = new Cheep
             {
