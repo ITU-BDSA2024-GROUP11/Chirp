@@ -51,7 +51,7 @@ Layout = "Shared/_Layout";
                                     <a href="/@cheep.Author">@cheep.Author</a>
                                 </strong>
                                 @cheep.Text
-                                <small>&mdash; @cheep.TimeStamp</small>
+                                <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
                                 @if (cheep.EditedTimeStamp.HasValue)
                                 {
                                     <small>(Edited: @cheep.EditedTimeStamp.Value.AddHours(1))</small>
