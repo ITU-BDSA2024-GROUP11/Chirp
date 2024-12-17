@@ -37,9 +37,15 @@
 Our program uses ASP.NET Identity to handle user logins.
 
 ## Architecture — In the small
+
+Our application is based on the onion structure. The layers and the corresponding components are illustrated below:
+
 ![2](./images/Architecture-In_the_small.drawio.png)
 
 ## Architecture of deployed application
+
+Clients live as browser based applications. The server app is hosted in an Azure web app that also hosts the database which is a SQLite file based database. This is illustrated below:
+
 ![3](./images/Architecture_of_deployed_application.drawio.png)
 
 ## User activities
