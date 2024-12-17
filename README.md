@@ -1,4 +1,4 @@
-# Chrip!
+# Chirp!
 ![Alt text](src/Chirp.Web/wwwroot/images/icon1.png)
 
 **Chirp!** is a social media application developed as an assignment for students in the 'Softwareudvikling' course at the IT University of Copenhagen, 3rd semester, 2024.
