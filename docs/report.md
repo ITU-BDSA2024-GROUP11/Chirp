@@ -48,37 +48,32 @@ Our program uses ASP.NET Identity to handle user logins.
 
 ## User activities
 
-As a non-authorized user, you are able to see the “Public Timeline” page, which is also the website's landing page. Under the “Chirp\!” logo you have the opportunity to navigate to a “Register” page and a “Log in” page. 
+![UA0](./images/UA_0.png)
 
-![Img2](Link_to_img2_here)
+As a non-authorized user, you are able to see the “Public Timeline” page, which is also the website's landing page. Under the “Chirp\!” logo you have the opportunity to navigate to a “Register” page and a “Log in” page. 
 
 If you scroll to the bottom of the page you will see 4 buttons allowing you to switch between pages, or go directly to the first or last page. The “First” and “Previous” buttons are blocked when you are on the first page, and the same goes for the “Next” and “Last” buttons when you are on the last page.
 
-![Img3](Link_to_img3_here)
+![UA1](./images/UA_1.png)
 
 When clicking on the register link, you enter a registration page, here you can create a new account. Either with an email address of your own choice, or you can choose to use GitHub when creating an account. You also have a link guiding you to the “Log in” page, if you already have an account. The website will give the user feedback, if the username is taken or the password does not meet the requirements.
 
-![Img4](Link_to_img4_here)
+![UA2](./images/UA_2.png)
 
 After account creation, you are now logged in. A logged in user will see another version of the “Public Timeline” page. There is a box where you can cheep, all cheeps will end up on this page. You also have the opportunity to follow other users. If you cheep you will not see the “Follow” button next to you, but instead an “Edit” button. After clicking the “Edit” button, a new text input field will appear, along with the buttons “Save” and “Delete”. So it is possible for the user to either update the cheep or delete it. After editing a cheep, it will be displayed next to the timestamp, so other users know this cheep has been edited. 
 
-![Img5](Link_to_img5_here)
+![UA3](./images/UA_3.png)
 
 A logged in user can also navigate to “My Timeline”. All of the users cheeps, and the cheeps of the users followed will be present here. As displayed, the user can also choose to unfollow.
-
-![Img6](Link_to_img6_here)
-
 If the user cheeps from this page, it will still appear on the “Public Timeline” page. The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
 
-![Img7](Link_to_img7_here)
+![UA4](./images/UA_4.png)
 
 A logged in user will see a link called about me. This page lets you see all your information (username, email, following and cheeps made by the user). On this page, there also is a possibility to delete your account. 
 
-![Img8](Link_to_img8_here)
+![UA5](./images/UA_5.png)
 
 It is at all times possible to logout by clicking the logout(username) link. If a user wants to log in again later, it is possible to do so by clicking the login link. Here the user can login with their username and password. If you have not created an account, but used github, you will need to use the “GitHub” button on this page as well. 
-
-![Img9](Link_to_img9_here)
 
 ## Sequence of functionality/calls through Chirp\!
 
@@ -152,6 +147,3 @@ Taking everything into account the use of ChatGPT and CoPilot has probably sped 
 
 [https://github.com/itu-bdsa/lecture\_notes/blob/main/sessions/session\_12/README\_REPORT.md](https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_12/README_REPORT.md)   
 
-
-[image1]: 
-[image2]: 
