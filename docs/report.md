@@ -1,4 +1,3 @@
-
 # Chirp!
 
 ### [**Design and architecture**](#design-and-architecture)
@@ -33,18 +32,13 @@
 
 ## Domain model
 
-*Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.*  
-![Img0](Link_to_img0_here)
+![5](./images/Domain_model.drawio.png) <br />
 Our program uses ASP.NET Identity to handle user logins.
 
 ## Architecture — In the small
-
-*Illustrate the organization of your code base. That is, illustrate which layers exist in your (onion) architecture. Make sure to illustrate which part of your code is residing in which layer.*  
-![Img1](Link_to_img1_here)
-
+![2](./images/Architecture-In_the_small.drawio.png)
 ## Architecture of deployed application
-
-*Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.*
+![3](./images/Architecture_of_deployed_application.drawio.png)
 
 ## User activities
 
@@ -76,24 +70,25 @@ A logged in user will see a link called about me. This page lets you see all you
 It is at all times possible to logout by clicking the logout(username) link. If a user wants to log in again later, it is possible to do so by clicking the login link. Here the user can login with their username and password. If you have not created an account, but used github, you will need to use the “GitHub” button on this page as well. 
 
 ## Sequence of functionality/calls through Chirp\!
+![8](./images/Open_Public_Timeline.drawio.png)
+![10](./images/Register_Sequence.drawio.png)
+![7](./images/Login_Sequence.drawio.png)
+![9](./images/Post_Cheep.drawio.png)
+![6](./images/ForgetMe.drawio.png)
 
-*With a UML sequence diagram, illustrate the flow of messages and data through your Chirp\! application. Start with an HTTP request that is send by an unauthorized user to the root endpoint of your application and end with the completely rendered web-page that is returned to the user.*
 
-*Make sure that your illustration is complete. That is, likely for many of you there will be different kinds of "calls" and responses. Some HTTP calls and responses, some calls and responses in C\# and likely some more. (Note the previous sentence is vague on purpose. I want that you create a complete illustration.)*
+
 
 # Process
 
 ## Build, test, release, and deployment
 
-*Illustrate with a UML activity diagram how your Chirp\! applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.*
-
-*Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.*
+![1](./images/ActivityFlow.jpg)
+![4](./images/BothWorkflows.jpg)
 
 ## Teamwork
 
-*Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.*
-
-*Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the main branch of your repository.*
+![11](./images/Teamwork.png)
 
 ## How to make Chirp! work locally
 
