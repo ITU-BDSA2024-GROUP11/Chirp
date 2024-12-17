@@ -1,7 +1,7 @@
 
 # Chirp!
 
-[**Design and architecture**](#design-and-architecture)
+### [**Design and architecture**](#design-and-architecture)
 
 [Domain model](#domain-model)
 
@@ -13,7 +13,7 @@
 
 [Sequence of functionality/calls through Chirp!](#sequence-of-functionalitycalls-through-chirp)
 
-[**Process**](#process)
+### [**Process**](#process)
 
 [Build, test, release, and deployment](#build-test-release-and-deployment)
 
@@ -23,7 +23,7 @@
 
 [How to run test suite locally](#how-to-run-test-suite-locally)
 
-[**Ethics**](#ethics)
+### [**Ethics**](#ethics)
 
 [License](#license)
 
