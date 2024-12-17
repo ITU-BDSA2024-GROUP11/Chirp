@@ -1,4 +1,5 @@
 # Chirp!
+![Logo](../src/Chirp.Web/wwwroot/favicon/favicon.ico)
 
 ### [**Design and architecture**](#design-and-architecture)
 
@@ -46,6 +47,7 @@ Our program uses ASP.NET Identity to handle user logins.
 As a non-authorized user, you are able to see the “Public Timeline” page, which is also the website's landing page. Under the “Chirp\!” logo you have the opportunity to navigate to a “Register” page and a “Log in” page. 
 
 If you scroll to the bottom of the page you will see 4 buttons allowing you to switch between pages, or go directly to the first or last page. The “First” and “Previous” buttons are blocked when you are on the first page, and the same goes for the “Next” and “Last” buttons when you are on the last page.
+
 ![UA0](./images/UA_0.png)  
 
 When clicking on the register link, you enter a registration page, here you can create a new account. Either with an email address of your own choice, or you can choose to use GitHub when creating an account. You also have a link guiding you to the “Log in” page, if you already have an account. The website will give the user feedback, if the username is taken or the password does not meet the requirements.
@@ -82,10 +84,19 @@ It is at all times possible to logout by clicking the logout(username) link. If 
 ## Build, test, release, and deployment
            
 On pull request to main the following process will take place:
+
 ![1](./images/Workflows.jpg)
 
+This workflow takes all the necessary steps to build and test the project.
+The workflow runs on pull requests so that potentaial errors will be noticed before merging into the main branch.
+
 On push to main the following process will take place:
+
 ![4](./images/BothWorkflows.jpg)
+
+These workflows runs once a pull request has been approved and merged into the main branch. <br />
+The RunTests.yml workflow has already ran once and is in theory unnecessary, however it still runs.<br />
+The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes.
 
 ## Teamwork
                   
