@@ -12,6 +12,7 @@
         ViewData["Title"] = "About me";
     }
 
+    @* Check if the user is authenticated *@
     @if (User.Identity?.IsAuthenticated != null)
     {
         <div>
@@ -22,6 +23,7 @@
 
         <div>
             <h3>Following</h3>
+            @* Display the list of authors the user is following *@
             @if ((@Model.Following()).Count > 0)
             {
                 <ul>
@@ -40,6 +42,7 @@
         <div>
             <h3>Your Cheeps</h3>
 
+            @* Display the list of cheeps posted by the user *@
             @if (Model.Cheeps.Any())
             {
                 <ul id="messagelist" class="cheeps">
@@ -50,6 +53,7 @@
                                 <strong>
                                     <a href="/@cheep.Author">@cheep.Author</a>
                                 </strong>
+                                @* Display image if the cheep contains a valid image URL *@
                                 @if (cheep.IsImage)
                                 {
                                     var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
@@ -57,23 +61,23 @@
                                     if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                                     {
                                         <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                            style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
+                                             style="max-width: 50%; max-height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                                     }
                                     else
                                     {
                                     <p>@cheep.Text</p>
-                                    }
                                 }
-                                else
-                                {
-                                    @cheep.Text
-                                }
-                                <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
-                                @if (cheep.EditedTimeStamp.HasValue)
-                                {
+                            }
+                            else
+                            {
+                                @cheep.Text
+                            }
+                            <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
+                            @if (cheep.EditedTimeStamp.HasValue)
+                            {
                                 <small>(Edited: @cheep.EditedTimeStamp.Value.AddHours(1))</small>
-                                }
-                           
+                            }
+
                             </p>
                         </li>
                     }
@@ -92,10 +96,11 @@
 
     <div>
         <h3>Want to delete your account?</h3>
+        @* Form to delete the user's account *@
         <form method="post" asp-page-handler="DeleteUser"
-            onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+              onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
             <button type="submit"
-                style="background-color: #cc6e6e; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 0;">
+                    style="background-color: #cc6e6e; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 0;">
                 Yes, forget me!
             </button>
         </form>

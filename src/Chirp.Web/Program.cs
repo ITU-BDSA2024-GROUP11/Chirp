@@ -3,11 +3,10 @@ using Chirp.Core.RepositoryInterfaces;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.DataModel;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
@@ -32,12 +31,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.SlidingExpiration = true;
-
 });
 
-var clientId = builder.Configuration["authentication_github_clientid"] 
+var clientId = builder.Configuration["authentication_github_clientid"]
     ?? throw new InvalidOperationException("GitHub ClientId is not configured.");
-var clientSecret = builder.Configuration["authentication_github_clientsecret"] 
+var clientSecret = builder.Configuration["authentication_github_clientsecret"]
     ?? throw new InvalidOperationException("GitHub ClientSecret is not configured.");
 
 var adminPassword = builder.Configuration["ADMIN_PASSWORD"]
@@ -53,6 +51,7 @@ builder.Services.AddAuthentication()
 
 var app = builder.Build();
 app.UseDeveloperExceptionPage();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

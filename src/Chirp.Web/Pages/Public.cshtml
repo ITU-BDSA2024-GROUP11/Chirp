@@ -16,6 +16,7 @@
         ViewData["Title"] = "Public Timeline";
     }
 
+    @* Check if the user is authenticated *@
     @if (User.Identity?.IsAuthenticated == true)
     {
         <div class="cheepbox">
@@ -23,7 +24,7 @@
             <form method="post" asp-page-handler="SendCheep">
                 <div style="display: flex; align-items: center;">
                     <input type="text" asp-for="NewCheepText" maxlength="160" id="cheepText" oninput="checkCharacterLimit()"
-                        style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                           style="flex-grow: 1; margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
                     <input type="submit" value="Share">
                 </div>
                 <span id="charLimitMessage" style="color: red; display: none;">You have reached the 160 character
@@ -33,6 +34,7 @@
     }
 
     <script>
+        // Function to check character limit for new cheep
         function checkCharacterLimit() {
             var cheepInput = document.getElementById("cheepText");
             var message = document.getElementById("charLimitMessage");
@@ -43,6 +45,7 @@
             }
         }
 
+        // Function to check character limit for editing cheep
         function checkEditLimit() {
             var cheepInput = document.getElementById("editText");
             var message = document.getElementById("charEditMessage");
@@ -53,6 +56,7 @@
             }
         }
 
+        // Function to toggle the edit field visibility
         function toggleEditField(cheepId) {
             var editField = document.getElementById("editField_" + cheepId);
             if (editField.style.display === "none") {
@@ -63,6 +67,7 @@
         }
     </script>
 
+    @* Display the list of cheeps if there are any *@
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -72,9 +77,9 @@
                     <p>
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
+                            @* Show follow/unfollow button based on user's follow status *@
                             @if (User.Identity!.IsAuthenticated && User.Identity.Name != cheep.Author)
                             {
-                                // if user does not follow author of cheep, show follow button
                                 @if (!Model.FollowsAuthor(cheep.Author))
                                 {
                                     <form asp-page-handler="Follow" method="post">
@@ -84,19 +89,19 @@
                                 }
                                 else
                                 {
-                                    // if user follows author of cheep, show Unfollow button
                                     <form asp-page-handler="Unfollow" method="post">
                                         <input type="hidden" name="authorName" value="@cheep.Author" />
                                         <button type="submit" class="btn btn-default">Unfollow</button>
                                     </form>
                                 }
                             }
+                            @* Show edit button if the user is the author or an admin *@
                             @if (User.Identity!.IsAuthenticated && (User.Identity.Name == cheep.Author || User.Identity.Name == "ADMIN"))
                             {
                                 <button type="button" class="btn btn-default" onclick="toggleEditField('@cheep.CheepId')">Edit</button>
                             }
                         </strong>
-                        <div id="editField_@cheep.CheepId" style="display: none;">
+                    <div id="editField_@cheep.CheepId" style="display: none;">
                         <form method="post" asp-page-handler="SubmitEdit">
                             <input type="text" name="text" value="@cheep.Text" id="editText" oninput="checkEditLimit()"
                                    maxlength="160">
@@ -108,24 +113,25 @@
                                   style="color: red; display: none;">You have reached the 160 character limit!</span>
                         </form>
                     </div>
-                        @if (cheep.IsImage)
+                    @* Display image if the cheep contains a valid image URL *@
+                    @if (cheep.IsImage)
+                    {
+                        var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                        var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
+                        if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                         {
-                            var validImageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                            var cleanUrl = cheep.Text.Split('?')[0]; // Remove query parameters
-                            if (validImageExtensions.Any(ext => cleanUrl.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
-                            {
-                                <img src="@cleanUrl" alt="Image posted by @cheep.Author"
-                                    style="max-width: 50%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
-                            }
-                            else
-                            {
-                            <p>@cheep.Text</p>
-                            }
+                            <img src="@cleanUrl" alt="Image posted by @cheep.Author"
+                                 style="max-width: 50%; height: 100%; border-radius: 5px; margin-top: 10px; display: block;" />
                         }
                         else
                         {
-                            @cheep.Text
+                            <p>@cheep.Text</p>
                         }
+                    }
+                    else
+                    {
+                        @cheep.Text
+                    }
                     <small>&mdash; @cheep.TimeStamp.AddHours(1)</small>
                     @if (cheep.EditedTimeStamp.HasValue)
                     {
