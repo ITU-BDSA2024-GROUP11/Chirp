@@ -1,11 +1,10 @@
 # Chirp!
-![Logo](../src/Chirp.Web/wwwroot/favicon/favicon.ico)
 
 ### [**Design and architecture**](#design-and-architecture)
 
 [Domain model](#domain-model)
 
-[Architecture — In the small](#architecture--in-the-small)
+[Architecture — In the small](#architecture-in-the-small)
 
 [Architecture of deployed application](#architecture-of-deployed-application)
 
@@ -31,92 +30,92 @@
 
 # Design and architecture 
 
-## Domain model
+## Domain model<br />
+![5](./images/Domain_model.drawio.png){ height=50% } <br />
 
-![5](./images/Domain_model.drawio.png) <br />
-Our program uses ASP.NET Identity to handle user logins.
+
+Our program uses ASP.NET Identity to handle user logins.<br />
 
 ## Architecture — In the small
 
-Our application is based on the onion structure. The layers and the corresponding components are illustrated below:
+Our application is based on the onion structure. The layers and the corresponding components are illustrated below:<br />
 
-![2](./images/Architecture-In_the_small.drawio.png)
+![2](./images/Architecture-In_the_small.drawio.png){ height=50% }<br />
 
 ## Architecture of deployed application
 
-Clients live as browser based applications. The server app is hosted in an Azure web app that also hosts the database which is a SQLite file based database. This is illustrated below:
+Clients live as browser based applications. The server app is hosted in an Azure web app that also hosts the database which is a SQLite file based database. This is illustrated below:<br />
 
-![3](./images/Architecture_of_deployed_application.drawio.png)
+![3](./images/Architecture_of_deployed_application.drawio.png){ height=50% }<br />
 
 ## User activities
 
 As a non-authorized user, you are able to see the “Public Timeline” page, which is also the website's landing page. Under the “Chirp\!” logo you have the opportunity to navigate to a “Register” page and a “Log in” page. 
 
-If you scroll to the bottom of the page you will see 4 buttons allowing you to switch between pages, or go directly to the first or last page. The “First” and “Previous” buttons are blocked when you are on the first page, and the same goes for the “Next” and “Last” buttons when you are on the last page.
+If you scroll to the bottom of the page you will see 4 buttons allowing you to switch between pages, or go directly to the first or last page. The “First” and “Previous” buttons are blocked when you are on the first page, and the same goes for the “Next” and “Last” buttons when you are on the last page.<br />
 
-![UA0](./images/UA_0.png)  
+![UA0](./images/UA_0.png){ height=30% }  <br />
 
-When clicking on the register link, you enter a registration page, here you can create a new account. Either with an email address of your own choice, or you can choose to use GitHub when creating an account. You also have a link guiding you to the “Log in” page, if you already have an account. The website will give the user feedback, if the username is taken or the password does not meet the requirements.
+When clicking on the register link, you enter a registration page, here you can create a new account. Either with an email address of your own choice, or you can choose to use GitHub when creating an account. You also have a link guiding you to the “Log in” page, if you already have an account. The website will give the user feedback, if the username is taken or the password does not meet the requirements.<br />
  
-![UA1](./images/UA_1.png) 
+![UA1](./images/UA_1.png){ height=30% }<br />
 
-After account creation, you are now logged in. A logged in user will see another version of the “Public Timeline” page. There is a box where you can cheep, all cheeps will end up on this page. You also have the opportunity to follow other users. If you cheep you will not see the “Follow” button next to you, but instead an “Edit” button. After clicking the “Edit” button, a new text input field will appear, along with the buttons “Save” and “Delete”. So it is possible for the user to either update the cheep or delete it. After editing a cheep, it will be displayed next to the timestamp, so other users know this cheep has been edited. 
+After account creation, you are now logged in. A logged in user will see another version of the “Public Timeline” page. There is a box where you can cheep, all cheeps will end up on this page. You also have the opportunity to follow other users. If you cheep you will not see the “Follow” button next to you, but instead an “Edit” button. After clicking the “Edit” button, a new text input field will appear, along with the buttons “Save” and “Delete”. So it is possible for the user to either update the cheep or delete it. After editing a cheep, it will be displayed next to the timestamp, so other users know this cheep has been edited. <br />
  
-![UA2](./images/UA_2.png)    
+![UA2](./images/UA_2.png){ height=30% }   <br />
 
-A logged in user can also navigate to “My Timeline”. All of the users cheeps, and the cheeps of the users followed will be present here. As displayed, the user can also choose to unfollow.
+A logged in user can also navigate to “My Timeline”. All of the users cheeps, and the cheeps of the users followed will be present here. As displayed, the user can also choose to unfollow.<br />
 
-If the user cheeps from this page, it will still appear on the “Public Timeline” page. The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
+If the user cheeps from this page, it will still appear on the “Public Timeline” page. The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.<br />
 
-![UA3](./images/UA_3.png)    
+![UA3](./images/UA_3.png){ height=30% }   <br />
  
 
-A logged in user will see a link called about me. This page lets you see all your information (username, email, following and cheeps made by the user). On this page, there also is a possibility to delete your account. 
+A logged in user will see a link called about me. This page lets you see all your information (username, email, following and cheeps made by the user). On this page, there also is a possibility to delete your account. <br />
        
-![UA4](./images/UA_4.png)  
+![UA4](./images/UA_4.png){ height=30% } <br />
 
-It is at all times possible to logout by clicking the logout(username) link. If a user wants to log in again later, it is possible to do so by clicking the login link. Here the user can login with their username and password. If you have not created an account, but used github, you will need to use the “GitHub” button on this page as well. 
+It is at all times possible to logout by clicking the logout(username) link. If a user wants to log in again later, it is possible to do so by clicking the login link. Here the user can login with their username and password. If you have not created an account, but used github, you will need to use the “GitHub” button on this page as well. <br />
 
-![UA5](./images/UA_5.png)    
+![UA5](./images/UA_5.png){ height=30% }    <br />
 
 ## Sequence of functionality/calls through Chirp\!
-![8](./images/Open_Public_Timeline.drawio.png)
-![10](./images/Register_Sequence.drawio.png)
-![7](./images/Login_Sequence.drawio.png)
-![9](./images/Post_Cheep.drawio.png)
-![6](./images/ForgetMe.drawio.png)
+![8](./images/Open_Public_Timeline.drawio.png){ height=50% }
+![10](./images/Register_Sequence.drawio.png){ height=50% }
+![7](./images/Login_Sequence.drawio.png){ height=50% }
+![9](./images/Post_Cheep.drawio.png){ height=50% }
+![6](./images/ForgetMe.drawio.png){ height=50% }<br />
 
 # Process
 
 ## Build, test, release, and deployment
            
-On pull request to main the following process will take place:
+On pull request to main the following process will take place:<br />
 
-![1](./images/Workflows.jpg)
+![1](./images/Workflows.jpg){ height=50% }<br />
 
 This workflow takes all the necessary steps to build and test the project.
 The workflow runs on pull requests to main (it also runs on pushes to main) so that potentaial errors will be noticed before merging into the main branch.
 
-On push to main the following process will take place:
+On push to main the following process will take place:<br />
 
-![4](./images/BothWorkflows.jpg)
+![4](./images/BothWorkflows.jpg){ height=50% }<br />
 
 These workflows runs once a pull request has been approved and merged into the main branch. <br />
 The RunTests.yml workflow has already ran once when the pull request was first created and is in theory unnecessary, however it still runs an extra time for absolute safety.<br />
-The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes.
+The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes.<br />
 
 ## Teamwork
                   
-![11](./images/Teamwork.png)
+![11](./images/Teamwork.png){ height=50% }<br />
 
 The three tasks in the Todo part of our Project board are bugs recently noticed. These bugs will be resolved as soon as possible, but we prioritized the report since the deadline came before.
              
 This board has worked well as an overview of our requirements and own features, since it has been broken down into smaller tasks that are easier to understand and therefore easier to start working on. The project board also made it easier to create issues when bugs were found, to make sure we would remember and solve them.
 
-The illustration below shows our usual flow from the creation of an issue until a feature is merged into our main branch.
+The illustration below shows our usual flow from the creation of an issue until a feature is merged into our main branch.<br />
 
-
-![ActivityFlow](./images/ActivityFlow.jpg)     
+![ActivityFlow](./images/ActivityFlow.jpg){ height=70% }     <br />
 
 ## How to make Chirp! work locally
 
