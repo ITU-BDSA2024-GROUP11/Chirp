@@ -66,10 +66,9 @@ After account creation, you are now logged in. A logged in user will see another
 
 A logged in user can also navigate to “My Timeline”. All of the users cheeps, and the cheeps of the users followed will be present here. As displayed, the user can also choose to unfollow.
 
-If the user cheeps from this page, it will still appear on the “Public Timeline” page.
-![UA3](./images/UA_3.png)   
-The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
- 
+If the user cheeps from this page, it will still appear on the “Public Timeline” page. The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
+
+![UA3](./images/UA_3.png)    
  
 
 A logged in user will see a link called about me. This page lets you see all your information (username, email, following and cheeps made by the user). On this page, there also is a possibility to delete your account. 
@@ -109,10 +108,8 @@ The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes
 ## Teamwork
                   
 ![11](./images/Teamwork.png)
-            
-The first task on our Project board which is still unresolved is regarding code documentation. This will be done very soon, but at this point we prioritized the report. 
 
-The other three tasks in the Todo part of our Project board are bugs recently noticed. These bugs will also be resolved as soon as possible, but we again prioritized the report since the deadline was before
+The three tasks in the Todo part of our Project board are bugs recently noticed. These bugs will be resolved as soon as possible, but we prioritized the report since the deadline came before.
              
 This board has worked well as an overview of our requirements and own features, since it has been broken down into smaller tasks that are easier to understand and therefore easier to start working on. The project board also made it easier to create bugs when found, to make sure we would remember and solve them.
 
