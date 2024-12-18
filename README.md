@@ -4,6 +4,11 @@
 **Chirp!** is a social media application developed as an assignment for students in the 'Softwareudvikling' course at the IT University of Copenhagen, 3rd semester, 2024.
 This implementation of the Chirp! project was created by Group 11.
 
+You can check out the project on:
+https://bdsagroup11chirprazor.azurewebsites.net/ 
+
+Or follow the steps in this file to run the project locally
+
 ## Features
 * Post and interact with "cheeps" (short text updates).
 * Edit or delete your own cheeps.
