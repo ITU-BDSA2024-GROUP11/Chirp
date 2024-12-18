@@ -6,11 +6,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
 
+/// <summary>
+/// Page model for the user timeline page.
+/// </summary>
 public class UserTimelineModel : PageModel
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepService _service;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserTimelineModel"/> class.
+    /// </summary>
+    /// <param name="service">The cheep service to be used.</param>
+    /// <param name="authorService">The author repository to be used.</param>
     public UserTimelineModel(ICheepService service, IAuthorRepository authorService)
     {
         _service = service;
@@ -21,6 +29,12 @@ public class UserTimelineModel : PageModel
 
     [BindProperty] public required string NewCheepText { get; set; }
 
+    /// <summary>
+    /// Handles GET requests to the user timeline page.
+    /// </summary>
+    /// <param name="page">The page number.</param>
+    /// <param name="author">The author name.</param>
+    /// <returns>The page result.</returns>
     public ActionResult OnGet([FromQuery] int page, string author)
     {
         if (page == 0) page = 1;
@@ -39,6 +53,10 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
+    /// <summary>
+    /// Handles POST requests to send a new cheep.
+    /// </summary>
+    /// <returns>The page result.</returns>
     public ActionResult OnPostSendCheep()
     {
         if (string.IsNullOrWhiteSpace(NewCheepText))
@@ -58,6 +76,11 @@ public class UserTimelineModel : PageModel
         return RedirectToPage(new { author = User.Identity?.Name });
     }
 
+    /// <summary>
+    /// Handles POST requests to follow an author.
+    /// </summary>
+    /// <param name="authorName">The name of the author to follow.</param>
+    /// <returns>The page result.</returns>
     public ActionResult OnPostFollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
@@ -71,6 +94,11 @@ public class UserTimelineModel : PageModel
         return RedirectToPage();
     }
 
+    /// <summary>
+    /// Handles POST requests to unfollow an author.
+    /// </summary>
+    /// <param name="authorName">The name of the author to unfollow.</param>
+    /// <returns>The page result.</returns>
     public ActionResult OnPostUnfollow(string authorName)
     {
         var authorId = _authorRepository.GetAuthorID(authorName);
@@ -83,6 +111,11 @@ public class UserTimelineModel : PageModel
         return RedirectToPage();
     }
 
+    /// <summary>
+    /// Checks if the current user follows the specified author.
+    /// </summary>
+    /// <param name="authorName">The name of the author.</param>
+    /// <returns>True if the user follows the author, otherwise false.</returns>
     public bool FollowsAuthor(string authorName)
     {
         var username = User.Identity?.Name;
@@ -98,6 +131,11 @@ public class UserTimelineModel : PageModel
         return false;
     }
 
+    /// <summary>
+    /// Handles POST requests to submit an edited cheep.
+    /// </summary>
+    /// <param name="cheep">The cheep DTO.</param>
+    /// <returns>The page result.</returns>
     public ActionResult OnPostSubmitEdit(CheepDTO cheep)
     {
         var text = Request.Form["text"];
@@ -106,7 +144,12 @@ public class UserTimelineModel : PageModel
         }
         return RedirectToPage();
     }
-    
+
+    /// <summary>
+    /// Handles POST requests to delete a cheep.
+    /// </summary>
+    /// <param name="cheep">The cheep DTO.</param>
+    /// <returns>The page result.</returns>
     public ActionResult OnPostDeleteCheep(CheepDTO cheep)
     {
         _service.DeleteCheep(cheep);
