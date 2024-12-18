@@ -66,9 +66,11 @@ After account creation, you are now logged in. A logged in user will see another
 
 A logged in user can also navigate to “My Timeline”. All of the users cheeps, and the cheeps of the users followed will be present here. As displayed, the user can also choose to unfollow.
 
-If the user cheeps from this page, it will still appear on the “Public Timeline” page. The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
+If the user cheeps from this page, it will still appear on the “Public Timeline” page.
+![UA3](./images/UA_3.png)   
+The user can also cheep pictures or GIF’s by copying the corresponding image address and pasting the link as a cheep.
  
-![UA3](./images/UA_2.png)    
+ 
 
 A logged in user will see a link called about me. This page lets you see all your information (username, email, following and cheeps made by the user). On this page, there also is a possibility to delete your account. 
        
@@ -94,14 +96,14 @@ On pull request to main the following process will take place:
 ![1](./images/Workflows.jpg)
 
 This workflow takes all the necessary steps to build and test the project.
-The workflow runs on pull requests so that potentaial errors will be noticed before merging into the main branch.
+The workflow runs on pull requests to main (it also runs on pushes to main) so that potentaial errors will be noticed before merging into the main branch.
 
 On push to main the following process will take place:
 
 ![4](./images/BothWorkflows.jpg)
 
 These workflows runs once a pull request has been approved and merged into the main branch. <br />
-The RunTests.yml workflow has already ran once and is in theory unnecessary, however it still runs.<br />
+The RunTests.yml workflow has already ran once when the pull request was first created and is in theory unnecessary, however it still runs an extra time for absolute safety.<br />
 The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes.
 
 ## Teamwork
