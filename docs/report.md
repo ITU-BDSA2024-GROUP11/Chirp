@@ -5,7 +5,7 @@
 
 [Domain model](#domain-model)
 
-[Architecture — In the small](#architecture-—-in-the-small)
+[Architecture — In the small](#architecture--in-the-small)
 
 [Architecture of deployed application](#architecture-of-deployed-application)
 
@@ -111,9 +111,9 @@ The main_bdsagroup11chirprazor.yml workflow updates azure and pushes the changes
 
 The three tasks in the Todo part of our Project board are bugs recently noticed. These bugs will be resolved as soon as possible, but we prioritized the report since the deadline came before.
              
-This board has worked well as an overview of our requirements and own features, since it has been broken down into smaller tasks that are easier to understand and therefore easier to start working on. The project board also made it easier to create bugs when found, to make sure we would remember and solve them.
+This board has worked well as an overview of our requirements and own features, since it has been broken down into smaller tasks that are easier to understand and therefore easier to start working on. The project board also made it easier to create issues when bugs were found, to make sure we would remember and solve them.
 
-The illustration below shows our usual flow when starting creation of an issue until a feature is merged into our main branch.
+The illustration below shows our usual flow from the creation of an issue until a feature is merged into our main branch.
 
 
 ![ActivityFlow](./images/ActivityFlow.jpg)     
