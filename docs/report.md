@@ -1,6 +1,12 @@
+| title              | subtitle                | author                                                                 | numbersections |
+|--------------------|-------------------------|------------------------------------------------------------------------|----------------|
+| _Chirp!_ Project Report | ITU BDSA 2024 Group 11 | Bastian Gram Poulsgaard<bapo@itu.dk>, Lisa Claudi Hauge<lish@itu.dk>, Jon Lehmann<jble@itu.dk>, Oliver Brinch<olibr@itu.dk>, Frederik Buur<fbuu@itu.dk> | true           |
+
 # Chirp!
 
+
 ### [**Design and architecture**](#design-and-architecture)
+
 
 [Domain model](#domain-model)
 
@@ -162,7 +168,7 @@ Now to run the tests simpy run the command `dotnet test`.
 
 ## License
 
-We are using an MIT license.
+When selecting a license, the key factor is whether any GPL libraries are used in the project, as their presence mandates the use of a GPL license. In this case, none of the libraries included have a GPL or other copyleft license. Consequently, the decision on licensing was flexible, and the MIT license was chosen. The MIT license is among the most permissive options, enabling the software to be used for virtually any purpose, provided the original copyright notice and license are retained. It also absolves the developers of any obligation to maintain the software. As highlighted in the open source lecture, adopting an open-source license offers numerous benefits. Furthermore, given the project's educational nature, it is both practical to maximize openness and to disclaim responsibility for long-term code maintenance.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
