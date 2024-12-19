@@ -1,48 +1,21 @@
 ---
-
-title: _Chirp!_ Project Report  
-subtitle: ITU BDSA 2024 Group 11  
-author:  
-- "Bastian Gram Poulsgaard <bapo@itu.dk>"  
-- "Lisa Claudi Hauge <lish@itu.dk>"  
-- "Jon Lehmann <jble@itu.dk>"  
-- "Oliver Brinch <olibr@itu.dk>"  
-- "Frederik Buur <fbuu@itu.dk>"  
-numbersections: true  
-
+title: _Chirp!_ Project Report
+subtitle: ITU BDSA 2024 Group `11`
+author:
+- "Frederik Buur <fbuu@itu.dk>"
+- "Oliver Brinch <olibr@itu.dk>"
+- "Jon Lehmann <jble@itu.dk>"
+- "Lisa Claudi Hauge <lish@itu.dk>"
+- "Bastian Gram Poulsgaard <bapo@itu.dk>"
+numbersections: true
+papersize: a4
+geometry:
+- left=30mm
+- right=30mm
+toc: true
 ---
 
-# Chirp!
-
-
-### [**Design and architecture**](#design-and-architecture)
-
-
-[Domain model](#domain-model)
-
-[Architecture — In the small](#architecture-in-the-small)
-
-[Architecture of deployed application](#architecture-of-deployed-application)
-
-[User activities](#user-activities)
-
-[Sequence of functionality/calls through Chirp!](#sequence-of-functionalitycalls-through-chirp)
-
-### [**Process**](#process)
-
-[Build, test, release, and deployment](#build-test-release-and-deployment)
-
-[Teamwork](#teamwork)
-
-[How to make Chirp! work locally](#how-to-make-chirp-work-locally)
-
-[How to run test suite locally](#how-to-run-test-suite-locally)
-
-### [**Ethics**](#ethics)
-
-[License](#license)
-
-[LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+\pagebreak
 
 # Design and architecture 
 
