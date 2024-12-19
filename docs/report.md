@@ -3,11 +3,11 @@
 title: _Chirp!_ Project Report  
 subtitle: ITU BDSA 2024 Group 11  
 author:  
-- "Bastian <bapo@itu.dk>"  
-- "Lisa <lish@itu.dk>"  
-- "Jon <jble@itu.dk>"  
-- "Oliver <olibr@itu.dk>"  
-- "Frederik <fbuu@itu.dk>"  
+- "Bastian Gram Poulsgaard<bapo@itu.dk>"  
+- "Lisa Claudi Hauge<lish@itu.dk>"  
+- "Jon Lehmann<jble@itu.dk>"  
+- "Oliver Brinch<olibr@itu.dk>"  
+- "Frederik Buur<fbuu@itu.dk>"  
 numbersections: true  
 
 ---
